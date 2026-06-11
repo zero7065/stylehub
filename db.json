@@ -1,0 +1,419 @@
+{
+  "users": [
+    {
+      "id": "admin-123",
+      "email": "admin@stylehub.com",
+      "password": "Admin@123456",
+      "role": "admin",
+      "points": 1000000,
+      "referral_code": "ADMINSH",
+      "kyc_status": "verified",
+      "black_room_alias": "👑 Gold",
+      "trust_score": 100,
+      "created_at": "2026-06-07T06:30:15.090Z",
+      "subscription_tier": "elite"
+    },
+    {
+      "id": "user-456",
+      "email": "user@stylehub.com",
+      "password": "User@123456",
+      "role": "user",
+      "points": 1500,
+      "referral_code": "USERSTYLE",
+      "referred_by": "ADMINSH",
+      "kyc_status": "verified",
+      "kyc_data": {
+        "name": "John Demo Doe",
+        "address": "123 Naira Way, Lagos"
+      },
+      "black_room_alias": "🔮 Lithium",
+      "trust_score": 95,
+      "created_at": "2026-06-07T06:30:15.090Z",
+      "subscription_tier": "professional"
+    },
+    {
+      "id": "usr-g1780813840130",
+      "email": "jadaistudiosoffcl@gmail.com",
+      "google_id": "g-mzkiln",
+      "role": "admin",
+      "points": 50,
+      "referral_code": "SH-GRJD3",
+      "kyc_status": "unsubmitted",
+      "black_room_alias": "🧬 Platinum",
+      "trust_score": 90,
+      "created_at": "2026-06-07T06:30:40.130Z"
+    }
+  ],
+  "black_room_listings": [
+    {
+      "id": "listing-br1",
+      "user_id": "admin-123",
+      "alias": "👑 Gold",
+      "title": "Premium 10K IG Account Boosted",
+      "description": "High quality US-based audience. Fully clean, ready for monetization niche. Handover immediately via Escrow.",
+      "price_points": 150,
+      "status": "open",
+      "created_at": "2026-06-07T06:30:15.090Z"
+    },
+    {
+      "id": "listing-br2",
+      "user_id": "broker-2",
+      "alias": "🔥 Carbon",
+      "title": "Verified UK Virtual Number (1 Year)",
+      "description": "Perfect for WhatsApp/Telegram activation. Direct sim routing, no expiry for 12 months.",
+      "price_points": 80,
+      "status": "open",
+      "created_at": "2026-06-07T06:30:15.090Z"
+    }
+  ],
+  "black_room_messages": [
+    {
+      "id": "msg-1",
+      "listing_id": "listing-br1",
+      "from_alias": "👑 Gold",
+      "message": "Welcome to the premium listing chat. Safe escrow only.",
+      "timestamp": "2026-06-07T06:30:15.090Z"
+    }
+  ],
+  "brokers": [
+    {
+      "id": "broker-1",
+      "alias": "💎 DiamondDealer",
+      "trust_score": 100,
+      "is_active": true
+    },
+    {
+      "id": "broker-2",
+      "alias": "🔥 Carbon",
+      "trust_score": 99,
+      "is_active": true
+    },
+    {
+      "id": "broker-3",
+      "alias": "⚡ FastTrader",
+      "trust_score": 97,
+      "is_active": true
+    },
+    {
+      "id": "broker-4",
+      "alias": "🔮 Lithium",
+      "trust_score": 98,
+      "is_active": true
+    },
+    {
+      "id": "broker-5",
+      "alias": "🌿 Helium",
+      "trust_score": 95,
+      "is_active": true
+    }
+  ],
+  "escrow_transactions": [],
+  "marketplace_listings": [
+    {
+      "id": "mkt-1",
+      "user_id": "admin-123",
+      "user_email": "admin@stylehub.com",
+      "title": "+1 USA VoIP Clean Number",
+      "description": "Freshly generated and warmed up. Excellent for PayPal & Stripe confirmations.",
+      "category": "numbers",
+      "price_points": 30,
+      "status": "open",
+      "created_at": "2026-06-07T06:30:15.090Z"
+    },
+    {
+      "id": "mkt-2",
+      "user_id": "admin-123",
+      "user_email": "admin@stylehub.com",
+      "title": "TikTok Account Creator Booster Panel",
+      "description": "Simulate and trigger automatic platform engagement of up to 5k clicks.",
+      "category": "boosting",
+      "price_points": 120,
+      "status": "open",
+      "created_at": "2026-06-07T06:30:15.090Z"
+    }
+  ],
+  "programmer_services": [
+    {
+      "id": "srv-1",
+      "title": "Full-Stack Express + React Fintech Setup",
+      "description": "Design a complete digital banking system customized to your enterprise visual style.",
+      "price_points": 500,
+      "delivery_days": 5,
+      "is_active": true
+    },
+    {
+      "id": "srv-2",
+      "title": "Telegram Auto-Transaction Escrow Bot",
+      "description": "Script a node-based bot to monitor wallet transfers and manage instant payouts.",
+      "price_points": 300,
+      "delivery_days": 3,
+      "is_active": true
+    },
+    {
+      "id": "srv-3",
+      "title": "Pixel Perfect custom HTML Mock Integrator",
+      "description": "Craft highly dynamic forms, receipts and transaction cards with gorgeous visuals.",
+      "price_points": 150,
+      "delivery_days": 2,
+      "is_active": true
+    }
+  ],
+  "programmer_bookings": [],
+  "gallery_items": [
+    {
+      "id": "gal-1",
+      "title": "Dark Bento Fintech Landing Page Template",
+      "description": "Complete responsive glassmorphism client site focusing on points, transactions and crypto blocks.",
+      "preview_image": "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
+      "demo_url": "#",
+      "price_points": 200,
+      "price_money": 15,
+      "created_at": "2026-06-07T06:30:15.090Z"
+    },
+    {
+      "id": "gal-2",
+      "title": "Ultra HD Telegram Web App Store",
+      "description": "Sleek bento layout with dynamic cart state and integrated point-deduction mock systems.",
+      "preview_image": "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80",
+      "demo_url": "#",
+      "price_points": 350,
+      "price_money": 25,
+      "created_at": "2026-06-07T06:30:15.090Z"
+    }
+  ],
+  "user_receipts": [],
+  "withdrawal_requests": [],
+  "activity_logs": [
+    {
+      "id": "log-1780813840180ltfp",
+      "user_id": "usr-g1780813840130",
+      "user_email": "jadaistudiosoffcl@gmail.com",
+      "action": "USER_GOOGLE_LOGIN",
+      "details": "Logged in via Google Sign-In.",
+      "timestamp": "2026-06-07T06:30:40.180Z"
+    },
+    {
+      "id": "log-1780813840141ybld",
+      "user_id": "usr-g1780813840130",
+      "user_email": "jadaistudiosoffcl@gmail.com",
+      "action": "USER_GOOGLE_REGISTER",
+      "details": "Registered automatically via Google Sign-In.",
+      "timestamp": "2026-06-07T06:30:40.141Z"
+    },
+    {
+      "id": "log-seed",
+      "user_id": "system",
+      "user_email": "system@stylehub",
+      "action": "PLATFORM_INIT",
+      "details": "StyleHub engine successfully booted and database pre-seeded by Jadai Studios.",
+      "timestamp": "2026-06-07T06:30:15.090Z"
+    }
+  ],
+  "system_settings": {
+    "gas_fee_percent": 5,
+    "signup_bonus": 50,
+    "referral_percent": 10,
+    "receipt_price_points": 150,
+    "custom_emblem_html": "<div class=\"flex items-center gap-2 px-3.5 py-1.5 border border-cyan-500/30 rounded-full bg-cyan-950/20 backdrop-blur-sm shadow-lg shadow-cyan-500/10\"><span class=\"w-2 h-2 rounded-full bg-cyan-400 animate-pulse\"></span><span class=\"text-[10px] font-mono font-semibold tracking-widest text-cyan-400 uppercase\">⚡ JADAI STUDIOS INTEGRITY SEAL</span></div>",
+    "whatsapp_url": "https://wa.me/2340000000000",
+    "telegram_url": "https://t.me/jadaistudios",
+    "support_email": "support@stylehub.net",
+    "groq_api_key": "",
+    "ai_script": "You are Jarvis, the friendly AI platform Assistant for StyleHub. StyleHub is a fintech & digital marketplace created and operated by Jadai Studios. Keep answers crisp and refer users to the various tabs (the Digital Goods Marketplace, Black Room anonymous trades, or Custom Receipt Simulator)."
+  },
+  "crypto_brokers": [
+    {
+      "id": "cbroker-1",
+      "name": "Ares Algo Arbitrage",
+      "alias": "⚡ Ares Algo",
+      "description": "High-frequency triangular arbitrage trading pool scanning 15+ decentralized exchanges. Safely captures swift micro-price discrepancies in BTC, ETH, and SOL pairs with mathematical precision.",
+      "price_points": 150,
+      "risk_level": "Low",
+      "projected_apy": 45,
+      "minimum_investment_points": 10,
+      "is_active": true,
+      "detailed_readme": "### Ares Algo Arbitrage Protocol\n- **Strategy**: Cross-DEX Triangular Arbitrage.\n- **Risk Protocol**: Absolute neutral hedging. Runs zero direction directional exposure.\n- **Liquidity Lock**: Locked in smart multi-sig custody vaults.\n- **Target Yield**: Stable 35% - 55% APY based on volatility coefficients.\n- **Sovereign Admin Parameters**: Admin controls yield variables directly via System Admin Control HUD.",
+      "mock_trades": [
+        {
+          "id": "t1",
+          "ticker": "BTC/USDT",
+          "amount": 1540,
+          "profit": 4.5,
+          "time": "Just now"
+        },
+        {
+          "id": "t2",
+          "ticker": "ETH/USDT",
+          "amount": 820,
+          "profit": -1.2,
+          "time": "2 mins ago"
+        },
+        {
+          "id": "t3",
+          "ticker": "SOL/USD",
+          "amount": 310,
+          "profit": 12.8,
+          "time": "5 mins ago"
+        }
+      ]
+    },
+    {
+      "id": "cbroker-2",
+      "name": "Zephyr Liquidity Fund",
+      "alias": "🔮 Zephyr Yield",
+      "description": "Automated layer-1 proof-of-stake node operator and concentrated liquidity pool manager. Strategically supplies deep capital to Uniswap V3 tight ranges for amplified fee shares.",
+      "price_points": 250,
+      "risk_level": "Medium",
+      "projected_apy": 78,
+      "minimum_investment_points": 25,
+      "is_active": true,
+      "detailed_readme": "### Zephyr Concentrated Liquidity Fund\n- **Strategy**: Active Concentrated Fee Optimization.\n- **Rebalancing**: Programmatic adjusting of price ranges twice daily.\n- **Underlying Assets**: Stablecoin pairings (USDC/USDT), core majors (WBTC, WETH).\n- **Target Yield**: Target APY range 65% - 90% in low-to-medium risk profiles.",
+      "mock_trades": [
+        {
+          "id": "t4",
+          "ticker": "USDC/USDT",
+          "amount": 5040,
+          "profit": 0.8,
+          "time": "Just now"
+        },
+        {
+          "id": "t5",
+          "ticker": "ETH/USDT",
+          "amount": 2400,
+          "profit": 15.4,
+          "time": "1 min ago"
+        },
+        {
+          "id": "t6",
+          "ticker": "LINK/ETH",
+          "amount": 1250,
+          "profit": -2.3,
+          "time": "8 mins ago"
+        }
+      ]
+    },
+    {
+      "id": "cbroker-3",
+      "name": "Titan Leverage System",
+      "alias": "🔱 Titan Leverage",
+      "description": "High-leverage altcoin momentum trading node. Scans coin velocities and breakouts, executing multi-leverage longs or shorts with custom automated stop-loss thresholds.",
+      "price_points": 400,
+      "risk_level": "High",
+      "projected_apy": 125,
+      "minimum_investment_points": 50,
+      "is_active": true,
+      "detailed_readme": "### Titan Leveraged Altcoins System\n- **Strategy**: Leveraged Momentum Breakout Scalping.\n- **Margin Assets**: High volatility majors and selection altcoins.\n- **Protection Suite**: Programmatic target hard-stops at -5% and trailing take-profits.\n- **Target Yield**: Dynamic yield cycles up to 150% based on active trends.",
+      "mock_trades": [
+        {
+          "id": "t7",
+          "ticker": "SOL/USDT (10x Long)",
+          "amount": 500,
+          "profit": 45,
+          "time": "Just now"
+        },
+        {
+          "id": "t8",
+          "ticker": "DOGE/USDT (5x Short)",
+          "amount": 1200,
+          "profit": -18.2,
+          "time": "3 mins ago"
+        },
+        {
+          "id": "t9",
+          "ticker": "AVAX/USDT (10x Long)",
+          "amount": 650,
+          "profit": 89.4,
+          "time": "11 mins ago"
+        }
+      ]
+    },
+    {
+      "id": "cbroker-4",
+      "name": "Apollo DeFi Smart Crops",
+      "alias": "☀️ Apollo Farms",
+      "description": "Decentralized automated compounder crawling high-yield swap routers and borrowing vaults. Employs advanced flash-loaning to lock yield ratios and minimize impermanent loss.",
+      "price_points": 600,
+      "risk_level": "Very High",
+      "projected_apy": 180,
+      "minimum_investment_points": 100,
+      "is_active": true,
+      "detailed_readme": "### Apollo DeFi Smart Farms\n- **Strategy**: Multi-Chain Yield Farming and Flash Loan Compounding.\n- **Asset Crawlers**: Ethereum, Arbitrum, Optimism liquidity layers.\n- **Hedging Protocol**: Self-liquidating collateral debt ratios.\n- **Target Yield**: Hyper-compounded APY range 140% - 220%. Allow auto-reinvestment.",
+      "mock_trades": [
+        {
+          "id": "t10",
+          "ticker": "AAVE/GHO-Farm",
+          "amount": 2500,
+          "profit": 124.9,
+          "time": "Just now"
+        },
+        {
+          "id": "t11",
+          "ticker": "CRV/cvxCRV-LP",
+          "amount": 4800,
+          "profit": -8.5,
+          "time": "12 mins ago"
+        },
+        {
+          "id": "t12",
+          "ticker": "UNI/V3-Fees",
+          "amount": 1900,
+          "profit": 64.2,
+          "time": "30 mins ago"
+        }
+      ]
+    },
+    {
+      "id": "cbroker-5",
+      "name": "Chronos Scalping Sentinel",
+      "alias": "☄️ Chronos Scalp AI",
+      "description": "AI-trained predictive model capturing microsecond trend differentials. Trades high frequency order flows and sentiment shifts on extreme volatility tokens.",
+      "price_points": 900,
+      "risk_level": "Extreme",
+      "projected_apy": 240,
+      "minimum_investment_points": 200,
+      "is_active": true,
+      "detailed_readme": "### Chronos AI Predictive Systems\n- **Strategy**: Artificial Neural Network Micro-Scalping.\n- **Feed Integrity**: Realtime orderbook deep-level analytics and social sentiment indexing.\n- **Risk Factor**: Extreme high-speed delta-risk; highly sensitive to market shocks.\n- **Target Yield**: Maximum speculative performance up to 300% APY.",
+      "mock_trades": [
+        {
+          "id": "t13",
+          "ticker": "PEPE/USDT",
+          "amount": 95000,
+          "profit": 785.4,
+          "time": "Just now"
+        },
+        {
+          "id": "t14",
+          "ticker": "WIF/USDT",
+          "amount": 42000,
+          "profit": -312.2,
+          "time": "4 mins ago"
+        },
+        {
+          "id": "t15",
+          "ticker": "BONK/USDT",
+          "amount": 135000,
+          "profit": 942.5,
+          "time": "18 mins ago"
+        }
+      ]
+    }
+  ],
+  "user_unlocked_brokers": [],
+  "user_investments": [],
+  "templates": [
+    {
+      "id": "tmpl-gold-signia",
+      "name": "Signia Premium Gold Voucher",
+      "category": "voucher",
+      "html_content": "\n          <div style=\"background: linear-gradient(135deg, #0d0e12 0%, #15161d 100%); color: #fff; padding: 25px; border-radius: 16px; border: 1px solid #D4AF37; font-family: monospace; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-shadow: 0 1px 1px #000;\">\n            <div style=\"text-align: center; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); padding-bottom: 12px; margin-bottom: 20px;\">\n              <h2 style=\"color: #D4AF37; margin: 0; font-size: 20px; font-weight: 900; letter-spacing: 2px;\">GOLD SIGNIA</h2>\n              <p style=\"font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; margin: 4px 0 0 0;\">Secure Premium Asset Voucher</p>\n            </div>\n            <div style=\"font-size: 11px; line-height: 2;\">\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">SENDER:</strong> <span>{{SENDER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">RECIPIENT:</strong> <span>{{RECEIVER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">DESTINATION:</strong> <span>{{RECEIVER_BANK}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">REFERENCE:</strong> <span style=\"font-style: italic;\">{{REFERENCE}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">STAMP REF:</strong> <span style=\"font-family: serif;\">{{TRANSACTION_ID}}</span></div>\n            </div>\n            <div style=\"margin-top: 25px; background: rgba(212, 175, 55, 0.1); border: 1px solid #D4AF37; padding: 12px; border-radius: 10px; text-align: center;\">\n              <span style=\"display: block; font-size: 9px; color: #D4AF37; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;\">LEDGER DEBIT CONFIRMED</span>\n              <span style=\"font-size: 22px; font-weight: 900; display: block; margin-top: 4px; color: #fff;\">₦{{AMOUNT}}</span>\n            </div>\n            <div style=\"text-align: center; margin-top: 20px; font-size: 8px; opacity: 0.4;\">\n              POWERED BY SIGNIA SECURITY PROTOCOLS • JADAI LABS\n            </div>\n          </div>\n        ",
+      "created_at": "2026-06-07T06:30:15.156Z"
+    },
+    {
+      "id": "tmpl-emerald-receipt",
+      "name": "Emerald Sovereign Cash Stamp",
+      "category": "invoice",
+      "html_content": "\n          <div style=\"background: #ffffff; color: #1e293b; padding: 30px; border-radius: 20px; border: 3px solid #10B981; font-family: sans-serif; max-width: 400px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);\">\n            <div style=\"display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;\">\n              <div>\n                <h3 style=\"color: #10B981; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px;\">EMERALD SOVEREIGN</h3>\n                <span style=\"font-size: 9px; color: #64748b; font-weight: 600;\">INSTANT CREDIT ADVICE</span>\n              </div>\n              <div style=\"background: #10B981; color: #fff; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.5px;\">SETTLED</div>\n            </div>\n            <div style=\"text-align: center; margin: 25px 0;\">\n              <span style=\"font-size: 10px; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px;\">APPROVED VALUE</span>\n              <h1 style=\"font-size: 32px; font-weight: 900; color: #0f172a; margin: 5px 0 0 0; letter-spacing: -1px;\">₦{{AMOUNT}}</h1>\n            </div>\n            <div style=\"border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 12px; display: grid; gap: 10px;\">\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Payer:</span><strong style=\"color: #0f172a;\">{{SENDER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Beneficiary:</span><strong style=\"color: #0f172a;\">{{RECEIVER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Bank Target:</span><strong style=\"color: #0f172a;\">{{RECEIVER_BANK}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Ledger Memo:</span><strong style=\"color: #64748b; font-weight: normal; font-style: italic;\">{{REFERENCE}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Audit Pin:</span><strong style=\"color: #0f172a; font-family: monospace;\">{{TRANSACTION_ID}}</strong></div>\n            </div>\n            <div style=\"text-align: center; margin-top: 30px; font-size: 9px; color: #94a3b8; font-weight: 500; border-top: 1px dashed #e2e8f0; padding-top: 15px;\">\n              Thank you for secure escrow routing.\n            </div>\n          </div>\n        ",
+      "created_at": "2026-06-07T06:30:15.156Z"
+    }
+  ]
+}
