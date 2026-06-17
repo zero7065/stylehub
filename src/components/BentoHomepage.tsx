@@ -19,7 +19,7 @@ interface BentoHomepageProps {
   isBuyingPoints: boolean;
   onSimulatePointsBuy: () => void;
   onAuthSuccess: (user: User) => void;
-  onNavigate: (tab: "home" | "generator" | "marketplace" | "blackroom" | "profile" | "brokers") => void;
+  onNavigate: (tab: "home" | "marketplace" | "blackroom" | "profile" | "brokers") => void;
 }
 
 export default function BentoHomepage({

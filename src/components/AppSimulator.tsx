@@ -63,95 +63,17 @@ const BANK_BRANDS: Record<string, BankBrand> = {
     statusBarDark: true,
     accentColor: "#00C5A3",
     tagline: "We are Beyond Banking"
-  },
-  kuda: {
-    name: "Kuda",
-    primaryColor: "#401964",
-    textColor: "#FFFFFF",
-    bgColor: "bg-[#401964]",
-    darkBgColor: "bg-[#1E122C]",
-    statusBarDark: true,
-    accentColor: "#401964",
-    tagline: "The Bank of the Free"
-  },
-  moniepoint: {
-    name: "Moniepoint",
-    primaryColor: "#0B213F",
-    textColor: "#FFC20E",
-    bgColor: "bg-[#0B213F]",
-    darkBgColor: "bg-[#071324]",
-    statusBarDark: true,
-    accentColor: "#FFC20E",
-    tagline: "Your Partner for Growth"
-  },
-  palmpay: {
-    name: "PalmPay",
-    primaryColor: "#7e1fff",
-    textColor: "#FFFFFF",
-    bgColor: "bg-[#7e1fff]",
-    darkBgColor: "bg-[#1f0b3b]",
-    statusBarDark: true,
-    accentColor: "#FFCC00",
-    tagline: "Pay & Save with PalmPay"
-  },
-  gtbank: {
-    name: "GTBank",
-    primaryColor: "#E25822",
-    textColor: "#FFFFFF",
-    bgColor: "bg-[#E25822]",
-    darkBgColor: "bg-[#25150E]",
-    statusBarDark: true,
-    accentColor: "#FFFFFF",
-    tagline: "Wouldn't you rather bank with us?"
   }
 };
 
 const BrandLogo = ({ bankName, className = "w-16 h-16" }: { bankName: string; className?: string }) => {
-  const norm = bankName.toLowerCase();
-  
-  if (norm === "opay") {
-    return (
-      <div className={`relative ${className} flex items-center justify-center rounded-full bg-white shadow-md select-none`}>
-        <svg viewBox="0 0 100 100" className="w-4/5 h-4/5">
-          <circle cx="50" cy="50" r="32" fill="none" stroke="#00C5A3" strokeWidth="11" />
-          <rect x="8" y="42" width="22" height="16" fill="white" />
-          <rect x="12" y="44" width="20" height="12" fill="#1A2D54" rx="1.5" />
-        </svg>
-      </div>
-    );
-  }
-  
-  let shortcutText = norm.substring(0, 2).toUpperCase();
-  let logoBg = "bg-slate-900";
-  let fgColor = "text-white";
-  let labelText = norm.toUpperCase();
-  
-  if (norm === "kuda") {
-    shortcutText = "K";
-    logoBg = "bg-[#401964]";
-    fgColor = "text-[#00C5A3]";
-    labelText = "Kuda.";
-  } else if (norm === "moniepoint") {
-    shortcutText = "M";
-    logoBg = "bg-[#0B213F]";
-    fgColor = "text-[#FFC20E]";
-    labelText = "monie";
-  } else if (norm === "palmpay") {
-    shortcutText = "P";
-    logoBg = "bg-[#7e1fff]";
-    fgColor = "text-[#FFCC00]";
-    labelText = "PalmPay";
-  } else if (norm === "gtbank") {
-    shortcutText = "GT";
-    logoBg = "bg-[#E25822]";
-    fgColor = "text-white";
-    labelText = "GTBank";
-  }
-
   return (
-    <div className={`relative ${className} flex flex-col items-center justify-center rounded-2xl ${logoBg} border border-white/10 shadow-md p-1 select-none`}>
-      <span className={`text-xs sm:text-sm font-black font-sans leading-none ${fgColor}`}>{shortcutText}</span>
-      <span className="text-[6px] font-mono opacity-85 leading-none mt-0.5 tracking-tighter text-white">{labelText}</span>
+    <div className={`relative ${className} flex items-center justify-center rounded-full bg-white shadow-md select-none`}>
+      <svg viewBox="0 0 100 100" className="w-4/5 h-4/5">
+        <circle cx="50" cy="50" r="32" fill="none" stroke="#00C5A3" strokeWidth="11" />
+        <rect x="8" y="42" width="22" height="16" fill="white" />
+        <rect x="12" y="44" width="20" height="12" fill="#1A2D54" rx="1.5" />
+      </svg>
     </div>
   );
 };
@@ -1709,86 +1631,7 @@ export default function AppSimulator({
 
         {/* Content Viewports with active routing */}
         <div className="flex-1 md:pt-3.5 overflow-hidden relative bg-[#FAF9F6] h-full">
-          {(() => {
-            if (isCryptoBroker) return renderCryptoBrokerApp();
-            if (bank.toLowerCase() === 'opay') return renderOPaySimulation();
-            return (
-              <>
-                {bankingStep === "splash" && (
-                  <div style={{ background: '#F5F5F5' }} className="h-full flex items-center justify-center select-none">
-                    <div className="text-center">
-                      <div className="w-14 h-14 rounded-full bg-gray-300 flex items-center justify-center mx-auto mb-3">
-                        <span className="font-black text-lg text-gray-600">{bank.charAt(0).toUpperCase()}</span>
-                      </div>
-                      <span className="text-sm font-bold text-gray-700 block">{bank.toUpperCase()} Sim</span>
-                    </div>
-                  </div>
-                )}
-                {bankingStep === "home" && (
-                  <div style={{ background: '#F5F5F5' }} className="h-full flex flex-col p-4 select-none">
-                    <DeviceStatusBar dark={false} />
-                    <div className="bg-white rounded-2xl p-4 shadow-sm mt-2 mb-3">
-                      <span className="text-xs text-gray-400 block">Available Balance</span>
-                      <span className="text-xl font-black text-gray-900">{formatCurrency(balance)}</span>
-                    </div>
-                    <button onClick={function(){ setBankingStep('transfer'); setTransferStep('recipient'); }}
-                      className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl text-xs text-center">
-                      Start Transfer
-                    </button>
-                  </div>
-                )}
-                {bankingStep === "transfer" && (
-                  <div style={{ background: '#F5F5F5' }} className="h-full flex flex-col p-4 select-none">
-                    <DeviceStatusBar dark={false} />
-                    <div className="flex items-center gap-2 mb-3">
-                      <button onClick={function(){ setBankingStep('home'); }}><ChevronLeft className="w-4 h-4" /></button>
-                      <span className="text-xs font-bold">Transfer</span>
-                    </div>
-                    <input type="text" placeholder="Account" value={typedAccount} onChange={function(e){ setTypedAccount(e.target.value); }}
-                      className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs mb-2" />
-                    <input type="number" placeholder="Amount" value={selectedAmount} onChange={function(e){ setSelectedAmount(e.target.value); }}
-                      className="w-full bg-white border border-gray-200 rounded-xl px-3 py-2 text-xs mb-2" />
-                    <button onClick={function(){ setShowReminder(true); }}
-                      className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl text-xs">
-                      Send
-                    </button>
-                    {showReminder && (
-                      <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50" onClick={function(){ setShowReminder(false); }}>
-                        <div className="bg-white rounded-2xl p-5 w-[280px]" onClick={function(e){ e.stopPropagation(); }}>
-                          <h3 className="text-sm font-bold mb-2">Confirm Transfer</h3>
-                          <p className="text-xs text-gray-500 mb-3">Send ₦{parseInt(selectedAmount || '0').toLocaleString()} to {receiverName}?</p>
-                          <div className="flex gap-2">
-                            <button onClick={function(){ setShowReminder(false); }} className="flex-1 py-2 border border-gray-200 rounded-xl text-xs">Cancel</button>
-                            <button onClick={function(){ setShowReminder(false); setBankingStep('loading'); setTimeout(function(){ setBankingStep('done'); }, 2000); }}
-                              className="flex-1 py-2 bg-blue-600 text-white rounded-xl text-xs">Confirm
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-                {bankingStep === "loading" && (
-                  <div className="h-full flex items-center justify-center bg-white">
-                    <div className="w-10 h-10 rounded-full border-2 border-gray-200 border-t-blue-600 animate-spin" />
-                  </div>
-                )}
-                {bankingStep === "done" && (
-                  <div className="h-full flex flex-col justify-between bg-white p-4 select-none">
-                    <DeviceStatusBar dark={false} />
-                    <div className="text-center">
-                      <Check className="w-8 h-8 text-emerald-500 mx-auto mb-2" />
-                      <span className="text-sm font-bold text-gray-900">₦{parseInt(selectedAmount || amount.toString()).toLocaleString()}</span>
-                      <span className="text-xs text-gray-500 block mt-1">Sent to {receiverName}</span>
-                    </div>
-                    <button onClick={function(){ onFinishSimulation({ bank, senderName, receiverName, receiverBank, amount: parseFloat(selectedAmount || amount.toString()), dateTime, transactionId, reference, balance }); }}
-                      className="w-full py-2.5 bg-blue-600 text-white font-bold rounded-full text-xs">Export Receipt
-                    </button>
-                  </div>
-                )}
-              </>
-            );
-          })()}
+          {isCryptoBroker ? renderCryptoBrokerApp() : renderOPaySimulation()}
         </div>
 
         {/* Physical Home Indicator bar pill on bottom of desktop bezel */}

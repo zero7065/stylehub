@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import html2canvas from "html2canvas";
-import { Download, Lock, CheckCircle2, Copy, ExternalLink, ChevronRight, Clock, Shield } from "lucide-react";
-import { formatCurrency, formatPhone, formatAccount, maskPhoneMiddle, generateTxId, formatDate, BRAND_COLORS, FinhubAppId, getRandomAccount, getRandomPhone } from "../lib/finhub";
+import { Download, Lock, CheckCircle2, Copy, ExternalLink, ChevronRight, Clock } from "lucide-react";
+import { formatCurrency, formatPhone, formatAccount, generateTxId, formatDate, BRAND_COLORS, FinhubAppId, getRandomAccount, getRandomPhone } from "../lib/finhub";
 
 interface ReceiptPreviewProps {
   bank: string;
@@ -175,111 +175,7 @@ export default function ReceiptPreview({
     </div>
   );
 
-  // ──────────────────────────────────────────────────────────────
-  // 2. Kuda — Pure Black & White
-  // ──────────────────────────────────────────────────────────────
-  const renderKuda = () => (
-    <div style={{ background: '#FFFFFF', fontFamily: "'Segoe UI', 'Helvetica Neue', Arial, sans-serif" }} className="w-full max-w-[400px] p-8">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-1">
-          <span style={{ fontSize: 28, fontWeight: 900, letterSpacing: -2, lineHeight: 1 }}>K</span>
-          <span style={{ fontSize: 16, fontWeight: 400, letterSpacing: -1 }}>kuda.</span>
-        </div>
-        <span className="text-xs text-gray-500 uppercase tracking-wider">Transaction Details</span>
-      </div>
-
-      {/* Transaction Amount */}
-      <div className="text-center mb-8">
-        <span className="text-xs text-gray-400 uppercase tracking-widest block mb-2">Transaction Amount</span>
-        <span className="text-4xl font-black text-black tracking-tight">{formatCurrency(amount)}</span>
-      </div>
-
-      <hr className="border-t border-gray-300 mb-6" />
-
-      {/* Fields */}
-      <div className="space-y-4">
-        {/* Beneficiary */}
-        <div className="flex justify-between items-start">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Beneficiary Details</span>
-          <div className="text-right">
-            <span className="text-sm font-bold text-black block">{receiverName}</span>
-            <span className="text-xs text-gray-500">{receiverBank} | {formatAccount(rAcct)}</span>
-          </div>
-        </div>
-
-        {/* Sender */}
-        <div className="flex justify-between items-start">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Sender Details</span>
-          <div className="text-right">
-            <span className="text-sm font-bold text-black block">{senderName}</span>
-            <span className="text-xs text-gray-500">Kuda | {formatAccount(sAcct)}</span>
-          </div>
-        </div>
-
-        {/* Paid On */}
-        <div className="flex justify-between items-start">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Paid On</span>
-          <div className="text-right">
-            <span className="text-sm text-black block">{sessionDate || formatDate('kuda')}</span>
-            <span className="text-xs text-gray-500">{sessionTime || '5:23 PM'}</span>
-          </div>
-        </div>
-
-        {/* Fees */}
-        <div className="flex justify-between items-center">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Fees</span>
-          <span className="text-sm font-semibold text-black">{formatCurrency(fee)}</span>
-        </div>
-
-        {/* Description */}
-        <div className="flex justify-between items-start">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Description</span>
-          <span className="text-sm text-gray-700 text-right font-mono">{reference || 'N/A'}</span>
-        </div>
-
-        {/* Transaction Reference */}
-        <div className="flex justify-between items-start">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Transaction Reference</span>
-          <span className="text-xs text-gray-600 text-right font-mono break-all max-w-[200px]">{txId}</span>
-        </div>
-
-        {/* Payment Type */}
-        <div className="flex justify-between items-center">
-          <span className="text-xs text-gray-400 shrink-0 w-28">Payment Type</span>
-          <span className="text-sm font-semibold text-black">{transactionType}</span>
-        </div>
-      </div>
-
-      {/* CTA Box */}
-      <div className="mt-8 bg-gray-100 rounded-lg p-4 flex items-center gap-3">
-        <div className="w-10 h-10 bg-gray-200 rounded-lg flex items-center justify-center font-black text-sm">K.</div>
-        <span className="text-xs text-gray-700 font-medium">
-          Not on Kuda? Tap here to download the money app for Africans
-        </span>
-      </div>
-
-      {/* Legal Footer */}
-      <div className="mt-6 text-[9px] leading-relaxed" style={{ color: '#666' }}>
-        <p>© 2024 Kuda Technologies Ltd (Company No. 11472232). All rights reserved.</p>
-        <p className="mt-2">
-          If you would like to find out more about which Kuda entity you receive services from, please reach out to us via the in-app chat in the Kuda app.
-        </p>
-        <p className="mt-2">
-          Nigerian banking services offered by Kuda Microfinance Bank (RC796975) with registered address at 151 – Herbert Macaulay Way, Yaba, Lagos, Nigeria. Kuda Microfinance Bank is licensed by the Central Bank of Nigeria. Deposits are insured by the Nigerian Deposit Insurance Corporation (NDIC).
-        </p>
-      </div>
-    </div>
-  );
-
-  const getBankReceiptHTML = () => {
-    const lowerBank = bank.toLowerCase();
-    switch (lowerBank) {
-      case 'opay': return renderOPay();
-      case 'kuda': return renderKuda();
-      default: return renderOPay();
-    }
-  };
+  const isOpay = bank.toLowerCase() === 'opay';
 
   return (
     <div className="relative flex flex-col items-center bg-slate-900/60 p-4 border border-slate-800 rounded-3xl backdrop-blur-md">
@@ -287,9 +183,9 @@ export default function ReceiptPreview({
         <div
           ref={receiptRef}
           className={`${!unlocked ? "blur-md select-none pointer-events-none filter brightness-50 contrast-75" : ""} w-full flex justify-center`}
-          style={{ background: isPureDark ? undefined : '#FFFFFF', borderRadius: 8 }}
+          style={{ background: '#FFFFFF', borderRadius: 8 }}
         >
-          {getBankReceiptHTML()}
+          {renderOPay()}
         </div>
 
         {!unlocked && (

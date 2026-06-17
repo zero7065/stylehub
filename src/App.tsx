@@ -27,8 +27,8 @@ export default function App() {
   // Global app configs
   const [settings, setSettings] = useState<SystemSettings | null>(null);
 
-  // Live navigation state: 'home' | 'generator' | 'marketplace' | 'blackroom' | 'profile' | 'brokers'
-  const [activeTab, setActiveTab] = useState<"home" | "generator" | "marketplace" | "blackroom" | "profile" | "brokers">("home");
+  // Live navigation state: 'home' | 'marketplace' | 'blackroom' | 'profile' | 'brokers'
+  const [activeTab, setActiveTab] = useState<"home" | "marketplace" | "blackroom" | "profile" | "brokers">("home");
 
   // Receipt simulator states
   const [simBank, setSimBank] = useState("opay");
@@ -85,6 +85,10 @@ export default function App() {
   const [programmerServices, setProgrammerServices] = useState<ProgrammerService[]>([]);
   const [myBookings, setMyBookings] = useState<ProgramBooking[]>([]);
   const [brokers, setBrokers] = useState<any[]>([]);
+
+  // Jadai Studio emblem 5-click admin console trigger
+  const [jadaiClicks, setJadaiClicks] = useState(0);
+  const [showAdminConsole, setShowAdminConsole] = useState(false);
 
   // KYC Submission state
   const [kycName, setKycName] = useState("");
@@ -2443,14 +2447,14 @@ export default function App() {
           <span className="text-[10px] font-semibold tracking-wider uppercase">HUB</span>
         </button>
         <button
-          id="nav-tab-generator"
-          onClick={() => setActiveTab("generator")}
+          id="nav-tab-profile"
+          onClick={() => setActiveTab("profile")}
           className={`flex flex-col items-center gap-1.5 transition-all cursor-pointer ${
-            activeTab === "generator" ? "text-cyan-400 font-black" : "text-gray-500 hover:text-gray-300"
+            activeTab === "profile" ? "text-cyan-400 font-black" : "text-gray-500 hover:text-gray-300"
           }`}
         >
-          <CreditCard className="w-5 h-5" />
-          <span className="text-[10px] font-semibold tracking-wider uppercase">GENERATOR</span>
+          <Shield className="w-5 h-5" />
+          <span className="text-[10px] font-semibold tracking-wider uppercase">SECURITY</span>
         </button>
         <button
           id="nav-tab-marketplace"
@@ -2482,16 +2486,6 @@ export default function App() {
           <TrendingUp className="w-5 h-5" />
           <span className="text-[10px] font-semibold tracking-wider uppercase">BROKERS</span>
         </button>
-        <button
-          id="nav-tab-profile"
-          onClick={() => setActiveTab("profile")}
-          className={`flex flex-col items-center gap-1.5 transition-all cursor-pointer ${
-            activeTab === "profile" ? "text-cyan-400 font-black" : "text-gray-500 hover:text-gray-300"
-          }`}
-        >
-          <Shield className="w-5 h-5" />
-          <span className="text-[10px] font-semibold tracking-wider uppercase">SECURITY</span>
-        </button>
       </div>
 
       {/* Footer License Link & Subtle Watermark with integrated active Google sign-in emblem */}
@@ -2505,65 +2499,59 @@ export default function App() {
 
         {/* Integrated active Google sign-in emblem blended with Jadai Studios hand & yin details */}
         <div 
-          onClick={async () => {
-            if (currentUser) return;
-            setIsAuthLoading(true);
-            try {
-              const googleId = "g-" + Math.random().toString(36).substr(2, 6);
-              const res = await fetch("/api/auth/google", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                  googleId,
-                  email: "jadaistudiosoffcl@gmail.com",
-                  name: "Jadai Studios Director"
-                }),
-              });
-              const data = await res.json();
-              if (data.success && data.user) {
-                setCurrentUser(data.user);
-                localStorage.setItem("sh_user", JSON.stringify(data.user));
-              }
-            } catch (err) {
-              console.error(err);
-            } finally {
-              setIsAuthLoading(false);
+          onClick={() => {
+            const c = jadaiClicks + 1;
+            setJadaiClicks(c);
+            if (c >= 5) {
+              setShowAdminConsole(true);
+              setJadaiClicks(0);
             }
           }}
-          className={`flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3 px-5 rounded-2xl border transition-all ${
-            currentUser
-              ? "bg-slate-900/10 border-slate-900/40 text-gray-500 cursor-default"
-              : "bg-gradient-to-r from-red-500/5 via-green-500/5 to-blue-500/5 border-zinc-800 text-gray-300 hover:text-white hover:border-[#00E5FF]/40 hover:from-red-500/10 hover:via-green-500/10 hover:to-blue-500/10 hover:shadow-[0_0_15px_rgba(0,229,255,0.08)] cursor-pointer active:scale-95"
-          }`}
-          title={currentUser ? "Verified Google OAuth Integration" : "Fast-Login to main dashboard with Google Federated OAuth"}
+          className="flex flex-col sm:flex-row items-center justify-center gap-2.5 py-3 px-5 rounded-2xl border border-zinc-800 text-gray-300 hover:text-white hover:border-[#00E5FF]/40 transition-all cursor-pointer active:scale-95 select-none"
+          title={currentUser ? "Authenticated" : "Tap 5 times for admin console"}
         >
           <div className="flex items-center gap-1.5 font-sans font-bold">
-            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M23.7 12.3c0-.8-.1-1.7-.2-2.5H12v4.8h6.6c-.3 1.5-1.1 2.8-2.4 3.7v3.1h3.8c2.2-2 3.7-5 3.7-9.1z"/>
-              <path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.8-3.1c-1.1.7-2.5 1.2-4.2 1.2-3.2 0-5.9-2.2-6.9-5.2H1.3v3.3C3.3 21.3 7.3 24 12 24z"/>
-              <path fill="#FBBC05" d="M5.1 14c-.3-.9-.4-1.8-.4-2.8s.1-1.9.4-2.8V5.1H1.3C.5 6.8 0 8.8 0 11s.5 4.2 1.3 5.9l3.8-2.9z"/>
-              <path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4C17.9 1.2 15.2.5 12 .5c-4.7 0-8.7 2.7-10.7 6.6l3.8 2.9c1-3 3.7-5.2 6.9-5.2z"/>
-            </svg>
-            <span className="tracking-tight text-xs">Verify Secure Session (OAuth)</span>
+            <Sparkles className="w-4 h-4 text-[#00E5FF]" />
+            <span className="tracking-tight text-xs">Jadai Studios</span>
           </div>
           <span className="hidden sm:inline text-zinc-700">|</span>
           <div className="flex items-center gap-1.5 text-[11px] font-mono">
-            {/* Yin/Yang of Jadai representation */}
             <span className="text-[#00E5FF] animate-pulse">☯</span>
-            <span className="text-zinc-400 font-extrabold tracking-widest uppercase">JADAI STUDIOS</span>
-            <span className="text-zinc-600 text-[10px] lowercase font-normal">.art</span>
+            <span className="text-zinc-400 font-extrabold tracking-widest uppercase">STYLEHUB CORE</span>
+            <span className="text-zinc-600 text-[10px] lowercase font-normal">v3.0</span>
           </div>
-          {!currentUser && (
-            <span className="text-[9px] font-sans font-black text-emerald-400 bg-emerald-950/45 px-2 py-0.5 rounded border border-emerald-500/20 uppercase tracking-widest">
-              active fast-login
-            </span>
-          )}
         </div>
 
         <span className="text-zinc-600 uppercase tracking-widest block mt-1.5 text-[8.5px]">
           StyleHub Platform Core • Copyright © Jadai Studios • Powered by Google Cloud API Services
         </span>
       </div>
+
+      {/* Admin Console: 5-click Jadai emblem trigger */}
+      {showAdminConsole && (
+        <div className="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">
+          <div className="bg-[#0E131F] border border-[#00C5A3]/30 rounded-3xl p-6 max-w-md w-full shadow-2xl relative">
+            <button onClick={() => setShowAdminConsole(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800 transition-all cursor-pointer">
+              <X className="w-4 h-4" />
+            </button>
+            <div className="text-center mb-4">
+              <div className="w-12 h-12 mx-auto rounded-full bg-[#00C5A3]/10 border border-[#00C5A3]/30 flex items-center justify-center mb-3">
+                <ShieldCheck className="w-6 h-6 text-[#00C5A3]" />
+              </div>
+              <h3 className="text-sm font-black text-white uppercase tracking-wider">Admin Console</h3>
+              <p className="text-[10px] text-gray-400 mt-1">Authenticate with admin credentials</p>
+            </div>
+            <AuthCard
+              onAuthSuccess={(u) => {
+                setCurrentUser(u);
+                localStorage.setItem("sh_user", JSON.stringify(u));
+                setShowAdminConsole(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
 
       {showLicenseModal && (
         <div className="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fadeIn">

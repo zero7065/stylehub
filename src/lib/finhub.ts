@@ -46,7 +46,7 @@ export interface FinhubReceiptConfig {
   ctaBox?: { icon: string; text: string };
 }
 
-export type FinhubAppId = 'opay' | 'kuda';
+export type FinhubAppId = 'opay';
 
 export function getRandomAccount(): string {
   let num = '';
@@ -93,18 +93,8 @@ export function generateTxId(app: FinhubAppId): string {
     for (let i = 0; i < 12; i++) r += Math.floor(Math.random() * 10);
     return r;
   };
-  const rand10 = () => {
-    let r = '';
-    for (let i = 0; i < 10; i++) r += 'abcdefghijklmnopqrstuvwxyz0123456789'[Math.floor(Math.random() * 36)];
-    return r;
-  };
 
-  switch (app) {
-    case 'opay':
-      return `${yy}${mm}${dd}${hh}${min}${ss}${rand12()}`;
-    case 'kuda':
-      return `${pad2(Math.floor(Math.random() * 99))}${yy}${mm}${dd}${hh}${min}${ss}${rand10()}`;
-  }
+  return `${yy}${mm}${dd}${hh}${min}${ss}${rand12()}`;
 }
 
 export function formatDate(app: FinhubAppId, date?: Date): string {
@@ -125,12 +115,7 @@ export function formatDate(app: FinhubAppId, date?: Date): string {
     }
   };
 
-  switch (app) {
-    case 'opay':
-      return `${months[d.getMonth()]} ${ordinal(day)}, ${d.getFullYear()} ${pad2(d.getHours())}:${min}:${sec}`;
-    case 'kuda':
-      return `${months[d.getMonth()]} ${pad2(day)}, ${d.getFullYear()}`;
-  }
+  return `${months[d.getMonth()]} ${ordinal(day)}, ${d.getFullYear()} ${pad2(d.getHours())}:${min}:${sec}`;
 }
 
 export function formatCurrency(val: number): string {
@@ -165,7 +150,6 @@ export function randomNigerianName(): string {
 
 export const APP_NAMES: Record<FinhubAppId, string> = {
   opay: 'OPay',
-  kuda: 'Kuda',
 };
 
 export const BRAND_COLORS: Record<FinhubAppId, { primary: string; accent: string; bg: string; text: string; amount: string; success: string; label: string; border: string }> = {
@@ -178,15 +162,5 @@ export const BRAND_COLORS: Record<FinhubAppId, { primary: string; accent: string
     success: '#00C5A3',
     label: '#666666',
     border: '#E5E5E5',
-  },
-  kuda: {
-    primary: '#000000',
-    accent: '#000000',
-    bg: '#FFFFFF',
-    text: '#000000',
-    amount: '#000000',
-    success: '#000000',
-    label: '#666666',
-    border: '#CCCCCC',
   },
 };
