@@ -950,6 +950,24 @@ app.post("/api/telco/recharge", (req, res) => {
 });
 
 // Receipts generator purchase unlock
+// OPay account name lookup
+app.post("/api/opay/lookup-account", (req, res) => {
+  const { accountNumber, bankCode } = req.body;
+  if (!accountNumber || accountNumber.length < 10) {
+    return res.json({ success: false, error: "Invalid account number" });
+  }
+  // Simulate account lookup - return a Nigerian name
+  const names = [
+    "Chukwuma Emmanuel", "Okonkwo Peter", "Nwachukwu Chioma", "Okafor Chinedu",
+    "Adebayo Oluwaseun", "Balogun Kehinde", "Ibrahim Abdullahi", "Ogunlade Folake",
+    "Eze Nnamdi", "Nwosu Uchenna", "Effiong Akpan", "Okon Bassey",
+    "Musa Suleiman", "Yakubu Danladi", "Aliyu Usman", "John Philip",
+    "Nwachukwu Adaobi", "Chidiebere Ezinne", "Tolulope Opeyemi", "Olawale Bolanle"
+  ];
+  const name = names[Math.floor(Math.random() * names.length)];
+  res.json({ success: true, accountName: name.toUpperCase(), accountNumber, bankCode });
+});
+
 app.post("/api/receipts/buy", (req, res) => {
   const { userId, bank, senderName, receiverName, receiverBank, amount, customField, reference } = req.body;
   if (!userId || !bank) return res.status(400).json({ error: "Required fields missing" });

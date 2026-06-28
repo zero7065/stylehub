@@ -19,7 +19,7 @@ interface BentoHomepageProps {
   isBuyingPoints: boolean;
   onSimulatePointsBuy: () => void;
   onAuthSuccess: (user: User) => void;
-  onNavigate: (tab: "home" | "marketplace" | "blackroom" | "profile" | "brokers") => void;
+  onNavigate: (tab: "home" | "marketplace" | "blackroom" | "profile" | "brokers" | "generator") => void;
 }
 
 export default function BentoHomepage({
@@ -138,9 +138,9 @@ export default function BentoHomepage({
 
   const slides = [
     {
-      title: "High-Fidelity Receipt Simulation",
+      title: "High-Fidelity Receipt Generator",
       topic: "FINTECH MOCK SYSTEM",
-      desc: "Simulate pixel-perfect transactions with customizable fees, booster logos, and authentic bank loading animations for 9 tier-1 Nigerian banks.",
+      desc: "Generate pixel-perfect transactions with customizable fees, booster logos, and authentic bank loading animations for leading Nigerian banks.",
       accent: "text-cyan-400",
       image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&q=80"
     },
@@ -179,7 +179,7 @@ export default function BentoHomepage({
       {/* 1. HERO BENTO PANEL */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Main Brand Hero block */}
-        <div className="lg:col-span-8 bg-gradient-to-br from-[#0e1424] via-[#090b11] to-[#0d0f17] border border-slate-800/80 rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shadow-2xl min-h-[340px]">
+        <div className="lg:col-span-8 bg-slate-900/30 backdrop-blur-xl border border-white/5 rounded-3xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 min-h-[340px]">
           {/* Accent decoration vector rings */}
           <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full border border-cyan-500/10 pointer-events-none" />
           <div className="absolute -bottom-24 -left-20 w-72 h-72 rounded-full border-2 border-cyan-500/5 pointer-events-none" />
@@ -201,14 +201,14 @@ export default function BentoHomepage({
             </div>
             
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight leading-none">
-              Simulate, Trade, Escrow <br className="hidden sm:inline" />
+              Demo, Trade, Preview <br className="hidden sm:inline" />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-[#00E5FF] to-teal-400">
                 Beyond Boundaries.
               </span>
             </h1>
             
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-              Empowering digital vendors with ultra-precise fintech simulator flows, a completely coordinate-hidden Black Room trading circle, verified escrow agreements, and automatic point settlements. Fully powered by Jadai Studios.
+              Empowering digital vendors with ultra-precise fintech demo flows, a completely coordinate-hidden Black Room trading circle, verified escrow agreements, and automatic point settlements. Fully powered by Jadai Studios.
             </p>
           </div>
 
@@ -437,7 +437,7 @@ export default function BentoHomepage({
               <Globe className="w-5 h-5 text-cyan-400" /> Premium Website Templates Gallery
             </h3>
             <p className="text-[11px] text-gray-500 leading-normal font-mono">
-              Live design mocks built for fintech portals. Click "Run Demo Preview" to review files in sandbox frames with watermarks.
+              Live design mocks built for fintech portals. Click "Run Demo Preview" to review files in sandbox frames.
             </p>
           </div>
           <span className="text-[10px] font-mono text-gray-400">Total Available: {galleryItems.length}</span>
@@ -970,7 +970,7 @@ export default function BentoHomepage({
         </div>
       </div>
 
-      {/* 9. WORKING MODAL DEMO WATERMARKED IFRAME POPUP */}
+      {/* 9. DEMO PREVIEW MODAL */}
       {demoTemplate && (
         <div className="fixed inset-0 bg-black/85 flex items-center justify-center p-4 z-50 animate-fadeIn backdrop-blur-sm">
           <div className="w-full max-w-4xl bg-[#0E131F] border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[600px]">
@@ -979,7 +979,7 @@ export default function BentoHomepage({
             <div className="bg-[#0B0E14] p-4 px-6 border-b border-slate-800 flex justify-between items-center">
               <div>
                 <span className="text-[9.5px] font-mono text-cyan-400 uppercase font-black block tracking-widest">
-                  SANDBOX TEMPLATE LIVE RUN
+                  DEMO PREVIEW
                 </span>
                 <h3 className="text-xs font-bold text-white truncate max-w-md">{demoTemplate.title} - Demo Mockup</h3>
               </div>
@@ -1009,31 +1009,19 @@ export default function BentoHomepage({
               {/* Central working visual mock iframe canvas */}
               <div className="flex-1 my-4 border border-slate-800 rounded-2xl relative overflow-hidden bg-slate-900 flex justify-center items-center p-8 text-center select-none">
                 
-                {/* Visual Diagonal Watermarks */}
-                <div className="absolute inset-0 flex flex-wrap justify-around items-center opacity-10 font-mono font-black text-xs uppercase tracking-widest leading-none rotate-12 select-none pointer-events-none">
-                  {[...Array(15)].map((_, w) => (
-                    <span key={w} className="p-8 text-cyan-400 select-none">STYLEHUB DEMO WATERMARK • COPIED ILLEGAL</span>
-                  ))}
-                </div>
-
-                <div className="space-y-4 relative z-10 max-w-md">
-                  <h4 className="text-[#00E5FF] text-sm uppercase font-black tracking-wider">Simulated Working Fintech Node Portal</h4>
+                  <div className="space-y-4 relative z-10 max-w-md">
+                  <h4 className="text-[#00E5FF] text-sm uppercase font-black tracking-wider">Demo Fintech Portal</h4>
                   <p className="text-[11.5px] text-gray-400 leading-relaxed font-normal">
-                    Interactive custom sliders and navigation blocks are accessible. In compliance with license policies, download checkout triggers and real DB queries are mock-deactivated on demo urls.
+                    Interactive preview of the template. Purchase to unlock full download and live database integration.
                   </p>
                   
-                  {/* Interactive mock user inputs inside demo preview */}
                   <div className="bg-[#0B0E14] border border-slate-800 p-4 rounded-xl space-y-3">
                     <div className="flex justify-between text-[11px] font-mono select-none">
-                      <span className="text-cyan-400">Mock point balance:</span>
+                      <span className="text-cyan-400">Demo Points:</span>
                       <span className="text-white">12,450 PLS</span>
                     </div>
                     <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
                       <div className="h-full w-2/3 bg-cyan-400" />
-                    </div>
-                    <div className="flex justify-between items-center text-[10px]">
-                      <span className="text-slate-500 italic">Static checkout inputs blocked</span>
-                      <span className="text-[9px] bg-red-900/30 text-rose-400 border border-red-500/20 px-2 py-0.5 rounded uppercase font-bold">watermarked</span>
                     </div>
                   </div>
                 </div>

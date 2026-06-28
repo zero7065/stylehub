@@ -2,16 +2,15 @@
   "users": [
     {
       "id": "admin-123",
-      "email": "admin@stylehub.com",
-      "password": "Admin@123456",
+      "email": "jehuhudson@gmail.com",
+      "password": "admin1234",
       "role": "admin",
       "points": 1000000,
       "referral_code": "ADMINSH",
       "kyc_status": "verified",
       "black_room_alias": "👑 Gold",
       "trust_score": 100,
-      "created_at": "2026-06-07T06:30:15.090Z",
-      "subscription_tier": "elite"
+      "created_at": "2026-06-28T05:29:21.858Z"
     },
     {
       "id": "user-456",
@@ -28,20 +27,20 @@
       },
       "black_room_alias": "🔮 Lithium",
       "trust_score": 95,
-      "created_at": "2026-06-07T06:30:15.090Z",
+      "created_at": "2026-06-28T05:29:21.858Z",
       "subscription_tier": "professional"
     },
     {
-      "id": "usr-g1780813840130",
-      "email": "jadaistudiosoffcl@gmail.com",
-      "google_id": "g-mzkiln",
-      "role": "admin",
+      "id": "usr-1782646877361",
+      "email": "lukehudson484@gmail.com",
+      "password": "123456",
+      "role": "user",
       "points": 50,
-      "referral_code": "SH-GRJD3",
+      "referral_code": "SH-ZABVI",
       "kyc_status": "unsubmitted",
-      "black_room_alias": "🧬 Platinum",
+      "black_room_alias": "🔱 Titanium",
       "trust_score": 90,
-      "created_at": "2026-06-07T06:30:40.130Z"
+      "created_at": "2026-06-28T11:41:17.361Z"
     }
   ],
   "black_room_listings": [
@@ -53,7 +52,7 @@
       "description": "High quality US-based audience. Fully clean, ready for monetization niche. Handover immediately via Escrow.",
       "price_points": 150,
       "status": "open",
-      "created_at": "2026-06-07T06:30:15.090Z"
+      "created_at": "2026-06-28T05:29:21.859Z"
     },
     {
       "id": "listing-br2",
@@ -63,7 +62,7 @@
       "description": "Perfect for WhatsApp/Telegram activation. Direct sim routing, no expiry for 12 months.",
       "price_points": 80,
       "status": "open",
-      "created_at": "2026-06-07T06:30:15.090Z"
+      "created_at": "2026-06-28T05:29:21.859Z"
     }
   ],
   "black_room_messages": [
@@ -72,7 +71,7 @@
       "listing_id": "listing-br1",
       "from_alias": "👑 Gold",
       "message": "Welcome to the premium listing chat. Safe escrow only.",
-      "timestamp": "2026-06-07T06:30:15.090Z"
+      "timestamp": "2026-06-28T05:29:21.859Z"
     }
   ],
   "brokers": [
@@ -118,7 +117,7 @@
       "category": "numbers",
       "price_points": 30,
       "status": "open",
-      "created_at": "2026-06-07T06:30:15.090Z"
+      "created_at": "2026-06-28T05:29:21.859Z"
     },
     {
       "id": "mkt-2",
@@ -129,7 +128,7 @@
       "category": "boosting",
       "price_points": 120,
       "status": "open",
-      "created_at": "2026-06-07T06:30:15.090Z"
+      "created_at": "2026-06-28T05:29:21.859Z"
     }
   ],
   "programmer_services": [
@@ -168,7 +167,7 @@
       "demo_url": "#",
       "price_points": 200,
       "price_money": 15,
-      "created_at": "2026-06-07T06:30:15.090Z"
+      "created_at": "2026-06-28T05:29:21.859Z"
     },
     {
       "id": "gal-2",
@@ -178,27 +177,19 @@
       "demo_url": "#",
       "price_points": 350,
       "price_money": 25,
-      "created_at": "2026-06-07T06:30:15.090Z"
+      "created_at": "2026-06-28T05:29:21.859Z"
     }
   ],
   "user_receipts": [],
   "withdrawal_requests": [],
   "activity_logs": [
     {
-      "id": "log-1780813840180ltfp",
-      "user_id": "usr-g1780813840130",
-      "user_email": "jadaistudiosoffcl@gmail.com",
-      "action": "USER_GOOGLE_LOGIN",
-      "details": "Logged in via Google Sign-In.",
-      "timestamp": "2026-06-07T06:30:40.180Z"
-    },
-    {
-      "id": "log-1780813840141ybld",
-      "user_id": "usr-g1780813840130",
-      "user_email": "jadaistudiosoffcl@gmail.com",
-      "action": "USER_GOOGLE_REGISTER",
-      "details": "Registered automatically via Google Sign-In.",
-      "timestamp": "2026-06-07T06:30:40.141Z"
+      "id": "log-1782646877385vjkc",
+      "user_id": "usr-1782646877361",
+      "user_email": "lukehudson484@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-06-28T11:41:17.385Z"
     },
     {
       "id": "log-seed",
@@ -206,7 +197,7 @@
       "user_email": "system@stylehub",
       "action": "PLATFORM_INIT",
       "details": "StyleHub engine successfully booted and database pre-seeded by Jadai Studios.",
-      "timestamp": "2026-06-07T06:30:15.090Z"
+      "timestamp": "2026-06-28T05:29:21.859Z"
     }
   ],
   "system_settings": {
@@ -406,14 +397,14 @@
       "name": "Signia Premium Gold Voucher",
       "category": "voucher",
       "html_content": "\n          <div style=\"background: linear-gradient(135deg, #0d0e12 0%, #15161d 100%); color: #fff; padding: 25px; border-radius: 16px; border: 1px solid #D4AF37; font-family: monospace; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-shadow: 0 1px 1px #000;\">\n            <div style=\"text-align: center; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); padding-bottom: 12px; margin-bottom: 20px;\">\n              <h2 style=\"color: #D4AF37; margin: 0; font-size: 20px; font-weight: 900; letter-spacing: 2px;\">GOLD SIGNIA</h2>\n              <p style=\"font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; margin: 4px 0 0 0;\">Secure Premium Asset Voucher</p>\n            </div>\n            <div style=\"font-size: 11px; line-height: 2;\">\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">SENDER:</strong> <span>{{SENDER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">RECIPIENT:</strong> <span>{{RECEIVER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">DESTINATION:</strong> <span>{{RECEIVER_BANK}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">REFERENCE:</strong> <span style=\"font-style: italic;\">{{REFERENCE}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">STAMP REF:</strong> <span style=\"font-family: serif;\">{{TRANSACTION_ID}}</span></div>\n            </div>\n            <div style=\"margin-top: 25px; background: rgba(212, 175, 55, 0.1); border: 1px solid #D4AF37; padding: 12px; border-radius: 10px; text-align: center;\">\n              <span style=\"display: block; font-size: 9px; color: #D4AF37; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;\">LEDGER DEBIT CONFIRMED</span>\n              <span style=\"font-size: 22px; font-weight: 900; display: block; margin-top: 4px; color: #fff;\">₦{{AMOUNT}}</span>\n            </div>\n            <div style=\"text-align: center; margin-top: 20px; font-size: 8px; opacity: 0.4;\">\n              POWERED BY SIGNIA SECURITY PROTOCOLS • JADAI LABS\n            </div>\n          </div>\n        ",
-      "created_at": "2026-06-07T06:30:15.156Z"
+      "created_at": "2026-06-28T05:29:21.864Z"
     },
     {
       "id": "tmpl-emerald-receipt",
       "name": "Emerald Sovereign Cash Stamp",
       "category": "invoice",
       "html_content": "\n          <div style=\"background: #ffffff; color: #1e293b; padding: 30px; border-radius: 20px; border: 3px solid #10B981; font-family: sans-serif; max-width: 400px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);\">\n            <div style=\"display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;\">\n              <div>\n                <h3 style=\"color: #10B981; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px;\">EMERALD SOVEREIGN</h3>\n                <span style=\"font-size: 9px; color: #64748b; font-weight: 600;\">INSTANT CREDIT ADVICE</span>\n              </div>\n              <div style=\"background: #10B981; color: #fff; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.5px;\">SETTLED</div>\n            </div>\n            <div style=\"text-align: center; margin: 25px 0;\">\n              <span style=\"font-size: 10px; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px;\">APPROVED VALUE</span>\n              <h1 style=\"font-size: 32px; font-weight: 900; color: #0f172a; margin: 5px 0 0 0; letter-spacing: -1px;\">₦{{AMOUNT}}</h1>\n            </div>\n            <div style=\"border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 12px; display: grid; gap: 10px;\">\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Payer:</span><strong style=\"color: #0f172a;\">{{SENDER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Beneficiary:</span><strong style=\"color: #0f172a;\">{{RECEIVER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Bank Target:</span><strong style=\"color: #0f172a;\">{{RECEIVER_BANK}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Ledger Memo:</span><strong style=\"color: #64748b; font-weight: normal; font-style: italic;\">{{REFERENCE}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Audit Pin:</span><strong style=\"color: #0f172a; font-family: monospace;\">{{TRANSACTION_ID}}</strong></div>\n            </div>\n            <div style=\"text-align: center; margin-top: 30px; font-size: 9px; color: #94a3b8; font-weight: 500; border-top: 1px dashed #e2e8f0; padding-top: 15px;\">\n              Thank you for secure escrow routing.\n            </div>\n          </div>\n        ",
-      "created_at": "2026-06-07T06:30:15.156Z"
+      "created_at": "2026-06-28T05:29:21.864Z"
     }
   ]
 }

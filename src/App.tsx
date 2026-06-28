@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import { User, MarketplaceListing, BlackRoomListing, ProgramBooking, ProgrammerService, GalleryItem, SystemSettings } from "./types";
 import BentoHeader from "./components/BentoHeader";
-import ReceiptPreview from "./components/ReceiptPreview";
+
 import AdminPanel from "./components/AdminPanel";
 import AIAssistant from "./components/AIAssistant";
 import SupportWidget from "./components/SupportWidget";
@@ -38,9 +38,7 @@ export default function App() {
   const [simAmount, setSimAmount] = useState("15500");
   const [simReference, setSimReference] = useState("Payment for premium hosting assets - Jadai");
   const [simCustomField, setSimCustomField] = useState("OWealth +₦128.50 Interest");
-  const [unlockedReceipt, setUnlockedReceipt] = useState<any>(null);
-  const [isGeneratingReceipt, setIsGeneratingReceipt] = useState(false);
-  const [simulationActive, setSimulationActive] = useState(false);
+
   // Pixel-perfect FINHUB fields
   const [simSenderAccount, setSimSenderAccount] = useState("1100310718");
   const [simReceiverAccount, setSimReceiverAccount] = useState("8081694422");
@@ -118,17 +116,25 @@ export default function App() {
 
   useEffect(() => {
     const initApp = async () => {
-      await fetchGlobalSettings();
-      // Ensure smooth, gorgeous transition
+      try {
+        await fetchGlobalSettings();
+      } catch (e) {
+        console.error("fetchGlobalSettings threw unexpectedly:", e);
+      }
       setTimeout(() => {
         setAppLoading(false);
       }, 1500);
     };
     initApp();
+    // Safety fallback: if appLoading is still true after 8s, dismiss it
+    const safetyTimer = setTimeout(() => {
+      setAppLoading(false);
+    }, 8000);
     const cachedUser = localStorage.getItem("sh_user");
     if (cachedUser) {
       setCurrentUser(JSON.parse(cachedUser));
     }
+    return () => clearTimeout(safetyTimer);
   }, []);
 
   useEffect(() => {
@@ -326,86 +332,7 @@ export default function App() {
     setActiveTab("home");
   };
 
-  // Receipt Generator Submit
-  const handleCreateMockTransactionReceipt = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setUnlockedReceipt(null);
-    setIsGeneratingReceipt(true);
 
-    try {
-      const payload = {
-        userId: currentUser?.id,
-        bank: simBank,
-        senderName: simSender,
-        receiverName: simReceiver,
-        receiverBank: simReceiverBank,
-        amount: simAmount,
-        customField: simCustomField,
-        reference: simReference,
-      };
-
-      // Create a temporary watermarked representation
-      const simulatedReceipt = {
-        bank: simBank,
-        sender_name: simSender,
-        receiver_name: simReceiver,
-        receiver_bank: simReceiverBank,
-        amount: parseFloat(simAmount) || 12000,
-        date_time: new Date().toLocaleString(),
-        transaction_id: "TXN" + Math.random().toString(36).substr(2, 9).toUpperCase(),
-        reference: simReference,
-        balance: 425000,
-        custom_field: simCustomField,
-        unlocked: false, // Starts locked/blurred
-      };
-
-      setUnlockedReceipt(simulatedReceipt);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setIsGeneratingReceipt(false);
-    }
-  };
-
-  const handleUnlockSelectedReceipt = async () => {
-    if (!currentUser) return;
-    const selectPrice = settings?.receipt_price_points || 10;
-    if (currentUser.points < selectPrice) {
-      alert(`Insufficient balance. Receipts unlock require ${selectPrice} points.`);
-      return;
-    }
-
-    try {
-      const res = await fetch("/api/receipts/buy", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: currentUser.id,
-          bank: simBank,
-          senderName: simSender,
-          receiverName: simReceiver,
-          receiverBank: simReceiverBank,
-          amount: simAmount,
-          customField: simCustomField,
-          reference: simReference,
-        }),
-      });
-
-      const data = await res.json();
-      if (data.success && data.receipt) {
-        setUnlockedReceipt({
-          ...data.receipt,
-          unlocked: true,
-        });
-        handleRefreshUserPoints();
-        fetchUserSavedReceipts();
-      } else {
-        alert(data.error || "Point unlock failed. Try checking points.");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const [savedReceipts, setSavedReceipts] = useState<any[]>([]);
 
@@ -502,7 +429,7 @@ export default function App() {
 
     const isSdkLoaded = await loadPaystackSDK();
     if (!isSdkLoaded) {
-      console.warn("Failed to retrieve Paystack payment gateway bridge. Reverting to automated simulation...");
+      console.warn("Failed to retrieve Paystack payment gateway bridge. Reverting to automated flow...");
       proceedPointsBuy(selectedPackageId);
       return;
     }
@@ -1003,7 +930,7 @@ export default function App() {
                       : "text-zinc-400 hover:text-zinc-200"
                   }`}
                 >
-                  📱 Mobile Simulators
+                  📱 Mobile Demo
                 </button>
                 <button
                   type="button"
@@ -1019,262 +946,36 @@ export default function App() {
               </div>
 
               {generatorMode === "standard" ? (
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start animate-fadeIn">
-                  {/* Variables Customizer form */}
-                  <form onSubmit={handleCreateMockTransactionReceipt} className="md:col-span-12 lg:col-span-5 bg-[#121620] p-6 border border-zinc-800 rounded-3xl space-y-4">
-                    <div className="flex justify-between items-center pb-2 border-b border-zinc-800">
-                      <h3 className="text-xs font-black uppercase text-emerald-400 tracking-widest">Receipt custom variables</h3>
-                      <span className="text-[9px] text-zinc-500 font-mono">Sim Price: 150 PLS</span>
+                <div className="w-full flex flex-col items-center animate-fadeIn">
+                  <div className="w-full max-w-[420px] md:max-w-[350px] md:h-[max(620px,85vh)] md:border-[10px] md:border-zinc-800 md:rounded-[3rem] bg-[#F5F6FA] md:shadow-2xl relative overflow-hidden flex flex-col select-none mx-auto">
+                    <div className="hidden md:flex absolute top-0 inset-x-0 h-5 bg-black z-50 justify-center items-center gap-1 rounded-b-2xl">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-700" />
+                      <span className="w-10 h-1 bg-zinc-700 rounded-full" />
                     </div>
-
-                    <div className="space-y-1.5">
-                      <label htmlFor="generator-bank-select" className="text-[10.5px] text-zinc-300 font-bold uppercase tracking-wider block">Fintech Brand</label>
-                      <select
-                        id="generator-bank-select"
-                        value={simBank}
-                        onChange={(e) => setSimBank(e.target.value)}
-                        className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-white uppercase font-mono tracking-wider focus:outline-none focus:border-emerald-500"
-                      >
-                        <option value="opay">OPay Wallet</option>
-                        <option value="kuda">Kuda Microfinance</option>
-                      </select>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1.5">
-                        <label htmlFor="generator-sender-input" className="text-[10px] text-zinc-400 font-bold uppercase block">Sender Name</label>
-                        <input
-                          type="text"
-                          id="generator-sender-input"
-                          value={simSender}
-                          onChange={(e) => setSimSender(e.target.value.toUpperCase())}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2 text-xs font-mono uppercase focus:outline-none focus:border-emerald-500 text-white"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label htmlFor="generator-recipient-input" className="text-[10px] text-zinc-400 font-bold uppercase block">Recipient Name</label>
-                        <input
-                          type="text"
-                          id="generator-recipient-input"
-                          value={simReceiver}
-                          onChange={(e) => setSimReceiver(e.target.value.toUpperCase())}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2 text-xs font-mono uppercase focus:outline-none focus:border-emerald-500 text-white"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1.5">
-                        <label htmlFor="generator-recipient-bank-input" className="text-[10px] text-zinc-400 font-bold uppercase block">Recipient Bank</label>
-                        <input
-                          type="text"
-                          id="generator-recipient-bank-input"
-                          value={simReceiverBank}
-                          onChange={(e) => setSimReceiverBank(e.target.value)}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2 text-xs focus:outline-none focus:border-emerald-500 text-white"
-                        />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label htmlFor="generator-amount-input" className="text-[10px] text-zinc-400 font-bold uppercase block">Amount Transferred (₦)</label>
-                        <input
-                          type="number"
-                          id="generator-amount-input"
-                          value={simAmount}
-                          onChange={(e) => setSimAmount(e.target.value)}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500"
-                        />
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label htmlFor="generator-reference-input" className="text-[10px] text-zinc-400 font-bold uppercase block">Reference Transaction Description</label>
-                      <input
-                        type="text"
-                        id="generator-reference-input"
-                        value={simReference}
-                        onChange={(e) => setSimReference(e.target.value)}
-                        className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-emerald-500 text-white"
-                      />
-                    </div>
-
-                    {/* Pixel-perfect FINHUB fields */}
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-sender-acct" className="text-[10px] text-zinc-400 font-bold uppercase block">Sender Acct (10-digit)</label>
-                        <input id="gen-sender-acct" type="text" maxLength={10} value={simSenderAccount}
-                          onChange={(e) => setSimSenderAccount(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-emerald-500 text-white" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-receiver-acct" className="text-[10px] text-zinc-400 font-bold uppercase block">Receiver Acct</label>
-                        <input id="gen-receiver-acct" type="text" maxLength={10} value={simReceiverAccount}
-                          onChange={(e) => setSimReceiverAccount(e.target.value.replace(/\D/g, '').slice(0, 10))}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-emerald-500 text-white" />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-sender-phone" className="text-[10px] text-zinc-400 font-bold uppercase block">Sender Phone</label>
-                        <input id="gen-sender-phone" type="text" maxLength={11} value={simSenderPhone}
-                          onChange={(e) => setSimSenderPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-emerald-500 text-white" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-receiver-phone" className="text-[10px] text-zinc-400 font-bold uppercase block">Receiver Phone</label>
-                        <input id="gen-receiver-phone" type="text" maxLength={11} value={simReceiverPhone}
-                          onChange={(e) => setSimReceiverPhone(e.target.value.replace(/\D/g, '').slice(0, 11))}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2 text-xs font-mono focus:outline-none focus:border-emerald-500 text-white" />
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-fee" className="text-[10px] text-zinc-400 font-bold uppercase block">Fee (₦)</label>
-                        <input id="gen-fee" type="number" min="0" value={simFee}
-                          onChange={(e) => setSimFee(e.target.value)}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2 text-xs font-mono text-rose-400 focus:outline-none focus:border-emerald-500" />
-                      </div>
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-payment-method" className="text-[10px] text-zinc-400 font-bold uppercase block">Payment Method</label>
-                        <select id="gen-payment-method" value={simPaymentMethod}
-                          onChange={(e) => setSimPaymentMethod(e.target.value)}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
-                          <option value="OWealth">OWealth</option>
-                          <option value="Wallet">Wallet</option>
-                          <option value="Card">Card</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-tx-type" className="text-[10px] text-zinc-400 font-bold uppercase block">Tx Type</label>
-                        <select id="gen-tx-type" value={simTransactionType}
-                          onChange={(e) => setSimTransactionType(e.target.value)}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
-                          <option value="Money Transfer - Bank account">Money Transfer</option>
-                          <option value="Electricity">Electricity</option>
-                          <option value="Airtime">Airtime</option>
-                          <option value="Data">Data</option>
-                          <option value="Outward Transfer">Outward Transfer</option>
-                        </select>
-                      </div>
-                      <div className="space-y-1.5">
-                        <label htmlFor="gen-status" className="text-[10px] text-zinc-400 font-bold uppercase block">Status</label>
-                        <select id="gen-status" value={simStatus}
-                          onChange={(e) => setSimStatus(e.target.value as any)}
-                          className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500">
-                          <option value="successful">✅ Successful</option>
-                          <option value="processing">⏳ Processing</option>
-                          <option value="failed">❌ Failed</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label htmlFor="generator-custom-booster-input" className="text-[10px] text-zinc-400 font-bold uppercase block">Custom Booster Badge (e.g. interest / PalmPoints)</label>
-                      <input
-                        type="text"
-                        id="generator-custom-booster-input"
-                        value={simCustomField}
-                        onChange={(e) => setSimCustomField(e.target.value)}
-                        className="w-full bg-[#0d0e12] border border-zinc-800 rounded-xl px-4 py-2.5 text-xs text-rose-400 focus:outline-none focus:border-emerald-500"
-                      />
-                    </div>
-
-                    <div className="flex flex-col gap-2 pt-2">
-                      <button
-                        type="submit"
-                        id="generator-render-btn"
-                        className="w-full py-2.5 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-zinc-300 hover:text-white font-bold text-xs uppercase rounded-xl transition-all cursor-pointer text-center"
-                      >
-                        {isGeneratingReceipt ? "Syncing Mock Data..." : "Render Raw Preview Mockup"}
-                      </button>
-                      <button
-                        type="button"
-                        id="generator-simulate-btn"
-                        onClick={() => {
-                          setUnlockedReceipt(null);
-                          setSimulationActive(true);
-                        }}
-                        className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-black rounded-xl text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 cursor-pointer"
-                      >
-                        ▶ Run Interactive Flow Sim
-                      </button>
-                    </div>
-                  </form>
-
-                  {/* Simulated Live Canvas view */}
-                  <div className="md:col-span-12 lg:col-span-7 flex flex-col items-center justify-center">
-                    {simulationActive ? (
-                      <ErrorBoundary>
+                    <div className="flex-1 md:pt-3.5 overflow-hidden relative bg-[#FAF9F6]">
                       <AppSimulator
-                        bank={simBank}
-                        senderName={simSender}
-                        receiverName={simReceiver}
-                        receiverBank={simReceiverBank}
-                        amount={parseFloat(simAmount) || 15500}
-                        dateTime={new Date().toLocaleString()}
-                        transactionId={"TXN" + Math.random().toString(36).substr(2, 9).toUpperCase()}
-                        reference={simReference}
-                        balance={425000}
-                        customField={simCustomField}
-                        senderAccount={simSenderAccount}
-                        receiverAccount={simReceiverAccount}
-                        senderPhone={simSenderPhone}
-                        receiverPhone={simReceiverPhone}
-                        onClose={() => setSimulationActive(false)}
-                        onFinishSimulation={(simData) => {
-                          setUnlockedReceipt({
-                            bank: simData.bank,
-                            sender_name: simData.senderName,
-                            receiver_name: simData.receiverName,
-                            receiver_bank: simData.receiverBank,
-                            amount: simData.amount,
-                            date_time: simData.dateTime,
-                            transaction_id: simData.transactionId,
-                            reference: simData.reference,
-                            balance: simData.balance,
-                            custom_field: simData.customField,
-                            unlocked: false,
-                          });
-                          setSimulationActive(false);
+                        senderName={currentUser?.kyc_data?.name || currentUser?.email?.split("@")[0].toUpperCase() || "USER"}
+                        senderAccount={currentUser?.id?.slice(0, 10) || "1234567890"}
+                        userPoints={currentUser?.points || 0}
+                        onClose={() => setActiveTab("home")}
+                        onBuyPoints={() => setActiveTab("home")}
+                        onFinishSimulation={(simData: any) => {
+                          alert("Receipt shared successfully!");
+                        }}
+                        onTransactionComplete={(tx: any) => {
+                          if (currentUser) {
+                            handleRefreshUserPoints();
+                          }
                         }}
                       />
-                      </ErrorBoundary>
-                    ) : unlockedReceipt ? (
-                      <ReceiptPreview
-                        bank={unlockedReceipt.bank}
-                        senderName={unlockedReceipt.sender_name}
-                        receiverName={unlockedReceipt.receiver_name}
-                        receiverBank={unlockedReceipt.receiver_bank}
-                        amount={unlockedReceipt.amount}
-                        dateTime={unlockedReceipt.date_time}
-                        transactionId={unlockedReceipt.transaction_id}
-                        reference={unlockedReceipt.reference}
-                        balance={unlockedReceipt.balance}
-                        customField={unlockedReceipt.custom_field}
-                        unlocked={unlockedReceipt.unlocked}
-                        onUnlock={handleUnlockSelectedReceipt}
-                        senderAccount={simSenderAccount}
-                        receiverAccount={simReceiverAccount}
-                        senderPhone={simSenderPhone}
-                        receiverPhone={simReceiverPhone}
-                        fee={parseFloat(simFee) || 0}
-                        paymentMethod={simPaymentMethod}
-                        transactionType={simTransactionType}
-                        status={simStatus}
-                      />
-                    ) : (
-                      <div className="p-16 border-2 border-dashed border-zinc-800 rounded-3xl text-center text-zinc-500 max-w-[400px] mx-auto flex flex-col items-center gap-3">
-                        <Sparkles className="w-8 h-8 opacity-30 animate-pulse text-emerald-400" />
-                        <p className="text-xs font-mono uppercase tracking-wide">
-                          Enter custom values on the left, then click "Render Raw Preview Mockup" or run "Interactive Flow Sim".
-                        </p>
-                      </div>
-                    )}
+                    </div>
+                    <div className="hidden md:flex bg-black h-4 justify-center items-center rounded-t-lg">
+                      <span className="w-16 h-0.5 bg-zinc-700 rounded-full" />
+                    </div>
                   </div>
+                  <button onClick={() => setActiveTab("home")} className="mt-4 text-[10px] text-zinc-500 font-mono underline cursor-pointer hover:text-zinc-300 transition-colors">
+                    Close Demo
+                  </button>
                 </div>
               ) : (
                 /* Sovereign Signia Custom Upload Template Manager */
@@ -1589,7 +1290,7 @@ export default function App() {
 
                 {savedReceipts.length === 0 ? (
                   <div className="py-8 bg-[#121620]/40 border border-zinc-800/60 rounded-2xl text-center text-zinc-500 text-xs font-mono">
-                    No fully unlocked receipts logs in your ledger dossier. Run an interactive flow simulation or render a raw preview and select UNLOCK to save items.
+                    No fully unlocked receipts logs in your ledger dossier. Run an interactive demo or render a raw preview and select UNLOCK to save items.
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -2324,7 +2025,7 @@ export default function App() {
                     <strong>1. Scope of Grant:</strong> Under the StyleHub Sovereign Ledger terms, you are granted a non-exclusive, personal, non-transferable, revocable license to operate transaction simulators, trade signals telemetry, and custom Signia mockup engines strictly for private diagnostic, educational, or ledger modeling scenarios. Under no conditions may printed receipts be represented as live active monetary instruments.
                   </p>
                   <p>
-                    <strong>2. System Currency (PLS Points):</strong> PLS points are virtual simulation tokens representing computation priorities on StyleHub nodes. They are consumed on-the-fly for real-time document signatures, sandboxed rendering, and live signal polling. PLS holds zero direct liability outside registered user cashouts verified under the AML/KYC identity registration dossier.
+                    <strong>2. System Currency (PLS Points):</strong> PLS points are virtual tokens representing computation priorities on StyleHub nodes. They are consumed on-the-fly for real-time document signatures, sandboxed rendering, and live signal polling. PLS holds zero direct liability outside registered user cashouts verified under the AML/KYC identity registration dossier.
                   </p>
                 </div>
                 <div className="space-y-3">
