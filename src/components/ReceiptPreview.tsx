@@ -79,15 +79,15 @@ export default function ReceiptPreview({
       <div style={{ background: '#00C5A3', height: 4 }} />
       <div className="bg-white">
         {/* Logo area */}
-        <div className="flex flex-col items-center pt-6 pb-3 px-6">
-          <div className="w-14 h-14 rounded-full bg-white border-2 border-[#00C5A3] flex items-center justify-center relative mb-3">
-            <div className="w-9 h-9 rounded-full bg-[#00C5A3] flex items-center justify-center">
-              <div className="w-4 h-4 bg-white" style={{ clipPath: 'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)' }} />
-            </div>
-          </div>
-          <span className="text-sm text-gray-500">Transfer to</span>
-          <span className="text-base font-bold text-gray-900 mt-0.5">{receiverName}</span>
+    <div className="flex flex-col items-center pt-6 pb-3 px-6">
+      <div className="w-14 h-14 rounded-full bg-white border-2 border-[#25CB69] flex items-center justify-center relative mb-3">
+        <div className="w-9 h-9 rounded-full bg-[#25CB69] flex items-center justify-center">
+          <div className="w-4 h-4 bg-white" style={{ clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)' }} />
         </div>
+      </div>
+      <span className="text-sm text-gray-500">Pay to</span>
+      <span className="text-base font-bold text-gray-900 mt-0.5">{receiverName}</span>
+    </div>
 
         {/* Amount */}
         <div className="text-center pb-4 px-6">
@@ -167,6 +167,9 @@ export default function ReceiptPreview({
           <button className="flex-1 py-2.5 rounded-full text-xs font-bold text-center text-white" style={{ background: colors.primary }}>
             Share Receipt
           </button>
+        </div>
+        <div className="text-center py-3 text-[9px] uppercase tracking-widest" style={{ color: colors.label }}>
+          Powered by OPay • Licensed by the CBN and insured by the NDIC
         </div>
       </div>
       <div className="text-center py-3 text-[9px] uppercase tracking-widest" style={{ color: colors.label }}>

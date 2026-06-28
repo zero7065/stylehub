@@ -164,7 +164,21 @@ export default function AppSimulator({
   // === HOME ===
   if (screen === 'home') {
     return (
-      <div style={{ background: opayBg, fontFamily: "'Segoe UI', Arial, sans-serif" }} className="h-full flex flex-col overflow-y-auto select-none relative">
+      <div style={{ background: opayBg, fontFamily: "'Segoe UI', Arial, sans-serif" }} className="h-full flex flex-col overflow-y-auto select-none relative w-full max-w-[420px] mx-auto bg-white shadow-lg border border-gray-200">
+      {/* Phone frame for mobile simulation */}
+      <div className="relative w-full h-full flex flex-col items-center">
+        <div className="absolute top-0 left-0 right-0 h-12 bg-opayTeal text-white flex items-center justify-center text-sm font-bold">
+          OPay Mobile App
+        </div>
+        <div className="absolute top-1 right-2 flex gap-2 text-white text-xs">
+          <span>9:41</span>
+          <div className="flex gap-1">
+            <div className="w-5 h-3 bg-white rounded-sm"></div>
+            <div className="w-8 h-3 bg-white rounded-sm opacity-70"></div>
+            <div className="w-5 h-3 bg-white rounded-sm"></div>
+          </div>
+        </div>
+      </div>
         <div className="bg-white px-4 py-2.5 flex items-center justify-between border-b border-gray-100">
           <div className="flex items-center gap-2">
             <div className="w-9 h-9 rounded-full bg-gray-200 flex items-center justify-center font-bold text-xs text-gray-600">
