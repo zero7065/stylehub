@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
-import { createServer as createViteServer } from "vite";
+import crypto from "crypto";
 import { GoogleGenAI } from "@google/genai";
 
 const app = express();
@@ -28,28 +28,11 @@ function getDB() {
           email: "jehuhudson@gmail.com",
           password: "admin1234",
           role: "admin",
-          points: 1000000, // Pre-seeded with 1,000,000 points
+          points: 1000000,
           referral_code: "ADMINSH",
           kyc_status: "verified",
           black_room_alias: "👑 Gold",
           trust_score: 100,
-          created_at: new Date().toISOString()
-        },
-        {
-          id: "user-456",
-          email: "user@stylehub.com",
-          password: "User@123456",
-          role: "user",
-          points: 1500, // Seeded with points to allow broker purchase test
-          referral_code: "USERSTYLE",
-          referred_by: "ADMINSH",
-          kyc_status: "verified",
-          kyc_data: {
-            name: "John Demo Doe",
-            address: "123 Naira Way, Lagos"
-          },
-          black_room_alias: "🔮 Lithium",
-          trust_score: 95,
           created_at: new Date().toISOString()
         }
       ],
@@ -128,20 +111,44 @@ function getDB() {
       ],
       user_receipts: [],
       withdrawal_requests: [],
+      transactions: [],
+      receipts: [],
+      investments: [],
+      shop_products: [
+        { id: "sp-1", name: "StyleHub Premium Badge", desc: "Unlock a premium badge on your profile", price: 500, image: "🏅", category: "profile" },
+        { id: "sp-2", name: "Telegram Sticker Pack", desc: "Exclusive StyleHub sticker pack for Telegram", price: 200, image: "🎨", category: "digital" },
+        { id: "sp-3", name: "Priority Chat Support (30d)", desc: "Skip the queue in chat support for 30 days", price: 1000, image: "⚡", category: "service" },
+        { id: "sp-4", name: "Custom Receipt Design", desc: "Customize your OPay receipt colors for 7 days", price: 300, image: "🎨", category: "premium" },
+        { id: "sp-5", name: "500 Bonus Points Pack", desc: "Get 500 bonus points instantly", price: 500, image: "🪙", category: "points" },
+        { id: "sp-6", name: "Mystery Box", desc: "Random digital item worth 200–2000 pts", price: 350, image: "🎁", category: "mystery" },
+        { id: "sp-7", name: "Vendor Listing Slot", desc: "List one product in the vendor marketplace", price: 800, image: "🛒", category: "vendor" },
+        { id: "sp-8", name: "Username Color (Gold)", desc: "Gold-colored username on your profile", price: 250, image: "✨", category: "profile" },
+      ],
       activity_logs: [
         { id: "log-seed", user_id: "system", user_email: "system@stylehub", action: "PLATFORM_INIT", details: "StyleHub engine successfully booted and database pre-seeded by Jadai Studios.", timestamp: new Date().toISOString() }
       ],
       system_settings: {
         gas_fee_percent: 5,
-        signup_bonus: 50,
+        signup_bonus: 100,
         referral_percent: 10,
-        receipt_price_points: 10,
+        receipt_price_points: 30,
+        siteName: "StyleHub",
+        pointsRate: 100,
+        minWithdrawal: 1000,
+        withdrawalRate: 1,
         custom_emblem_html: `<div class="flex items-center gap-2 px-3.5 py-1.5 border border-cyan-500/30 rounded-full bg-cyan-950/20 backdrop-blur-sm shadow-lg shadow-cyan-500/10"><span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span><span class="text-[10px] font-mono font-semibold tracking-widest text-cyan-400 uppercase">⚡ JADAI STUDIOS INTEGRITY SEAL</span></div>`,
         whatsapp_url: "https://wa.me/2340000000000",
         telegram_url: "https://t.me/jadaistudios",
         support_email: "support@stylehub.net",
         groq_api_key: "",
-        ai_script: "You are Jarvis, the friendly AI platform Assistant for StyleHub. StyleHub is a fintech & digital marketplace created and operated by Jadai Studios. Keep answers crisp and refer users to the various tabs (the Digital Goods Marketplace, Black Room anonymous trades, or Custom Receipt Simulator)."
+        ai_script: "You are Jarvis, the friendly AI platform Assistant for StyleHub. StyleHub is a fintech & digital marketplace created and operated by Jadai Studios. Keep answers crisp and refer users to the various tabs (OPay Transfer, Shop, Vendor Marketplace, Chat, and Admin panel).",
+        invest_plans: [
+          { id: "inv-1", name: "Starter", minDeposit: 100, dailyReturn: 0.5, duration: 7, desc: "7-day plan, 0.5% daily return" },
+          { id: "inv-2", name: "Growth", minDeposit: 500, dailyReturn: 1.0, duration: 14, desc: "14-day plan, 1% daily return" },
+          { id: "inv-3", name: "Premium", minDeposit: 2000, dailyReturn: 1.5, duration: 30, desc: "30-day plan, 1.5% daily return" },
+          { id: "inv-4", name: "Elite", minDeposit: 10000, dailyReturn: 2.5, duration: 60, desc: "60-day plan, 2.5% daily return" },
+        ],
+        news_update: "Welcome to StyleHub! Check out OPay Transfer, Shop, and the Vendor Marketplace."
       },
       crypto_brokers: [
         {
@@ -231,7 +238,27 @@ function getDB() {
         }
       ],
       user_unlocked_brokers: [],
-      user_investments: []
+      user_investments: [],
+      vendors: [],
+      products: [],
+      chatRooms: [
+        {
+          id: "chat-demo-1",
+          userId: "user-456",
+          vendorId: "vendor-1",
+          vendorName: "StyleHub Official Store",
+          status: "active",
+          messages: [
+            { id: "m1", sender: "vendor", content: "Welcome to StyleHub Official Store! How can I help you today?", timestamp: new Date().toISOString() },
+            { id: "m2", sender: "user", content: "Hi, I'm interested in your premium templates.", timestamp: new Date().toISOString() }
+          ],
+          createdAt: new Date().toISOString()
+        }
+      ],
+      testimonials: [
+        { id: "test-1", userId: "user-456", userName: "John D.", content: "StyleHub's platform is incredible! The receipt generator saved me hours of design work. Highly recommend!", rating: 5, createdAt: new Date().toISOString() }
+      ],
+      payments: []
     };
     fs.writeFileSync(DB_FILE, JSON.stringify(initialDB, null, 2));
     db = initialDB;
@@ -336,10 +363,10 @@ function getDB() {
     updated = true;
   }
 
-  // Hotpatch system receipt price points to 150 as requested
+  // Hotpatch system receipt price points to 30 as requested
   if (db.system_settings) {
-    if (db.system_settings.receipt_price_points !== 150) {
-      db.system_settings.receipt_price_points = 150;
+    if (db.system_settings.receipt_price_points !== 30) {
+      db.system_settings.receipt_price_points = 30;
       updated = true;
     }
   }
@@ -508,6 +535,34 @@ function getDB() {
     db.user_investments = [];
     updated = true;
   }
+  if (!db.vendors) { db.vendors = []; updated = true; }
+  if (!db.products) { db.products = []; updated = true; }
+  if (!db.chatRooms) { db.chatRooms = []; updated = true; }
+  if (!db.testimonials) { db.testimonials = []; updated = true; }
+  if (!db.payments) { db.payments = []; updated = true; }
+  if (!db.investments) { db.investments = []; updated = true; }
+  if (!db.shop_products) {
+    db.shop_products = [
+      { id: "sp-1", name: "StyleHub Premium Badge", desc: "Unlock a premium badge on your profile", price: 500, image: "🏅", category: "profile" },
+      { id: "sp-2", name: "Telegram Sticker Pack", desc: "Exclusive StyleHub sticker pack for Telegram", price: 200, image: "🎨", category: "digital" },
+      { id: "sp-3", name: "Priority Chat Support (30d)", desc: "Skip the queue in chat support for 30 days", price: 1000, image: "⚡", category: "service" },
+      { id: "sp-4", name: "Custom Receipt Design", desc: "Customize your OPay receipt colors for 7 days", price: 300, image: "🎨", category: "premium" },
+      { id: "sp-5", name: "500 Bonus Points Pack", desc: "Get 500 bonus points instantly", price: 500, image: "🪙", category: "points" },
+      { id: "sp-6", name: "Mystery Box", desc: "Random digital item worth 200–2000 pts", price: 350, image: "🎁", category: "mystery" },
+      { id: "sp-7", name: "Vendor Listing Slot", desc: "List one product in the vendor marketplace", price: 800, image: "🛒", category: "vendor" },
+      { id: "sp-8", name: "Username Color (Gold)", desc: "Gold-colored username on your profile", price: 250, image: "✨", category: "profile" },
+    ];
+    updated = true;
+  }
+  if (!(db.system_settings as any)?.invest_plans) {
+    (db.system_settings as any).invest_plans = [
+      { id: "inv-1", name: "Starter", minDeposit: 100, dailyReturn: 0.5, duration: 7, desc: "7-day plan, 0.5% daily return" },
+      { id: "inv-2", name: "Growth", minDeposit: 500, dailyReturn: 1.0, duration: 14, desc: "14-day plan, 1% daily return" },
+      { id: "inv-3", name: "Premium", minDeposit: 2000, dailyReturn: 1.5, duration: 30, desc: "30-day plan, 1.5% daily return" },
+      { id: "inv-4", name: "Elite", minDeposit: 10000, dailyReturn: 2.5, duration: 60, desc: "60-day plan, 2.5% daily return" },
+    ];
+    updated = true;
+  }
 
   if (updated) {
     fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
@@ -522,6 +577,7 @@ function writeDB(data: any) {
 // Log actions helper
 function addLog(userId: string, email: string, action: string, details: string) {
   const db = getDB();
+  if (!db.activity_logs) db.activity_logs = [];
   db.activity_logs.unshift({
     id: "log-" + Date.now() + Math.random().toString(36).substr(2, 4),
     user_id: userId,
@@ -534,6 +590,27 @@ function addLog(userId: string, email: string, action: string, details: string) 
     db.activity_logs = db.activity_logs.slice(0, 300);
   }
   writeDB(db);
+}
+
+// Auth token helper
+function generateToken(): string {
+  return crypto.randomBytes(32).toString("hex");
+}
+
+// Authenticate middleware (Bearer token)
+function authenticate(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ error: "Authentication required" });
+  }
+  const token = authHeader.split(" ")[1];
+  const db = getDB();
+  const user = db.users.find((u: any) => (u as any).auth_token === token);
+  if (!user) {
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
+  (req as any).user = user;
+  next();
 }
 
 // Initialize Gemini
@@ -572,7 +649,7 @@ app.post("/api/auth/register", (req, res) => {
   }
 
   const settings = db.system_settings;
-  const signUpPoints = settings.signup_bonus || 50;
+  const signUpPoints = settings.signup_bonus || 100;
 
   // Assign anonymous element alias
   const assignedAlias = pseudonyms[Math.floor(Math.random() * pseudonyms.length)];
@@ -602,12 +679,13 @@ app.post("/api/auth/register", (req, res) => {
     }
   }
 
+  (newUser as any).auth_token = generateToken();
   db.users.push(newUser);
   writeDB(db);
 
   addLog(newUser.id, newUser.email, "USER_REGISTER", `Registered with standard signup bonus of ${signUpPoints} points.`);
 
-  res.json({ success: true, user: { id: newUser.id, email: newUser.email, role: newUser.role, points: newUser.points, black_room_alias: newUser.black_room_alias } });
+  res.json({ success: true, user: { id: newUser.id, email: newUser.email, role: newUser.role, points: newUser.points, black_room_alias: newUser.black_room_alias }, token: (newUser as any).auth_token });
 });
 
 // 2. Login
@@ -618,7 +696,198 @@ app.post("/api/auth/login", (req, res) => {
   if (!user) {
     return res.status(401).json({ error: "Invalid email or password" });
   }
-  res.json({ success: true, user });
+  // Issue token
+  if (!(user as any).auth_token) {
+    (user as any).auth_token = generateToken();
+    writeDB(db);
+  }
+  const safeUser = { ...user };
+  delete safeUser.password;
+  res.json({ success: true, user: safeUser, token: (user as any).auth_token });
+});
+
+// 1B. Signup alias (used by new Auth components)
+app.post("/api/auth/signup", (req, res) => {
+  const { email, password, referralCode } = req.body;
+  req.body.referral_code = referralCode;
+  // Forward to register handler params
+  // (Inline: same logic as /api/auth/register)
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required" });
+  }
+  const db = getDB();
+  const exists = db.users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+  if (exists) {
+    return res.status(400).json({ success: false, message: "User already exists" });
+  }
+  const settings = db.system_settings;
+  const signUpPoints = settings.signup_bonus || 100;
+  const assignedAlias = pseudonyms[Math.floor(Math.random() * pseudonyms.length)];
+  const user_id = "usr-" + Date.now();
+  const newUser = {
+    id: user_id, email: email.toLowerCase(), password: password, role: "user",
+    points: signUpPoints, referral_code: "SH-" + Math.random().toString(36).substring(2, 7).toUpperCase(),
+    referred_by: referralCode || undefined, kyc_status: "unsubmitted",
+    black_room_alias: assignedAlias, trust_score: 90, created_at: new Date().toISOString()
+  };
+  if (referralCode) {
+    const referrer = db.users.find((u: any) => u.referral_code === referralCode);
+    if (referrer) {
+      const bonus = Math.round(signUpPoints * (settings.referral_percent / 100));
+      referrer.points += bonus;
+      addLog(referrer.id, referrer.email, "REFERRAL_BONUS", `Credited ${bonus} points for referring ${email}`);
+    }
+  }
+  (newUser as any).auth_token = generateToken();
+  db.users.push(newUser);
+  writeDB(db);
+  addLog(newUser.id, newUser.email, "USER_REGISTER", `Registered with standard signup bonus of ${signUpPoints} points.`);
+  const safeUser = { ...newUser };
+  delete safeUser.password;
+  res.json({ success: true, user: safeUser, token: (newUser as any).auth_token });
+});
+
+// Full registration with legal name, username, phone, etc.
+app.post("/api/auth/signup/full", (req, res) => {
+  const { legalName, username, email, phone, password, referralCode } = req.body;
+  if (!legalName || !username || !email || !phone || !password) {
+    return res.status(400).json({ error: "All fields required: legalName, username, email, phone, password" });
+  }
+  if (password.length < 6) return res.status(400).json({ error: "Password must be at least 6 characters" });
+  const db = getDB();
+  const exists = db.users.find((u: any) => u.email.toLowerCase() === email.toLowerCase());
+  if (exists) return res.status(400).json({ error: "Email already registered" });
+  const usernameExists = db.users.find((u: any) => u.username && u.username.toLowerCase() === username.toLowerCase());
+  if (usernameExists) return res.status(400).json({ error: "Username already taken" });
+  const settings = db.system_settings;
+  const signUpPoints = settings.signup_bonus || 100;
+  const user_id = "usr-" + Date.now();
+  const newUser = {
+    id: user_id, legalName, username, email: email.toLowerCase(), phone,
+    password, role: "user", points: signUpPoints,
+    referral_code: "SH-" + Math.random().toString(36).substring(2, 7).toUpperCase(),
+    referred_by: referralCode || undefined, kyc_status: "unsubmitted",
+    created_at: new Date().toISOString()
+  };
+  if (referralCode) {
+    const referrer = db.users.find((u: any) => u.referral_code === referralCode);
+    if (referrer) {
+      const bonus = Math.round(50);
+      referrer.points += bonus;
+      addLog(referrer.id, referrer.email, "REFERRAL_BONUS", `Credited ${bonus} points for referring ${email}`);
+    }
+  }
+  (newUser as any).auth_token = generateToken();
+  db.users.push(newUser);
+  writeDB(db);
+  addLog(newUser.id, newUser.email, "USER_REGISTER", `Registered with full fields: ${legalName}`);
+  const safeUser = { ...newUser };
+  delete safeUser.password;
+  res.json({ success: true, user: safeUser, token: (newUser as any).auth_token });
+});
+
+// Buy points — instant credit after Paystack confirmation
+app.post("/api/points/buy/paystack", authenticate, (req: any, res) => {
+  const { amount, paymentMethod } = req.body;
+  if (!amount || amount < 500) return res.status(400).json({ error: "Minimum purchase is ₦500" });
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  const points = Math.floor(amount / 10);
+  user.points += points;
+  user.purchased_points = (user.purchased_points || 0) + points;
+  if (!db.payments) db.payments = [];
+  db.payments.push({
+    id: "pay-" + Date.now(), userId: req.user.id, userEmail: user.email,
+    amount, points, status: "completed", method: paymentMethod || "Paystack",
+    createdAt: new Date().toISOString()
+  });
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "points_purchase",
+    amount: points, description: `Bought ${points.toLocaleString()} points (₦${amount.toLocaleString()})`,
+    status: "completed", createdAt: new Date().toISOString()
+  });
+  // Referral bonus: 20 pts to referrer
+  let referralMsg = '';
+  if (user.referred_by) {
+    const referrer = db.users.find((u: any) => u.referral_code === user.referred_by);
+    if (referrer && referrer.id !== user.id) {
+      referrer.points += 20;
+      referralMsg = ` Referrer ${referrer.email} credited 20 pts.`;
+      db.transactions.push({
+        id: "tx-ref-" + Date.now(), userId: referrer.id, type: "referral_bonus",
+        amount: 20, description: `Referral bonus: ${user.email} purchased ${points} points`,
+        status: "completed", createdAt: new Date().toISOString()
+      });
+    }
+  }
+  if (!db.notifications) db.notifications = [];
+  db.notifications.push({
+    id: "notif-" + Date.now(), type: "points_purchase",
+    message: `${user.email} purchased ${points.toLocaleString()} points (₦${amount.toLocaleString()})${referralMsg}`,
+    targetRole: "admin", read: false, createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  addLog(req.user.id, req.user.email, "POINTS_PURCHASE", `Bought ${points} points for ₦${amount}.${referralMsg}`);
+  const safeUser = { ...user }; delete (safeUser as any).password; delete (safeUser as any).opay_pin;
+  res.json({ success: true, points, newBalance: user.points, user: safeUser });
+});
+
+// Admin confirm or reject a payment
+app.put("/api/admin/payment/confirm", authenticate, (req: any, res) => {
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const { paymentId, action } = req.body;
+  if (!action || !["confirm", "reject"].includes(action)) return res.status(400).json({ error: "Action must be 'confirm' or 'reject'" });
+  const db = getDB();
+  const payment = (db.payments || []).find((p: any) => p.id === paymentId);
+  if (!payment) return res.status(404).json({ error: "Payment not found" });
+  if (payment.status !== "pending_review") return res.status(400).json({ error: "Payment already processed" });
+  if (action === "confirm") {
+    const targetUser = db.users.find((u: any) => u.id === payment.userId);
+    if (targetUser) {
+      targetUser.points = (targetUser.points || 0) + payment.points;
+    }
+    payment.status = "completed";
+    payment.confirmedAt = new Date().toISOString();
+    addLog(req.user.id, req.user.email, "PAYMENT_CONFIRMED", `Confirmed payment ${paymentId}: $${payment.amount} -> ${payment.points} points for ${payment.userEmail}`);
+  } else {
+    payment.status = "rejected";
+    payment.rejectedAt = new Date().toISOString();
+    addLog(req.user.id, req.user.email, "PAYMENT_REJECTED", `Rejected payment ${paymentId}: $${payment.amount}`);
+  }
+  writeDB(db);
+  res.json({ success: true, payment });
+});
+
+// Admin: Get all payments
+app.get("/api/admin/payments", authenticate, (req: any, res) => {
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const db = getDB();
+  res.json(db.payments || []);
+});
+
+// 1C. Banks list
+app.get("/api/banks", (req, res) => {
+  const banks = [
+    { name: "Access Bank", code: "044" }, { name: "Access Bank (Diamond)", code: "063" },
+    { name: "Fidelity Bank", code: "070" }, { name: "First Bank of Nigeria", code: "011" },
+    { name: "First City Monument Bank", code: "214" }, { name: "GTBank", code: "058" },
+    { name: "Ecobank Nigeria", code: "050" }, { name: "Keystone Bank", code: "082" },
+    { name: "Polaris Bank", code: "076" }, { name: "Stanbic IBTC Bank", code: "221" },
+    { name: "Sterling Bank", code: "232" }, { name: "Union Bank of Nigeria", code: "032" },
+    { name: "United Bank For Africa", code: "033" }, { name: "Unity Bank", code: "215" },
+    { name: "Wema Bank", code: "035" }, { name: "Zenith Bank", code: "057" },
+    { name: "Jaiz Bank", code: "301" }, { name: "Suntrust Bank", code: "100" },
+    { name: "Providus Bank", code: "101" }, { name: "Parallex Bank", code: "526" },
+    { name: "ALAT by WEMA", code: "035A" }, { name: "OPay", code: "OP01" },
+    { name: "PalmPay", code: "PP01" }, { name: "Moniepoint", code: "MN01" },
+    { name: "Kuda Bank", code: "KD01" }, { name: "VFD Microfinance Bank", code: "566" },
+    { name: "Rubies Bank", code: "125" }, { name: "Globus Bank", code: "001" },
+    { name: "Titan Bank", code: "102" }, { name: "Mint Finex MFB", code: "505" },
+    { name: "Opay", code: "OP01" }
+  ];
+  res.json(banks);
 });
 
 // 2B. Session Refresh Me
@@ -703,10 +972,10 @@ app.post("/api/auth/google", (req, res) => {
 });
 
 // Update profile / KYC submit
-app.post("/api/profile/kyc", (req, res) => {
-  const { userId, name, address, idCardBase64 } = req.body;
+app.post("/api/profile/kyc", authenticate, (req: any, res) => {
+  const { name, address, idCardBase64 } = req.body;
   const db = getDB();
-  const user = db.users.find((u: any) => u.id === userId);
+  const user = db.users.find((u: any) => u.id === req.user.id);
   if (!user) return res.status(404).json({ error: "User not found" });
 
   user.kyc_status = "pending";
@@ -1517,6 +1786,11 @@ StyleHub Features you should explain confidently:
 5. Digital Goods Marketplace: List virtual services with a standard platform gas fee (5%) held completely in secure Escrow.
 6. Black Room Anonymous Trade: Anonymous chemical elements pseudonyms, broker trusts ratings, screenshot warnings, clean internal chats to buy/sell collectable digital assets with zero leak!
 7. Custom Developer Hire: Booking Jadai Studios programmers directly to implement setups.
+8. Vendor Marketplace: Register as a vendor, list products, manage sales.
+9. Chat System: Activate chat rooms with vendors for 5 points, dual-confirmation messaging.
+10. Broker Previews: Anti-screenshot broker previews with PrintScreen/Ctrl+P blocking.
+11. Airtime/Data Recharge: Recharge MTN, Glo, Airtel, 9mobile using points (₦10 = 1 point).
+12. Testimonials: Share reviews and read community feedback.
 
 Response constraint: Keep answers crisp, highly readable with clean Markdown formatting, using bullet points for features.`;
 
@@ -1582,6 +1856,16 @@ Response constraint: Keep answers crisp, highly readable with clean Markdown for
     fallbackReply = `### The Black Room Anonymous Trading Ring\nThe Black Room is a secure, completely anonymous marketplace inside StyleHub:\n- **Alias Security**: Users receive a pseudonymous chemical element name (e.g., \`🔮 Lithium\`, \`🔥 Carbon\`) during transactions. Your structural email and account parameters are fully safe from leaks.\n- **Direct Broker Integration**: Pre-seed brokers allow transaction escrow facilitation.\n- **Built-in Escrow**: Safe points holding until buyer and brokers sign-off.`;
   } else if (promptLower.includes("points") || promptLower.includes("withdraw") || promptLower.includes("usdt")) {
     fallbackReply = `### Points Economy & USDT Withdrawals\nStyleHub runs a points-based digital token ledger:\n- **Pack buying**: Credit packs via simulated Paystack checkout ($5 to $50).\n- **Cashout limits**: Cashout points at a rate of **100 points = 1 USDT**.\n- **Rules**: Minimum payout threshold is **1,000 points (10 USDT)**. User profile MUST have verified KYC status to trigger cashout requests.`;
+  } else if (promptLower.includes("vendor") || promptLower.includes("merchant") || promptLower.includes("sell") || promptLower.includes("product")) {
+    fallbackReply = `### Vendor Marketplace\nStyleHub's vendor system lets you become a merchant and sell products:\n- **Apply**: Go to the Vendor tab and register your business.\n- **Products**: List digital goods with custom names, descriptions, and point prices.\n- **Chat**: Buyers can activate chat rooms (5 pts) to discuss orders.\n- **Sales**: Track your products and total sales from your vendor dashboard.`;
+  } else if (promptLower.includes("chat") || promptLower.includes("message") || promptLower.includes("support")) {
+    fallbackReply = `### Chat System\nStyleHub features a built-in chat system for buyer-vendor communication:\n- **Activation**: Start a chat with any vendor for just **5 points**.\n- **Dual Confirmation**: Both parties must confirm before a deal closes.\n- **History**: All messages are saved in your chat rooms for reference.\n- **Refund**: Close a chat to get **2 points back**.`;
+  } else if (promptLower.includes("broker preview") || promptLower.includes("screenshot") || promptLower.includes("printscreen") || promptLower.includes("anti")) {
+    fallbackReply = `### Broker Preview System\nBroker previews are protected with anti-screenshot technology:\n- **Unlock**: Pay points to unlock a live broker preview.\n- **Protection**: PrintScreen, Ctrl+P, and right-click are blocked during preview.\n- **Iframe**: The broker dashboard is displayed in a sandboxed iframe.\n- **Exit**: Close the preview when done to return to the broker list.`;
+  } else if (promptLower.includes("airtime") || promptLower.includes("data") || promptLower.includes("recharge") || promptLower.includes("telco") || promptLower.includes("mtn") || promptLower.includes("glo") || promptLower.includes("airtel") || promptLower.includes("9mobile")) {
+    fallbackReply = `### Airtime & Data Recharge\nStyleHub lets you recharge any Nigerian mobile number using points:\n- **Rate**: **₦10 = 1 point** (e.g. ₦500 recharge costs 50 points).\n- **Networks**: MTN, Glo, Airtel, 9mobile supported.\n- **Process**: Enter phone number, select network, choose amount, and confirm.\n- **Instant**: Recharge is processed immediately from your point balance.`;
+  } else if (promptLower.includes("testimonial") || promptLower.includes("review") || promptLower.includes("feedback")) {
+    fallbackReply = `### Testimonials\nShare your StyleHub experience with the community:\n- **Add**: Post a testimonial with a rating (1-5 stars).\n- **Browse**: Read what other users say about the platform.\n- **Visible**: Testimonials appear on the homepage and vendor profiles.`;
   } else if (promptLower.includes("jadai") || promptLower.includes("owner") || promptLower.includes("studios")) {
     fallbackReply = `### Created by Jadai Studios\nStyleHub is designed, integrated, and maintained exclusively by **Jadai Studios**. Admin can custom-inject their official authenticity seal on footers, dashboards, and profile zones to guarantee total security.`;
   } else if (promptLower.includes("escrow") || promptLower.includes("payout")) {
@@ -1775,27 +2059,63 @@ app.post("/api/admin/blackroom/wipe-all", (req, res) => {
 
 // Admin Settings Save
 app.post("/api/admin/settings", (req, res) => {
-  const { currentAdminId, gas_fee_percent, signup_bonus, referral_percent, receipt_price_points, custom_emblem_html, whatsapp_url, telegram_url, support_email, groq_api_key, ai_script } = req.body;
+  const { currentAdminId, gas_fee_percent, signup_bonus, referral_percent, receipt_price_points, custom_emblem_html, whatsapp_url, telegram_url, support_email, groq_api_key, ai_script, siteName, pointsRate, minWithdrawal, withdrawalRate, news_update } = req.body;
   const db = getDB();
   const admin = db.users.find((u: any) => u.id === currentAdminId && u.role === "admin");
   if (!admin) return res.status(403).json({ error: "Access denied" });
 
+  const existing = db.system_settings || {};
   db.system_settings = {
-    gas_fee_percent: parseFloat(gas_fee_percent) || 5,
-    signup_bonus: parseInt(signup_bonus) || 50,
-    referral_percent: parseFloat(referral_percent) || 10,
-    receipt_price_points: parseInt(receipt_price_points) || 10,
-    custom_emblem_html: custom_emblem_html || "",
-    whatsapp_url: whatsapp_url || "",
-    telegram_url: telegram_url || "",
-    support_email: support_email || "",
-    groq_api_key: groq_api_key || "",
-    ai_script: ai_script || ""
+    ...existing,
+    gas_fee_percent: parseFloat(gas_fee_percent) || existing.gas_fee_percent || 5,
+    signup_bonus: parseInt(signup_bonus) || existing.signup_bonus || 100,
+    referral_percent: parseFloat(referral_percent) || existing.referral_percent || 10,
+    receipt_price_points: parseInt(receipt_price_points) || existing.receipt_price_points || 10,
+    custom_emblem_html: custom_emblem_html !== undefined ? custom_emblem_html : existing.custom_emblem_html || "",
+    whatsapp_url: whatsapp_url !== undefined ? whatsapp_url : existing.whatsapp_url || "",
+    telegram_url: telegram_url !== undefined ? telegram_url : existing.telegram_url || "",
+    support_email: support_email !== undefined ? support_email : existing.support_email || "",
+    groq_api_key: groq_api_key !== undefined ? groq_api_key : existing.groq_api_key || "",
+    ai_script: ai_script !== undefined ? ai_script : existing.ai_script || "",
+    siteName: siteName || existing.siteName || "StyleHub",
+    pointsRate: parseInt(pointsRate) || existing.pointsRate || 100,
+    minWithdrawal: parseInt(minWithdrawal) || existing.minWithdrawal || 1000,
+    withdrawalRate: parseFloat(withdrawalRate) || existing.withdrawalRate || 1,
+    news_update: news_update !== undefined ? news_update : existing.news_update || "",
+    invest_plans: existing.invest_plans || []
   };
 
   writeDB(db);
   addLog(admin.id, admin.email, "ADMIN_SETTINGS_UPDATE", "Updated universal configuration constraints, prices, URLs, and custom seal emblem.");
   res.json({ success: true, settings: db.system_settings });
+});
+
+// Admin — Send announcement / communicate with users
+app.post("/api/admin/announcement", (req, res) => {
+  const { currentAdminId, message, type } = req.body;
+  const db = getDB();
+  const admin = db.users.find((u: any) => u.id === currentAdminId && u.role === "admin");
+  if (!admin) return res.status(403).json({ error: "Access denied" });
+  if (!message || !message.trim()) return res.status(400).json({ error: "Message is required" });
+  if (!db.announcements) db.announcements = seedAnnouncements();
+  const ann = {
+    id: "ann-" + Date.now(),
+    message: message.trim(),
+    type: type || 'info',
+    createdBy: admin.email,
+    createdAt: new Date().toISOString(),
+  };
+  db.announcements.push(ann);
+  writeDB(db);
+  addLog(admin.id, admin.email, "ADMIN_ANNOUNCEMENT", `Sent announcement: ${message.substring(0, 80)}`);
+  res.json({ success: true, announcement: ann });
+});
+
+// Users — Get active announcements
+app.get("/api/announcements", (req, res) => {
+  const db = getDB();
+  const announcements = (db.announcements || []).slice(-10).reverse();
+  res.json(announcements);
 });
 
 // Admin list USR Withdrawals
@@ -1850,6 +2170,446 @@ app.post("/api/admin/wipe-database", (req, res) => {
   const finalSeed = getDB();
 
   addLog("admin-123", "admin@stylehub.com", "ADMIN_WIPE_ALL", "Triggered deep global database reset: Wiped all transactional, user registry, listing, and messaging history caches clean.");
+  res.json({ success: true });
+});
+
+// ----------------------------------------------------
+// V4.0 NEW ENDPOINTS: Admin, OPay, User, Dashboard
+// ----------------------------------------------------
+
+// Admin: Get all transactions
+app.get("/api/admin/transactions", authenticate, (req: any, res) => {
+  const db = getDB();
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const txs = db.transactions || [];
+  const enriched = txs.map((tx: any) => {
+    const u = db.users.find((usr: any) => usr.id === tx.userId);
+    return { ...tx, userEmail: u?.email || "Unknown" };
+  });
+  res.json(enriched);
+});
+
+// Admin: Adjust user points by ID
+app.put("/api/admin/users/:id/points", authenticate, (req: any, res) => {
+  const db = getDB();
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const { id } = req.params;
+  const { amount, action } = req.body;
+  const user = db.users.find((u: any) => u.id === id);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  let newPoints = user.points;
+  if (action === "add") newPoints += amount;
+  else if (action === "deduct") newPoints = Math.max(0, user.points - amount);
+  else if (action === "set") newPoints = Math.max(0, amount);
+  user.points = newPoints;
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: id, type: "admin_adjustment",
+    amount: newPoints - (user.points - amount), description: `Admin ${action} ${amount} points`,
+    status: "completed", createdAt: new Date().toISOString()
+  });
+  addLog(req.user.id, req.user.email, "POINTS_ADJUST", `Adjusted ${user.email} points by ${action} ${amount}`);
+  writeDB(db);
+  res.json({ success: true, newPoints });
+});
+
+// Admin: Update settings (PUT)
+app.put("/api/admin/settings", authenticate, (req: any, res) => {
+  const db = getDB();
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const { siteName, pointsRate, minWithdrawal, withdrawalRate } = req.body;
+  const s = db.system_settings;
+  if (siteName !== undefined) (s as any).siteName = siteName;
+  if (pointsRate !== undefined) (s as any).pointsRate = pointsRate;
+  if (minWithdrawal !== undefined) (s as any).minWithdrawal = minWithdrawal;
+  if (withdrawalRate !== undefined) (s as any).withdrawalRate = withdrawalRate;
+  addLog(req.user.id, req.user.email, "SETTINGS_UPDATE", "Global settings updated");
+  writeDB(db);
+  res.json({ success: true });
+});
+
+// Admin: Get full logs (with user email)
+app.get("/api/admin/logs/full", authenticate, (req: any, res) => {
+  const db = getDB();
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const logs = db.activity_logs || [];
+  const enriched = logs.map((l: any) => {
+    const u = db.users.find((usr: any) => usr.id === l.user_id);
+    return { ...l, userEmail: u?.email || l.user_email };
+  });
+  res.json(enriched);
+});
+
+// OPay: Generate receipt (deducts points)
+app.post("/api/opay/generate", authenticate, (req: any, res) => {
+  const { amount, recipient, reference, cost } = req.body;
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  const pointsCost = cost || 30;
+  if (user.points < pointsCost) {
+    return res.status(400).json({ error: `Insufficient points! Need ${pointsCost}, have ${user.points}` });
+  }
+  user.points -= pointsCost;
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "opay_transfer",
+    amount: -pointsCost, description: `OPay transfer to ${recipient} - ₦${amount}`,
+    status: "completed", createdAt: new Date().toISOString()
+  });
+  if (!db.receipts) db.receipts = [];
+  db.receipts.push({
+    id: "rec-" + Date.now(), userId: req.user.id, platform: "opay",
+    data: { amount: parseFloat(amount), recipient, reference, cost: pointsCost },
+    createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  res.json({ success: true, cost: pointsCost, newBalance: user.points });
+});
+
+// OPay: Lookup account name
+app.post("/api/opay/lookup-account", (req: any, res) => {
+  const { accountNumber } = req.body;
+  const names = [
+    "Chidi Okonkwo", "Adeola Balogun", "Oluwaseun Ogunleye",
+    "Ngozi Eze", "Emeka Okafor", "Fatima Bello",
+    "Tunde Adebayo", "Zainab Abubakar", "Chinonso Nwosu",
+    "Funmi Ogunbiyi", "Segun Akinlade", "Ifeanyi Uche"
+  ];
+  const name = names[Math.floor(Math.random() * names.length)];
+  res.json({ accountName: name, status: "success" });
+});
+
+// User: Get current user profile
+app.get("/api/user/me", authenticate, (req: any, res) => {
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  const safeUser = { ...user } as any;
+  delete safeUser.password;
+  delete safeUser.auth_token;
+  res.json(safeUser);
+});
+
+// User: Get own transactions
+app.get("/api/user/transactions", authenticate, (req: any, res) => {
+  const db = getDB();
+  const txs = (db.transactions || [])
+    .filter((tx: any) => tx.userId === req.user.id)
+    .reverse();
+  res.json(txs);
+});
+
+// User: Request withdrawal
+app.post("/api/points/withdraw", authenticate, (req: any, res) => {
+  const { amount, bankDetails } = req.body;
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  const settings = db.system_settings || {};
+  const minWd = (settings as any).minWithdrawal || 1000;
+  if (amount < minWd) {
+    return res.status(400).json({ error: `Minimum withdrawal is ${minWd} points` });
+  }
+  if (user.points < amount) {
+    return res.status(400).json({ error: "Insufficient points" });
+  }
+  user.points -= amount;
+  if (!db.withdrawal_requests) db.withdrawal_requests = [];
+  db.withdrawal_requests.push({
+    id: "wd-" + Date.now(), user_id: req.user.id, user_email: user.email,
+    amount_points: amount, bank_details: bankDetails || "Bank transfer pending",
+    status: "pending", created_at: new Date().toISOString()
+  });
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "withdrawal_request",
+    amount: -amount, description: `Withdrawal request of ${amount} points`, status: "pending",
+    createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  res.json({ success: true, message: "Withdrawal request submitted.", newBalance: user.points });
+});
+
+// User: Buy points — instant credit + referral bonus + admin log
+app.post("/api/points/buy/v4", authenticate, (req: any, res) => {
+  const { amount } = req.body;
+  if (!amount || amount < 500) return res.status(400).json({ error: "Minimum purchase is ₦500" });
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(404).json({ error: "User not found" });
+  const points = Math.floor(amount / 10);
+  user.points += points;
+  user.purchased_points = (user.purchased_points || 0) + points;
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "points_purchase",
+    amount: points, description: `Bought ${points.toLocaleString()} points (₦${amount.toLocaleString()})`,
+    status: "completed", createdAt: new Date().toISOString()
+  });
+  if (!db.payments) db.payments = [];
+  db.payments.push({
+    id: "pay-" + Date.now(), userId: req.user.id, userEmail: user.email,
+    amount, points, status: "completed", method: "Paystack",
+    createdAt: new Date().toISOString()
+  });
+  // Referral bonus: 20 pts to referrer on every topup
+  let referralMsg = '';
+  if (user.referred_by) {
+    const referrer = db.users.find((u: any) => u.referral_code === user.referred_by);
+    if (referrer && referrer.id !== user.id) {
+      referrer.points += 20;
+      referralMsg = ` Referrer ${referrer.email} credited 20 pts.`;
+      db.transactions.push({
+        id: "tx-ref-" + Date.now(), userId: referrer.id, type: "referral_bonus",
+        amount: 20, description: `Referral bonus: ${user.email} purchased ${points} points`,
+        status: "completed", createdAt: new Date().toISOString()
+      });
+    }
+  }
+  if (!db.notifications) db.notifications = [];
+  db.notifications.push({
+    id: "notif-" + Date.now(), type: "points_purchase",
+    message: `${user.email} purchased ${points.toLocaleString()} points (₦${amount.toLocaleString()})${referralMsg}`,
+    targetRole: "admin", read: false, createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  addLog(user.id, user.email, "POINTS_PURCHASE", `Bought ${points} points for ₦${amount}.${referralMsg}`);
+  const safeUser = { ...user }; delete (safeUser as any).password; delete (safeUser as any).opay_pin;
+  res.json({ success: true, points, newBalance: user.points, user: safeUser });
+});
+
+// Fund wallet via Paystack — instant credit after verification + referral bonus
+app.post("/api/points/fund/paystack", authenticate, async (req: any, res) => {
+  try {
+    const { reference, amount } = req.body;
+    if (!reference || !amount || amount < 500) {
+      return res.status(400).json({ error: "Invalid reference or amount (min ₦500)" });
+    }
+    const secretKey = process.env.PAYSTACK_SECRET_KEY;
+    if (!secretKey) {
+      return res.status(500).json({ error: "Payment gateway not configured. Contact admin." });
+    }
+    const verifyRes = await fetch(`https://api.paystack.co/transaction/verify/${reference}`, {
+      headers: { Authorization: `Bearer ${secretKey}` }
+    });
+    const verifyData = await verifyRes.json();
+    if (!verifyData.status || verifyData.data.status !== 'success') {
+      return res.status(400).json({ error: "Payment verification failed. Ensure payment was completed." });
+    }
+    const paidAmount = verifyData.data.amount / 100;
+    if (Math.abs(paidAmount - amount) > 1) {
+      return res.status(400).json({ error: "Amount mismatch between payment and request" });
+    }
+    const db = getDB();
+    const user = db.users.find((u: any) => u.id === req.user.id);
+    if (!user) return res.status(404).json({ error: "User not found" });
+    const points = Math.floor(amount / 10);
+    user.points += points;
+    user.purchased_points = (user.purchased_points || 0) + points;
+    if (!db.transactions) db.transactions = [];
+    db.transactions.push({
+      id: "tx-" + Date.now(), userId: req.user.id, type: "points_fund",
+      amount: points, description: `Funded ₦${amount.toLocaleString()} via Paystack (${reference})`,
+      status: "completed", createdAt: new Date().toISOString()
+    });
+    if (!db.payments) db.payments = [];
+    db.payments.push({
+      id: "pay-" + Date.now(), userId: req.user.id, userEmail: user.email,
+      amount, points, status: "completed", method: "Paystack", reference,
+      createdAt: new Date().toISOString()
+    });
+    // Referral bonus: 20 pts to referrer
+    let referralMsg = '';
+    if (user.referred_by) {
+      const referrer = db.users.find((u: any) => u.referral_code === user.referred_by);
+      if (referrer && referrer.id !== user.id) {
+        referrer.points += 20;
+        referralMsg = ` Referrer ${referrer.email} credited 20 pts.`;
+        db.transactions.push({
+          id: "tx-ref-" + Date.now(), userId: referrer.id, type: "referral_bonus",
+          amount: 20, description: `Referral bonus: ${user.email} topped up ₦${amount.toLocaleString()}`,
+          status: "completed", createdAt: new Date().toISOString()
+        });
+      }
+    }
+    if (!db.notifications) db.notifications = [];
+    db.notifications.push({
+      id: "notif-" + Date.now(), type: "fund_wallet",
+      message: `${user.email} funded ₦${amount.toLocaleString()} via Paystack — ${points} pts auto-credited${referralMsg}`,
+      targetRole: "admin", read: false, createdAt: new Date().toISOString()
+    });
+    writeDB(db);
+    addLog(user.id, user.email, "WALLET_FUNDED", `Funded ₦${amount.toLocaleString()} via Paystack. ${points} points credited.${referralMsg}`);
+    const safeUser = { ...user }; delete (safeUser as any).password; delete (safeUser as any).opay_pin;
+    res.json({ success: true, points, newBalance: user.points, user: safeUser });
+  } catch (err) {
+    console.error('Paystack fund error:', err);
+    res.status(500).json({ error: "Payment verification failed. Contact support." });
+  }
+});
+
+// Admin reverse a completed payment
+app.post("/api/admin/payment/reverse", authenticate, (req: any, res) => {
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  const { paymentId } = req.body;
+  const db = getDB();
+  const payment = (db.payments || []).find((p: any) => p.id === paymentId);
+  if (!payment) return res.status(404).json({ error: "Payment not found" });
+  if (payment.status !== "completed") return res.status(400).json({ error: "Can only reverse completed payments" });
+  const targetUser = db.users.find((u: any) => u.id === payment.userId);
+  if (targetUser) {
+    targetUser.points = Math.max(0, targetUser.points - payment.points);
+    targetUser.purchased_points = Math.max(0, (targetUser.purchased_points || 0) - payment.points);
+  }
+  payment.status = "reversed";
+  payment.reversedAt = new Date().toISOString();
+  payment.reversedBy = req.user.id;
+  // Revoke referral bonus if exists
+  if (targetUser?.referred_by) {
+    const referrer = db.users.find((u: any) => u.referral_code === targetUser.referred_by);
+    if (referrer) {
+      referrer.points = Math.max(0, referrer.points - 20);
+      db.transactions.push({
+        id: "tx-revref-" + Date.now(), userId: referrer.id, type: "referral_reversal",
+        amount: -20, description: `Referral bonus reversed: ${targetUser.email} payment reversed`,
+        status: "completed", createdAt: new Date().toISOString()
+      });
+    }
+  }
+  addLog(req.user.id, req.user.email, "PAYMENT_REVERSED", `Reversed payment ${paymentId}: ${payment.points} pts deducted from ${payment.userEmail}`);
+  writeDB(db);
+  res.json({ success: true, payment });
+});
+
+// Investments: List plans
+app.get("/api/invest/plans", (req, res) => {
+  const db = getDB();
+  const plans = (db.system_settings as any)?.invest_plans;
+  if (plans && plans.length > 0) return res.json(plans);
+  res.json([
+    { id: "inv-1", name: "Starter", minDeposit: 100, dailyReturn: 0.5, duration: 7, desc: "7-day plan, 0.5% daily return" },
+    { id: "inv-2", name: "Growth", minDeposit: 500, dailyReturn: 1.0, duration: 14, desc: "14-day plan, 1% daily return" },
+    { id: "inv-3", name: "Premium", minDeposit: 2000, dailyReturn: 1.5, duration: 30, desc: "30-day plan, 1.5% daily return" },
+    { id: "inv-4", name: "Elite", minDeposit: 10000, dailyReturn: 2.5, duration: 60, desc: "60-day plan, 2.5% daily return" },
+  ]);
+});
+
+// Investments: My investments
+app.get("/api/invest/my", authenticate, (req: any, res) => {
+  const db = getDB();
+  const my = (db.investments || []).filter((i: any) => i.userId === req.user.id);
+  res.json(my);
+});
+
+// Investments: Deposit (create investment)
+app.post("/api/invest/deposit", authenticate, (req: any, res) => {
+  const { planId } = req.body;
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  const plans = (db.system_settings as any).invest_plans || [];
+  const plan = plans.find((p: any) => p.id === planId);
+  if (!plan) return res.status(400).json({ error: "Invalid plan" });
+  const amount = plan.minDeposit;
+  if (user.points < amount) return res.status(400).json({ error: `Insufficient points. Need ${amount} pts` });
+  user.points -= amount;
+  const inv = {
+    id: "inv-" + Date.now(), userId: req.user.id, planId: plan.id, planName: plan.name,
+    amount, dailyReturn: plan.dailyReturn, duration: plan.duration,
+    startDate: new Date().toISOString(), endDate: new Date(Date.now() + plan.duration * 86400000).toISOString(),
+    status: "active", totalReturn: 0, lastClaim: null
+  };
+  if (!db.investments) db.investments = [];
+  db.investments.push(inv);
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "investment_deposit",
+    amount: -amount, description: `Invested ${amount} pts in ${plan.name} plan`, status: "completed",
+    createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  res.json({ success: true, investment: inv, newBalance: user.points });
+});
+
+// Investments: Claim returns
+app.post("/api/invest/claim", authenticate, (req: any, res) => {
+  const { investmentId } = req.body;
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  const inv = (db.investments || []).find((i: any) => i.id === investmentId && i.userId === req.user.id);
+  if (!inv) return res.status(404).json({ error: "Investment not found" });
+  if (inv.status !== "active") return res.status(400).json({ error: "Investment is not active" });
+  const now = Date.now();
+  const start = new Date(inv.startDate).getTime();
+  const elapsedDays = Math.floor((now - start) / 86400000);
+  if (elapsedDays <= 0) return res.status(400).json({ error: "No returns available yet" });
+  const maxDays = Math.min(elapsedDays, inv.duration);
+  const returnAmt = Math.floor(inv.amount * (inv.dailyReturn / 100) * maxDays);
+  const claimed = inv.totalReturn || 0;
+  const available = returnAmt - claimed;
+  if (available <= 0) return res.status(400).json({ error: "No returns available to claim" });
+  user.points += available;
+  inv.totalReturn = returnAmt;
+  inv.lastClaim = new Date().toISOString();
+  if (elapsedDays >= inv.duration) {
+    inv.status = "completed";
+    user.points += inv.amount;
+  }
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "investment_return",
+    amount: available, description: `Claimed ${available} pts from ${inv.planName}`, status: "completed",
+    createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  res.json({ success: true, claimed: available, newBalance: user.points, investment: inv });
+});
+
+// Shop: List products
+app.get("/api/shop/products", (req, res) => {
+  const db = getDB();
+  res.json(db.shop_products || []);
+});
+
+// Shop: Buy product
+app.post("/api/shop/buy", authenticate, (req: any, res) => {
+  const { productId } = req.body;
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  const product = (db.shop_products || []).find((p: any) => p.id === productId);
+  if (!product) return res.status(400).json({ error: "Product not found" });
+  if (user.points < product.price) return res.status(400).json({ error: `Insufficient points. Need ${product.price} pts` });
+  user.points -= product.price;
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "shop_purchase",
+    amount: -product.price, description: `Bought ${product.name} for ${product.price} pts`, status: "completed",
+    createdAt: new Date().toISOString()
+  });
+  writeDB(db);
+  res.json({ success: true, product, newBalance: user.points });
+});
+
+// Dashboard: Stats for current user
+app.get("/api/dashboard/stats", authenticate, (req: any, res) => {
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  const txs = (db.transactions || []).filter((tx: any) => tx.userId === req.user.id);
+  const stats = {
+    totalPoints: user.points || 0,
+    totalTransactions: txs.length,
+    totalReceived: txs.filter((t: any) => t.amount > 0).reduce((s: number, t: any) => s + t.amount, 0),
+    totalSpent: txs.filter((t: any) => t.amount < 0).reduce((s: number, t: any) => s + Math.abs(t.amount), 0)
+  };
+  res.json(stats);
+});
+
+// User: Telegram join verification
+app.post("/api/user/telegram-join", authenticate, (req: any, res) => {
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  (user as any).telegramJoined = true;
+  writeDB(db);
   res.json({ success: true });
 });
 
@@ -2243,10 +3003,434 @@ app.post("/api/online-brokers/delete", (req, res) => {
 
 
 // ----------------------------------------------------
-// VITE CONTROLLERS
+// V4.0 PART 2 ENDPOINTS: Vendors, Chat, Brokers Preview, Telco, Testimonials, AI
 // ----------------------------------------------------
+
+// ------- VENDOR ENDPOINTS -------
+
+// List all approved vendors
+app.get("/api/vendors/list", (req, res) => {
+  const db = getDB();
+  res.json(db.vendors || []);
+});
+
+// Apply or update vendor profile
+app.post("/api/vendors/apply", authenticate, (req: any, res) => {
+  const { businessName, description, contact } = req.body;
+  const db = getDB();
+  const existing = db.vendors.find((v: any) => v.userId === req.user.id);
+  if (existing) {
+    existing.businessName = businessName || existing.businessName;
+    existing.description = description || existing.description;
+    existing.contact = contact || existing.contact;
+    existing.updatedAt = new Date().toISOString();
+    writeDB(db);
+    return res.json({ success: true, vendor: existing });
+  }
+  const vendor = {
+    id: "vendor-" + Date.now(),
+    userId: req.user.id,
+    userEmail: req.user.email,
+    businessName: businessName || req.user.email.split("@")[0],
+    description: description || "Registered StyleHub vendor",
+    contact: contact || "",
+    rating: 5,
+    totalSales: 0,
+    status: "active",
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString()
+  };
+  db.vendors.push(vendor);
+  addLog(req.user.id, req.user.email, "VENDOR_APPLY", `Registered as vendor: ${vendor.businessName}`);
+  writeDB(db);
+  res.json({ success: true, vendor });
+});
+
+// Get current user's vendor profile
+app.get("/api/vendor/my", authenticate, (req: any, res) => {
+  const db = getDB();
+  const vendor = db.vendors.find((v: any) => v.userId === req.user.id);
+  if (!vendor) return res.status(404).json({ error: "You are not registered as a vendor" });
+  res.json(vendor);
+});
+
+// Update vendor name
+app.put("/api/vendor/name", authenticate, (req: any, res) => {
+  const { businessName } = req.body;
+  const db = getDB();
+  const vendor = db.vendors.find((v: any) => v.userId === req.user.id);
+  if (!vendor) return res.status(404).json({ error: "Vendor profile not found" });
+  vendor.businessName = businessName;
+  vendor.updatedAt = new Date().toISOString();
+  addLog(req.user.id, req.user.email, "VENDOR_NAME_CHANGE", `Changed business name to: ${businessName}`);
+  writeDB(db);
+  res.json({ success: true, vendor });
+});
+
+// Create product listing
+app.post("/api/vendor/products/create", authenticate, (req: any, res) => {
+  const { title, description, pricePoints, category, image } = req.body;
+  const db = getDB();
+  const vendor = db.vendors.find((v: any) => v.userId === req.user.id);
+  if (!vendor) return res.status(403).json({ error: "Only registered vendors can create products" });
+  const product = {
+    id: "prod-" + Date.now(),
+    vendorId: vendor.id,
+    vendorName: vendor.businessName,
+    title: title || "Untitled Product",
+    description: description || "",
+    pricePoints: parseInt(pricePoints) || 10,
+    category: category || "general",
+    image: image || "",
+    status: "active",
+    createdAt: new Date().toISOString()
+  };
+  if (!db.products) db.products = [];
+  db.products.push(product);
+  addLog(req.user.id, req.user.email, "PRODUCT_CREATE", `Created product: ${product.title} for ${product.pricePoints} pts`);
+  writeDB(db);
+  res.json({ success: true, product });
+});
+
+// Get vendor products
+app.get("/api/vendor/products", authenticate, (req: any, res) => {
+  const db = getDB();
+  const vendor = db.vendors.find((v: any) => v.userId === req.user.id);
+  if (!vendor) return res.status(404).json({ error: "Vendor not found" });
+  const products = (db.products || []).filter((p: any) => p.vendorId === vendor.id);
+  res.json(products);
+});
+
+// Get all products (marketplace)
+app.get("/api/products/list", (req, res) => {
+  const db = getDB();
+  res.json(db.products || []);
+});
+
+// Buy a product
+app.post("/api/products/buy", authenticate, (req: any, res) => {
+  const { productId } = req.body;
+  const db = getDB();
+  const product = (db.products || []).find((p: any) => p.id === productId);
+  if (!product) return res.status(404).json({ error: "Product not found" });
+  if (product.status !== "active") return res.status(400).json({ error: "Product not available" });
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  if (user.points < product.pricePoints) {
+    return res.status(400).json({ error: `Insufficient points. Need ${product.pricePoints}, have ${user.points}` });
+  }
+  user.points -= product.pricePoints;
+  product.status = "sold";
+  product.buyerId = req.user.id;
+  const vendor = db.vendors.find((v: any) => v.id === product.vendorId);
+  if (vendor) vendor.totalSales = (vendor.totalSales || 0) + 1;
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "product_purchase",
+    amount: -product.pricePoints, description: `Bought: ${product.title} from ${product.vendorName}`,
+    status: "completed", createdAt: new Date().toISOString()
+  });
+  addLog(req.user.id, req.user.email, "PRODUCT_BUY", `Purchased ${product.title} for ${product.pricePoints} pts`);
+  writeDB(db);
+  res.json({ success: true, product, newBalance: user.points });
+});
+
+// ------- CHAT ENDPOINTS -------
+
+// Activate a chat room with vendor
+app.post("/api/chat/activate", authenticate, (req: any, res) => {
+  const { vendorId, vendorName } = req.body;
+  const db = getDB();
+  const cost = 5; // 5 points to start a chat
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  if (user.points < cost) {
+    return res.status(400).json({ error: `Chat activation costs ${cost} points. You have ${user.points}` });
+  }
+  // Check if chat already exists
+  const existing = (db.chatRooms || []).find((c: any) => c.userId === req.user.id && c.vendorId === vendorId);
+  if (existing) {
+    return res.json({ success: true, room: existing, alreadyActive: true });
+  }
+  user.points -= cost;
+  const newRoom = {
+    id: "chat-" + Date.now(),
+    userId: req.user.id,
+    userName: user.email.split("@")[0],
+    vendorId: vendorId || "vendor-general",
+    vendorName: vendorName || "StyleHub Support",
+    status: "active",
+    messages: [
+      {
+        id: "sys-" + Date.now(),
+        sender: "vendor",
+        content: `Welcome to the chat with ${vendorName || "StyleHub Support"}! How can we help you today?`,
+        timestamp: new Date().toISOString()
+      }
+    ],
+    createdAt: new Date().toISOString()
+  };
+  if (!db.chatRooms) db.chatRooms = [];
+  db.chatRooms.push(newRoom);
+  addLog(req.user.id, req.user.email, "CHAT_ACTIVATE", `Activated chat room with ${vendorName}`);
+  writeDB(db);
+  res.json({ success: true, room: newRoom, cost });
+});
+
+// Get user's chat rooms
+app.get("/api/chat/rooms", authenticate, (req: any, res) => {
+  const db = getDB();
+  const rooms = (db.chatRooms || []).filter((c: any) => c.userId === req.user.id);
+  res.json(rooms);
+});
+
+// Get messages for a specific room
+app.get("/api/chat/room/:roomId/messages", authenticate, (req: any, res) => {
+  const db = getDB();
+  const room = (db.chatRooms || []).find((c: any) => c.id === req.params.roomId && c.userId === req.user.id);
+  if (!room) return res.status(404).json({ error: "Chat room not found" });
+  res.json(room.messages || []);
+});
+
+// Send message in a chat room
+app.post("/api/chat/room/:roomId/message", authenticate, (req: any, res) => {
+  const { content } = req.body;
+  const db = getDB();
+  const room = (db.chatRooms || []).find((c: any) => c.id === req.params.roomId && c.userId === req.user.id);
+  if (!room) return res.status(404).json({ error: "Chat room not found" });
+  const msg = {
+    id: "msg-" + Date.now(),
+    sender: "user",
+    content: content || "...",
+    timestamp: new Date().toISOString()
+  };
+  room.messages.push(msg);
+  writeDB(db);
+  res.json({ success: true, message: msg });
+});
+
+// Close a chat room (refund 2 points)
+app.post("/api/chat/room/:roomId/close", authenticate, (req: any, res) => {
+  const db = getDB();
+  const room = (db.chatRooms || []).find((c: any) => c.id === req.params.roomId && c.userId === req.user.id);
+  if (!room) return res.status(404).json({ error: "Chat room not found" });
+  room.status = "closed";
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (user) user.points += 2; // refund 2 points
+  writeDB(db);
+  res.json({ success: true, message: "Chat closed. 2 points refunded." });
+});
+
+// Admin: Get all chat rooms (for admin panel)
+app.get("/api/admin/chats", authenticate, (req: any, res) => {
+  if (req.user.role !== "admin") return res.status(403).json({ error: "Admin only" });
+  res.json(getDB().chatRooms || []);
+});
+
+// ------- BROKER PREVIEW ENDPOINTS -------
+
+// Unlock a broker preview
+app.post("/api/brokers/preview/unlock", authenticate, (req: any, res) => {
+  const { brokerId } = req.body;
+  const db = getDB();
+  const broker = db.brokers?.find((b: any) => b.id === brokerId);
+  if (!broker) return res.status(404).json({ error: "Broker not found" });
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  const unlockCost = broker.price_points || 25;
+  if (user.points < unlockCost) {
+    return res.status(400).json({ error: `Unlock costs ${unlockCost} points. You have ${user.points}` });
+  }
+  user.points -= unlockCost;
+  if (!db.user_unlocked_brokers) db.user_unlocked_brokers = [];
+  db.user_unlocked_brokers.push({
+    id: "unl-" + Date.now(),
+    userId: req.user.id,
+    brokerId,
+    type: "preview",
+    unlockedAt: new Date().toISOString()
+  });
+  addLog(req.user.id, req.user.email, "BROKER_PREVIEW_UNLOCK", `Unlocked preview for broker ${broker.alias || brokerId}`);
+  writeDB(db);
+  res.json({ success: true, cost: unlockCost, newBalance: user.points, broker });
+});
+
+// Get user's unlocked broker previews
+app.get("/api/broker/previews", authenticate, (req: any, res) => {
+  const db = getDB();
+  const unlocked = (db.user_unlocked_brokers || []).filter((u: any) => u.userId === req.user.id && u.type === "preview");
+  const previews = unlocked.map((u: any) => {
+    const broker = db.brokers?.find((b: any) => b.id === u.brokerId);
+    return { ...u, broker: broker || null };
+  });
+  res.json(previews);
+});
+
+// ------- TELCO RECHARGE ENDPOINT -------
+
+app.post("/api/telco/recharge", authenticate, (req: any, res) => {
+  const { phone, network, amount } = req.body;
+  if (!phone || !network || !amount) {
+    return res.status(400).json({ error: "Phone, network, and amount are required" });
+  }
+  const db = getDB();
+  const user = db.users.find((u: any) => u.id === req.user.id);
+  if (!user) return res.status(401).json({ error: "User not found" });
+  const pointsCost = 150;
+  if (user.points < pointsCost) {
+    return res.status(400).json({ error: `Need ${pointsCost} points for ₦${amount} recharge. You have ${user.points}` });
+  }
+  user.points -= pointsCost;
+  if (!db.transactions) db.transactions = [];
+  db.transactions.push({
+    id: "tx-" + Date.now(), userId: req.user.id, type: "telco_recharge",
+    amount: -pointsCost, description: `${network} recharge of ₦${amount} to ${phone}`,
+    status: "completed", createdAt: new Date().toISOString()
+  });
+  addLog(req.user.id, req.user.email, "TELCO_RECHARGE", `Recharged ${network} ₦${amount} to ${phone}`);
+  writeDB(db);
+  res.json({ success: true, cost: pointsCost, newBalance: user.points, message: `${network} ₦${amount} sent to ${phone} successfully!` });
+});
+
+// ------- TESTIMONIALS ENDPOINTS -------
+
+// Get all testimonials
+app.get("/api/testimonials", (req, res) => {
+  const db = getDB();
+  res.json(db.testimonials || []);
+});
+
+// Add a testimonial
+app.post("/api/testimonials", authenticate, (req: any, res) => {
+  const { content, rating } = req.body;
+  if (!content) return res.status(400).json({ error: "Content is required" });
+  const db = getDB();
+  const testimonial = {
+    id: "test-" + Date.now(),
+    userId: req.user.id,
+    userName: req.user.email.split("@")[0],
+    content,
+    rating: Math.min(5, Math.max(1, parseInt(rating) || 5)),
+    createdAt: new Date().toISOString()
+  };
+  if (!db.testimonials) db.testimonials = [];
+  db.testimonials.unshift(testimonial);
+  writeDB(db);
+  res.json({ success: true, testimonial });
+});
+
+﻿app.post("/api/opay/fund", authenticate, (req: any, res) => {
+const { amount } = req.body;
+if (!amount || amount < 100) return res.status(400).json({ error: "Min 100" });
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+if (user.points < amount) return res.status(400).json({ error: "Insufficient pts" });
+user.points -= amount; db.transactions = db.transactions || [];
+db.transactions.push({ id: "tx-" + Date.now(), userId: req.user.id, type: "opay_fund", amount: -amount, description: "Fund N" + amount, status: "completed", createdAt: new Date().toISOString() });
+writeDB(db); res.json({ success: true, newBalance: user.points, opayBalance: amount });
+});
+app.post("/api/opay/withdraw-deduction", authenticate, (req: any, res) => {
+const { amount } = req.body;
+if (!amount || amount < 100) return res.status(400).json({ error: "Min 100" });
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+if (user.points < amount) return res.status(400).json({ error: "Insufficient pts" });
+user.points -= amount;
+db.transactions.push({ id: "tx-" + Date.now(), userId: req.user.id, type: "opay_withdraw", amount: -amount, description: "Withdraw N" + amount, status: "completed", createdAt: new Date().toISOString() });
+writeDB(db); res.json({ success: true, newBalance: user.points });
+});
+app.post("/api/opay/set-pin", authenticate, (req: any, res) => {
+const { pin } = req.body;
+if (!pin || pin.length !== 4 || !/^\d{4}$/.test(pin)) return res.status(400).json({ error: "PIN must be 4 digits" });
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+user.opay_pin = pin; writeDB(db); res.json({ success: true });
+});
+app.get("/api/opay/pin-status", authenticate, (req: any, res) => {
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+res.json({ hasPin: !!user?.opay_pin });
+});
+app.post("/api/opay/verify-pin", authenticate, (req: any, res) => {
+const { pin } = req.body;
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+if (!user.opay_pin) return res.status(400).json({ error: "No PIN set" });
+if (user.opay_pin !== pin) return res.status(400).json({ error: "Incorrect PIN" });
+res.json({ success: true });
+});
+app.get("/api/opay/history", authenticate, (req: any, res) => {
+const db = getDB(); const txs = (db.opay_transactions || []).filter((tx) => tx.userId === req.user.id).reverse(); res.json(txs);
+});
+app.post("/api/opay/history/sync", authenticate, (req: any, res) => {
+const { transactions } = req.body;
+if (!Array.isArray(transactions)) return res.status(400).json({ error: "Invalid data" });
+const db = getDB(); if (!db.opay_transactions) db.opay_transactions = [];
+const existing = new Set(db.opay_transactions.map((tx) => tx.id));
+const newTxs = transactions.filter((tx) => !existing.has(tx.id)).map((tx) => ({ ...tx, userId: req.user.id }));
+db.opay_transactions.push(...newTxs); writeDB(db);
+res.json({ success: true, synced: newTxs.length });
+});
+app.get("/api/notifications", authenticate, (req: any, res) => {
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+const since = req.query.since || new Date(0).toISOString();
+const notifs = [];
+(db.transactions || []).filter((tx) => tx.userId === req.user.id && tx.createdAt > since).slice(-5).forEach((tx) => notifs.push({ id: "ntx-" + tx.id, type: "transaction", message: tx.description || tx.type, createdAt: tx.createdAt }));
+(db.announcements || []).filter((a) => a.createdAt > since).forEach((a) => notifs.push({ id: "nann-" + a.id, type: "announcement", message: a.message, createdAt: a.createdAt }));
+if (!user.lastNotifSeen) user.lastNotifSeen = since;
+const unread = (db.transactions || []).filter((tx) => tx.userId === req.user.id && tx.createdAt > user.lastNotifSeen).length;
+writeDB(db);
+res.json({ notifications: notifs.sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 20), unreadCount: unread });
+});
+app.post("/api/notifications/mark-read", authenticate, (req: any, res) => {
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+user.lastNotifSeen = new Date().toISOString(); writeDB(db);
+res.json({ success: true });
+});
+app.post("/api/user/profile", authenticate, (req: any, res) => {
+const { displayName } = req.body;
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+if (displayName) user.displayName = displayName; writeDB(db); res.json({ success: true, user });
+});
+app.post("/api/user/password", authenticate, (req: any, res) => {
+const { currentPassword, newPassword } = req.body;
+if (!currentPassword || !newPassword || newPassword.length < 6) return res.status(400).json({ error: "Password min 6 chars" });
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+if (user.password !== currentPassword) return res.status(400).json({ error: "Current password is incorrect" });
+user.password = newPassword; writeDB(db); res.json({ success: true, message: "Password updated" });
+});
+app.get("/api/user/purchases", authenticate, (req: any, res) => {
+const db = getDB(); const purchases = (db.transactions || []).filter((tx) => tx.userId === req.user.id && (tx.type === "shop_purchase" || tx.type === "product_purchase")).reverse(); res.json(purchases);
+});
+app.post("/api/auth/send-verification", authenticate, (req: any, res) => {
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+const code = Math.floor(100000 + Math.random() * 900000).toString();
+user.verificationCode = code; user.verificationExpiry = new Date(Date.now() + 1800000).toISOString();
+writeDB(db); console.log("[EMAIL] Code: " + code); res.json({ success: true, code });
+});
+app.post("/api/auth/verify-email", authenticate, (req: any, res) => {
+const { code } = req.body;
+const db = getDB(); const user = db.users.find((u) => u.id === req.user.id);
+if (!user.verificationCode || user.verificationCode !== code) return res.status(400).json({ error: "Invalid code" });
+if (new Date(user.verificationExpiry) < new Date()) return res.status(400).json({ error: "Code expired" });
+user.verified = true; delete user.verificationCode; delete user.verificationExpiry; writeDB(db);
+res.json({ success: true, message: "Email verified" });
+});
+// ------- ENHANCED AI KEYWORD FALLBACK -------
+// Seed announcements on first run
+function seedAnnouncements() {
+  const now = new Date().toISOString();
+  return [
+    { id: "ann-seed-1", message: "Welcome to StyleHub v4.1! Experience our new OPay Transfer, Shop Marketplace, and AI Assistant.", type: "info", createdBy: "admin", createdAt: now },
+    { id: "ann-seed-2", message: "Complete your KYC verification to unlock withdrawals and premium features.", type: "warning", createdBy: "admin", createdAt: now },
+    { id: "ann-seed-3", message: "Refer friends and earn 100 bonus points per signup! Share your referral code.", type: "alert", createdBy: "admin", createdAt: now },
+  ];
+}
+
 async function runServer() {
+  // Seed announcements
+  const initDB = getDB();
+  if (!initDB.announcements || initDB.announcements.length === 0) {
+    initDB.announcements = seedAnnouncements();
+    writeDB(initDB);
+  }
   if (process.env.NODE_ENV !== "production") {
+    const { createServer: createViteServer } = await import("vite");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa"

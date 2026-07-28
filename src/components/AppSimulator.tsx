@@ -60,10 +60,11 @@ export default function AppSimulator({
   const [remarkCategory, setRemarkCategory] = useState<'Purchase' | 'Personal' | null>(null);
   const [activeTab, setActiveTab] = useState<'recents' | 'favourites'>('recents');
   const [historyFilter, setHistoryFilter] = useState<'all' | 'incoming' | 'outgoing'>('outgoing');
+  const [editableSenderName, setEditableSenderName] = useState(senderName);
 
   const quickAmounts = [500, 1000, 2000, 5000, 10000, 20000];
   const freeTransfersLeft = 3;
-  const pointsPerNaira = 1; // 1 point = 1 NGN
+  const pointsPerNaira = 0.01; // 1 point = ₦100 value
   const neededPoints = parseInt(transferAmount || '0') * pointsPerNaira;
 
   useEffect(() => {
@@ -314,6 +315,18 @@ export default function AppSimulator({
           </div>
         </div>
 
+        {/* Editable sender name */}
+        <div className="mx-4 mt-3">
+          <span className="text-[9px] font-bold text-gray-500 block mb-1">Transferring from</span>
+          <input
+            type="text"
+            value={editableSenderName}
+            onChange={(e) => setEditableSenderName(e.target.value.toUpperCase())}
+            className="w-full bg-white rounded-xl border border-gray-200 px-4 py-2.5 text-xs font-semibold text-gray-700 outline-none"
+            placeholder="Your account name"
+          />
+        </div>
+
         <div className="mx-4 mt-3 bg-white rounded-xl border border-gray-200 px-4 py-3 flex items-center gap-2">
           <input
             type="text"
@@ -337,8 +350,13 @@ export default function AppSimulator({
             <div className="w-8 h-8 rounded-full bg-green-200 flex items-center justify-center text-xs font-bold text-green-700">
               {recipientName.charAt(0)}
             </div>
-            <div>
-              <span className="text-xs font-bold text-gray-900 block">{recipientName}</span>
+            <div className="flex-1">
+              <input
+                type="text"
+                value={recipientName}
+                onChange={(e) => setRecipientName(e.target.value.toUpperCase())}
+                className="text-xs font-bold text-gray-900 bg-transparent outline-none border-b border-dashed border-gray-300 w-full"
+              />
               <span className="text-[9px] text-gray-500">{selectedBank?.name} | {formatAccount(recipientAccount)}</span>
             </div>
           </div>
@@ -689,7 +707,7 @@ export default function AppSimulator({
             <button className="flex-1 py-2.5 rounded-full border-2 text-xs font-bold" style={{ borderColor: opayTeal, color: opayTeal }}>Report Issue</button>
             <button className="flex-1 py-2.5 rounded-full text-xs font-bold text-white" style={{ background: opayTeal }}
               onClick={() => onFinishSimulation({
-                senderName, recipientName: lastTx.recipientName, receiverBank: lastTx.bankName,
+                senderName: editableSenderName, recipientName: lastTx.recipientName, receiverBank: lastTx.bankName,
                 amount: lastTx.amount, dateTime: lastTx.date, transactionId: lastTx.id,
                 reference: lastTx.remark, balance: userPoints, customField: '',
               })}
