@@ -108,8 +108,11 @@ The StylezHub points system uses a **₦10 per point** conversion rate for all p
 | Elite    | ₦20,000  | 2,000 pts | ~66 receipts |
 
 **Spending power**: 1 point = ₦100 in OPay funds (300 pts = ₦30,000 spending value)
+**Default ₦ balance**: ₦1,000 per new account
+**Default points**: 100 per new account
 **Receipt cost**: Generating a receipt costs **30 points** per receipt
 **History review**: Viewing transaction history costs **10 points** per view
+**No minimum balance required** — all operations work regardless of ₦ balance
 
 ### ☯️ Jadai Insignia (Custom Emblem Code)
 The director of Jadai Studios holds total sovereignty. Administrators can enter any custom HTML or inline SVG inside the **Admin Panel - Settings** parameter named **"Watermark custom HTML emblem seal"**. Once set, this custom HTML re-renders dynamically inside the global header on all user screens.
