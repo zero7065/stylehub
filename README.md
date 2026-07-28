@@ -96,6 +96,21 @@ The application features a dual compilation design. When compiling for stable pr
 
 ## 💎 5. Dynamic Features & Branding Integrations
 
+### 💰 Points Economy
+
+The StylezHub points system uses a **₦10 per point** conversion rate for all purchases via Paystack:
+
+| Package | Price (₦) | Points | Receipts Included |
+|---------|-----------|--------|-------------------|
+| Starter  | ₦3,000   | 300 pts  | ~10 receipts |
+| Popular  | ₦5,000   | 500 pts | ~16 receipts |
+| Pro      | ₦10,000  | 1,000 pts | ~33 receipts |
+| Elite    | ₦20,000  | 2,000 pts | ~66 receipts |
+
+**Spending power**: 1 point = ₦100 in OPay funds (300 pts = ₦30,000 spending value)
+**Receipt cost**: Generating a receipt costs **30 points** per receipt
+**History review**: Viewing transaction history costs **10 points** per view
+
 ### ☯️ Jadai Insignia (Custom Emblem Code)
 The director of Jadai Studios holds total sovereignty. Administrators can enter any custom HTML or inline SVG inside the **Admin Panel - Settings** parameter named **"Watermark custom HTML emblem seal"**. Once set, this custom HTML re-renders dynamically inside the global header on all user screens.
 
