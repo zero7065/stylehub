@@ -955,6 +955,16 @@ export default function BentoHomepage({
               >
                 📧 Email: jehuhudson@gmail.com
               </a>
+              {settings?.telegram_url && (
+                <a
+                  href={settings.telegram_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto px-4 py-2 bg-slate-900 border border-slate-800 text-center font-bold hover:border-cyan-450 text-cyan-400 rounded-xl transition-all font-mono text-[10.5px] cursor-pointer"
+                >
+                  ✈️ Telegram Support
+                </a>
+              )}
             </div>
           </div>
 

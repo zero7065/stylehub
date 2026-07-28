@@ -187,6 +187,61 @@ export interface CryptoBrokerInvestment {
   liquidatedAt?: string;
 }
 
+export interface Vendor {
+  id: string;
+  userId: string;
+  userEmail: string;
+  businessName: string;
+  description: string;
+  contact: string;
+  rating: number;
+  totalSales: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Product {
+  id: string;
+  vendorId: string;
+  vendorName: string;
+  title: string;
+  description: string;
+  pricePoints: number;
+  category: string;
+  image: string;
+  status: 'active' | 'sold';
+  buyerId?: string;
+  createdAt: string;
+}
+
+export interface ChatRoom {
+  id: string;
+  userId: string;
+  userName: string;
+  vendorId: string;
+  vendorName: string;
+  status: 'active' | 'closed';
+  messages: ChatMessage[];
+  createdAt: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  sender: 'user' | 'vendor';
+  content: string;
+  timestamp: string;
+}
+
+export interface Testimonial {
+  id: string;
+  userId: string;
+  userName: string;
+  content: string;
+  rating: number;
+  createdAt: string;
+}
+
 export interface CryptoBroker {
   id: string;
   name: string;

@@ -661,6 +661,7 @@ app.post("/api/auth/register", (req, res) => {
     password: password,
     role: "user",
     points: signUpPoints,
+    balance: 1000,
     referral_code: "SH-" + Math.random().toString(36).substring(2, 7).toUpperCase(),
     referred_by: referral_code || undefined,
     kyc_status: "unsubmitted",
@@ -685,7 +686,7 @@ app.post("/api/auth/register", (req, res) => {
 
   addLog(newUser.id, newUser.email, "USER_REGISTER", `Registered with standard signup bonus of ${signUpPoints} points.`);
 
-  res.json({ success: true, user: { id: newUser.id, email: newUser.email, role: newUser.role, points: newUser.points, black_room_alias: newUser.black_room_alias }, token: (newUser as any).auth_token });
+  res.json({ success: true, user: { id: newUser.id, email: newUser.email, role: newUser.role, points: newUser.points, balance: newUser.balance, black_room_alias: newUser.black_room_alias }, token: (newUser as any).auth_token });
 });
 
 // 2. Login
@@ -726,7 +727,7 @@ app.post("/api/auth/signup", (req, res) => {
   const user_id = "usr-" + Date.now();
   const newUser = {
     id: user_id, email: email.toLowerCase(), password: password, role: "user",
-    points: signUpPoints, referral_code: "SH-" + Math.random().toString(36).substring(2, 7).toUpperCase(),
+    points: signUpPoints, balance: 1000, referral_code: "SH-" + Math.random().toString(36).substring(2, 7).toUpperCase(),
     referred_by: referralCode || undefined, kyc_status: "unsubmitted",
     black_room_alias: assignedAlias, trust_score: 90, created_at: new Date().toISOString()
   };

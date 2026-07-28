@@ -104,6 +104,9 @@ export function formatDate(app: FinhubAppId, date?: Date): string {
   const min = pad2(d.getMinutes());
   const sec = pad2(d.getSeconds());
   const day = d.getDate();
+  let hours = d.getHours();
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12 || 12;
 
   const ordinal = (n: number) => {
     if (n > 3 && n < 21) return `${n}th`;
@@ -115,7 +118,7 @@ export function formatDate(app: FinhubAppId, date?: Date): string {
     }
   };
 
-  return `${months[d.getMonth()]} ${ordinal(day)}, ${d.getFullYear()} ${pad2(d.getHours())}:${min}:${sec}`;
+  return `${months[d.getMonth()]} ${ordinal(day)}, ${d.getFullYear()} ${hours}:${min}:${sec} ${ampm}`;
 }
 
 export function formatCurrency(val: number): string {

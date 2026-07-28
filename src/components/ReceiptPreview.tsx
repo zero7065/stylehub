@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import html2canvas from "html2canvas";
-import { Download, Lock, CheckCircle2, Copy, ExternalLink, ChevronRight, Clock } from "lucide-react";
+import { Download, CheckCircle2, Copy, ExternalLink, ChevronRight, Clock } from "lucide-react";
 import { formatCurrency, formatPhone, formatAccount, generateTxId, formatDate, BRAND_COLORS, FinhubAppId, getRandomAccount, getRandomPhone } from "../lib/finhub";
 
 interface ReceiptPreviewProps {
@@ -185,34 +185,14 @@ export default function ReceiptPreview({
       <div className="overflow-hidden rounded-xl bg-neutral-900 border border-slate-800 flex justify-center w-full p-2.5 relative">
         <div
           ref={receiptRef}
-          className={`${!unlocked ? "blur-md select-none pointer-events-none filter brightness-50 contrast-75" : ""} w-full flex justify-center`}
+          className="w-full flex justify-center"
           style={{ background: '#FFFFFF', borderRadius: 8 }}
         >
           {renderOPay()}
         </div>
 
-        {!unlocked && (
-          <div className="absolute inset-x-2 inset-y-2 flex flex-col justify-center items-center bg-slate-950/75 backdrop-blur-md rounded-xl p-4 text-center border border-cyan-500/20 shadow-2xl">
-            <div className="h-10 w-10 rounded-full bg-cyan-950/50 border border-cyan-400/40 flex items-center justify-center text-cyan-400 animate-pulse mb-3.5">
-              <Lock className="w-5 h-5" />
-            </div>
-            <h4 className="text-xs font-black tracking-widest text-cyan-400 uppercase">RAW WATERMARKED PREVIEW</h4>
-            <p className="text-[11px] text-slate-300 mt-2.5 max-w-[270px] leading-relaxed">
-              Verify your design variables above. Pay <span className="text-cyan-400 font-bold">10 points</span> to completely lift watermarks, wipe blur, and enable instant Ultra-HD PNG downloads.
-            </p>
-            <button
-              id="unlock-receipt-btn"
-              onClick={onUnlock}
-              disabled={isLoadingUnlock}
-              className="mt-4 px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-xl text-xs font-black text-gray-950 hover:brightness-110 active:scale-95 transition-all text-white flex items-center gap-1.5 shadow-lg shadow-cyan-500/20 disabled:opacity-50"
-            >
-              {isLoadingUnlock ? "Processing Unlock..." : "Unlock Full Receipt (10 PLS)"}
-            </button>
-          </div>
-        )}
       </div>
 
-      {unlocked && (
         <button
           id="download-receipt-png"
           onClick={handleDownloadPNG}
@@ -220,7 +200,6 @@ export default function ReceiptPreview({
         >
           <Download className="w-4 h-4" /> Download ultra-HD PNG Receipt
         </button>
-      )}
     </div>
   );
 }

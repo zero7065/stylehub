@@ -5,49 +5,150 @@
       "email": "jehuhudson@gmail.com",
       "password": "admin1234",
       "role": "admin",
-      "points": 1000000,
+      "points": 999500,
       "referral_code": "ADMINSH",
       "kyc_status": "verified",
-      "black_room_alias": "👑 Gold",
+      "black_room_alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œ Gold",
       "trust_score": 100,
-      "created_at": "2026-06-28T05:29:21.858Z"
-    },
-    {
-      "id": "user-456",
-      "email": "user@stylehub.com",
-      "password": "User@123456",
-      "role": "user",
-      "points": 1500,
-      "referral_code": "USERSTYLE",
-      "referred_by": "ADMINSH",
-      "kyc_status": "verified",
-      "kyc_data": {
-        "name": "John Demo Doe",
-        "address": "123 Naira Way, Lagos"
-      },
-      "black_room_alias": "🔮 Lithium",
-      "trust_score": 95,
       "created_at": "2026-06-28T05:29:21.858Z",
-      "subscription_tier": "professional"
+      "auth_token": "ba84aa0c5c9d90cc455a8610c3b09efa681a6c54842009cd8fdec155079ef5cf",
+      "kyc_data": {
+        "name": "Jehu Hudson",
+        "address": "123 Main St, Lagos",
+        "id_card": "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&w=400&q=80"
+      },
+      "lastNotifSeen": "1970-01-01T00:00:00.000Z",
+      "opay_pin": "1234"
     },
     {
-      "id": "usr-1782646877361",
-      "email": "lukehudson484@gmail.com",
-      "password": "123456",
+      "id": "usr-1784949472518",
+      "email": "stylez@gmail.com",
+      "password": "12345678",
       "role": "user",
-      "points": 50,
-      "referral_code": "SH-ZABVI",
+      "points": 100,
+      "referral_code": "SH-K9H46",
+      "referred_by": "demo@athena.com",
       "kyc_status": "unsubmitted",
-      "black_room_alias": "🔱 Titanium",
+      "black_room_alias": "💎 Silicon",
       "trust_score": 90,
-      "created_at": "2026-06-28T11:41:17.361Z"
+      "created_at": "2026-07-25T03:17:52.518Z",
+      "auth_token": "b65429374b0cffca7ea5a34a66a0dd005e605f6d9608952644be7b5effffd89a"
+    },
+    {
+      "id": "usr-1784950114083",
+      "email": "test@test.com",
+      "password": "test1234",
+      "role": "user",
+      "points": 100,
+      "referral_code": "SH-0WMT1",
+      "kyc_status": "unsubmitted",
+      "black_room_alias": "🌿 Helium",
+      "trust_score": 90,
+      "created_at": "2026-07-25T03:28:34.083Z",
+      "auth_token": "4f5d037e1d77d8862a9c415b51fa9c4a81b4ca801271230f527b0eab0843470f"
+    },
+    {
+      "id": "usr-1784950289582",
+      "email": "final@test.com",
+      "password": "test1234",
+      "role": "user",
+      "points": 100,
+      "referral_code": "SH-P9MPN",
+      "kyc_status": "unsubmitted",
+      "black_room_alias": "⚡ Neon",
+      "trust_score": 90,
+      "created_at": "2026-07-25T03:31:29.583Z",
+      "auth_token": "e04228b423a5d896ab00c264f06ef87646e58d2825298e121d170dada4a0f463"
+    },
+    {
+      "id": "usr-1784952483756",
+      "email": "test@stylehub.com",
+      "password": "test1234",
+      "role": "user",
+      "points": 70,
+      "referral_code": "SH-ZMXWZ",
+      "kyc_status": "unsubmitted",
+      "black_room_alias": "☣️ Uranium",
+      "trust_score": 90,
+      "created_at": "2026-07-25T04:08:03.756Z",
+      "auth_token": "11550671097c085f590a188055fa3bc3b440ff007e43279b56934dc73aa297c1"
+    },
+    {
+      "id": "usr-1785071469973",
+      "email": "demo@athena.com",
+      "password": "12345678",
+      "role": "user",
+      "points": 100,
+      "referral_code": "SH-4VQA3",
+      "referred_by": "demo@athena.com",
+      "kyc_status": "unsubmitted",
+      "black_room_alias": "🍃 Nitrogen",
+      "trust_score": 90,
+      "created_at": "2026-07-26T13:11:09.973Z",
+      "auth_token": "20baf83110ae53b7ef0ecfbf196404438cb7a9fc44b7a424fe832bd5b39b58cd",
+      "lastNotifSeen": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "usr-1785079945015",
+      "email": "hunterad@gmail.com",
+      "password": "12345678",
+      "role": "user",
+      "points": 100,
+      "referral_code": "SH-AYT1J",
+      "referred_by": "demo@athena.com",
+      "kyc_status": "unsubmitted",
+      "black_room_alias": "👑 Gold",
+      "trust_score": 90,
+      "created_at": "2026-07-26T15:32:25.015Z",
+      "auth_token": "2090fee81940d6e9746354de4c7473f91b76aba6da13a9d1caae751ffc43cb32",
+      "lastNotifSeen": "1970-01-01T00:00:00.000Z"
+    },
+    {
+      "id": "usr-1785081318677",
+      "email": "jethro@gmail.com",
+      "password": "12345678",
+      "role": "user",
+      "points": 350100,
+      "referral_code": "SH-JFWLM",
+      "kyc_status": "pending",
+      "black_room_alias": "🌿 Helium",
+      "trust_score": 90,
+      "created_at": "2026-07-26T15:55:18.677Z",
+      "auth_token": "7a759725307f9715b29ca74e784dc2143ba9799ef0c865c7ea6062413acf1e07",
+      "lastNotifSeen": "1970-01-01T00:00:00.000Z",
+      "kyc_data": {
+        "name": "jehu luke",
+        "address": "temple",
+        "id_card": "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&w=400&q=80"
+      }
+    },
+    {
+      "id": "usr-1785219013808",
+      "email": "jehu@gmail.com",
+      "password": "12345678",
+      "role": "user",
+      "points": 100,
+      "referral_code": "SH-RUBEQ",
+      "referred_by": "demo@athena.com",
+      "kyc_status": "pending",
+      "black_room_alias": "☄️ Cobalt",
+      "trust_score": 90,
+      "created_at": "2026-07-28T06:10:13.810Z",
+      "auth_token": "0337175e9e218138de38f67d456b25dc27edb9350b8e1695a41a64815d6a5477",
+      "lastNotifSeen": "1970-01-01T00:00:00.000Z",
+      "kyc_data": {
+        "name": "jehu luke",
+        "address": "temple",
+        "id_card": "https://images.unsplash.com/photo-1554774853-aae0a22c8aa4?auto=format&fit=crop&w=400&q=80"
+      },
+      "opay_pin": "7065"
     }
   ],
   "black_room_listings": [
     {
       "id": "listing-br1",
       "user_id": "admin-123",
-      "alias": "👑 Gold",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œ Gold",
       "title": "Premium 10K IG Account Boosted",
       "description": "High quality US-based audience. Fully clean, ready for monetization niche. Handover immediately via Escrow.",
       "price_points": 150,
@@ -57,7 +158,7 @@
     {
       "id": "listing-br2",
       "user_id": "broker-2",
-      "alias": "🔥 Carbon",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¥ Carbon",
       "title": "Verified UK Virtual Number (1 Year)",
       "description": "Perfect for WhatsApp/Telegram activation. Direct sim routing, no expiry for 12 months.",
       "price_points": 80,
@@ -69,7 +170,7 @@
     {
       "id": "msg-1",
       "listing_id": "listing-br1",
-      "from_alias": "👑 Gold",
+      "from_alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¹Ã…â€œ Gold",
       "message": "Welcome to the premium listing chat. Safe escrow only.",
       "timestamp": "2026-06-28T05:29:21.859Z"
     }
@@ -77,36 +178,47 @@
   "brokers": [
     {
       "id": "broker-1",
-      "alias": "💎 DiamondDealer",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â½ DiamondDealer",
       "trust_score": 100,
       "is_active": true
     },
     {
       "id": "broker-2",
-      "alias": "🔥 Carbon",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¥ Carbon",
       "trust_score": 99,
       "is_active": true
     },
     {
       "id": "broker-3",
-      "alias": "⚡ FastTrader",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ FastTrader",
       "trust_score": 97,
       "is_active": true
     },
     {
       "id": "broker-4",
-      "alias": "🔮 Lithium",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â® Lithium",
       "trust_score": 98,
       "is_active": true
     },
     {
       "id": "broker-5",
-      "alias": "🌿 Helium",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¿ Helium",
       "trust_score": 95,
       "is_active": true
     }
   ],
-  "escrow_transactions": [],
+  "escrow_transactions": [
+    {
+      "id": "esc-1782658828633",
+      "related_table": "marketplace",
+      "related_id": "mkt-1",
+      "buyer_id": "usr-1782657772673",
+      "seller_id": "admin-123",
+      "amount_points": 30,
+      "status": "held",
+      "created_at": "2026-06-28T15:00:28.633Z"
+    }
+  ],
   "marketplace_listings": [
     {
       "id": "mkt-1",
@@ -116,8 +228,9 @@
       "description": "Freshly generated and warmed up. Excellent for PayPal & Stripe confirmations.",
       "category": "numbers",
       "price_points": 30,
-      "status": "open",
-      "created_at": "2026-06-28T05:29:21.859Z"
+      "status": "sold",
+      "created_at": "2026-06-28T05:29:21.859Z",
+      "buyer_id": "usr-1782657772673"
     },
     {
       "id": "mkt-2",
@@ -184,6 +297,150 @@
   "withdrawal_requests": [],
   "activity_logs": [
     {
+      "id": "log-1785219769250oqib",
+      "user_id": "usr-1785219013808",
+      "user_email": "jehu@gmail.com",
+      "action": "KYC_SUBMIT",
+      "details": "Submitted identity KYC verification package.",
+      "timestamp": "2026-07-28T06:22:49.250Z"
+    },
+    {
+      "id": "log-1785219013821h303",
+      "user_id": "usr-1785219013808",
+      "user_email": "jehu@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-28T06:10:13.821Z"
+    },
+    {
+      "id": "log-1785081346893xsjy",
+      "user_id": "usr-1785081318677",
+      "user_email": "jethro@gmail.com",
+      "action": "KYC_SUBMIT",
+      "details": "Submitted identity KYC verification package.",
+      "timestamp": "2026-07-26T15:55:46.893Z"
+    },
+    {
+      "id": "log-1785081318689neiq",
+      "user_id": "usr-1785081318677",
+      "user_email": "jethro@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-26T15:55:18.689Z"
+    },
+    {
+      "id": "log-1785079945022g1d4",
+      "user_id": "usr-1785079945015",
+      "user_email": "hunterad@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-26T15:32:25.023Z"
+    },
+    {
+      "id": "log-1785071469978g3q5",
+      "user_id": "usr-1785071469973",
+      "user_email": "demo@athena.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-26T13:11:09.978Z"
+    },
+    {
+      "id": "log-17849524837675gks",
+      "user_id": "usr-1784952483756",
+      "user_email": "test@stylehub.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-25T04:08:03.767Z"
+    },
+    {
+      "id": "log-1784950289594qm0c",
+      "user_id": "usr-1784950289582",
+      "user_email": "final@test.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-25T03:31:29.594Z"
+    },
+    {
+      "id": "log-1784950114115b5kz",
+      "user_id": "usr-1784950114083",
+      "user_email": "test@test.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-25T03:28:34.115Z"
+    },
+    {
+      "id": "log-1784949472525qagn",
+      "user_id": "usr-1784949472518",
+      "user_email": "stylez@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 100 points.",
+      "timestamp": "2026-07-25T03:17:52.525Z"
+    },
+    {
+      "id": "log-1784240244451pev0",
+      "user_id": "usr-1784240244437",
+      "user_email": "dominiongolenn99@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-07-16T22:17:24.451Z"
+    },
+    {
+      "id": "log-178333973290601zj",
+      "user_id": "admin-123",
+      "user_email": "jehuhudson@gmail.com",
+      "action": "KYC_SUBMIT",
+      "details": "Submitted identity KYC verification package.",
+      "timestamp": "2026-07-06T12:08:52.906Z"
+    },
+    {
+      "id": "log-1783339700349sspy",
+      "user_id": "usr-1783339700338",
+      "user_email": "testx433@t.co",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-07-06T12:08:20.349Z"
+    },
+    {
+      "id": "log-17833379789100lw2",
+      "user_id": "usr-1783337978901",
+      "user_email": "stylez7065",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-07-06T11:39:38.910Z"
+    },
+    {
+      "id": "log-17831001384811iti",
+      "user_id": "usr-1783100138473",
+      "user_email": "test@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-07-03T17:35:38.481Z"
+    },
+    {
+      "id": "log-1782664622594647s",
+      "user_id": "usr-1782664622557",
+      "user_email": "jethroluke29@gmail.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-06-28T16:37:02.594Z"
+    },
+    {
+      "id": "log-17826588286435c35",
+      "user_id": "usr-1782657772673",
+      "user_email": "demo@athena.com",
+      "action": "ESCROW_START",
+      "details": "Held 30 points in StyleHub Escrow protection for digital order [+1 USA VoIP Clean Number].",
+      "timestamp": "2026-06-28T15:00:28.643Z"
+    },
+    {
+      "id": "log-1782657772883qgiy",
+      "user_id": "usr-1782657772673",
+      "user_email": "demo@athena.com",
+      "action": "USER_REGISTER",
+      "details": "Registered with standard signup bonus of 50 points.",
+      "timestamp": "2026-06-28T14:42:52.883Z"
+    },
+    {
       "id": "log-1782646877385vjkc",
       "user_id": "usr-1782646877361",
       "user_email": "lukehudson484@gmail.com",
@@ -202,21 +459,55 @@
   ],
   "system_settings": {
     "gas_fee_percent": 5,
-    "signup_bonus": 50,
+    "signup_bonus": 100,
     "referral_percent": 10,
     "receipt_price_points": 150,
-    "custom_emblem_html": "<div class=\"flex items-center gap-2 px-3.5 py-1.5 border border-cyan-500/30 rounded-full bg-cyan-950/20 backdrop-blur-sm shadow-lg shadow-cyan-500/10\"><span class=\"w-2 h-2 rounded-full bg-cyan-400 animate-pulse\"></span><span class=\"text-[10px] font-mono font-semibold tracking-widest text-cyan-400 uppercase\">⚡ JADAI STUDIOS INTEGRITY SEAL</span></div>",
+    "custom_emblem_html": "<div class=\"flex items-center gap-2 px-3.5 py-1.5 border border-cyan-500/30 rounded-full bg-cyan-950/20 backdrop-blur-sm shadow-lg shadow-cyan-500/10\"><span class=\"w-2 h-2 rounded-full bg-cyan-400 animate-pulse\"></span><span class=\"text-[10px] font-mono font-semibold tracking-widest text-cyan-400 uppercase\">ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ JADAI STUDIOS INTEGRITY SEAL</span></div>",
     "whatsapp_url": "https://wa.me/2340000000000",
     "telegram_url": "https://t.me/jadaistudios",
     "support_email": "support@stylehub.net",
     "groq_api_key": "",
-    "ai_script": "You are Jarvis, the friendly AI platform Assistant for StyleHub. StyleHub is a fintech & digital marketplace created and operated by Jadai Studios. Keep answers crisp and refer users to the various tabs (the Digital Goods Marketplace, Black Room anonymous trades, or Custom Receipt Simulator)."
+    "ai_script": "You are Jarvis, the friendly AI platform Assistant for StyleHub. StyleHub is a fintech & digital marketplace created and operated by Jadai Studios. Keep answers crisp and refer users to the various tabs (the Digital Goods Marketplace, Black Room anonymous trades, or Custom Receipt Simulator).",
+    "invest_plans": [
+      {
+        "id": "inv-1",
+        "name": "Starter",
+        "minDeposit": 100,
+        "dailyReturn": 0.5,
+        "duration": 7,
+        "desc": "7-day plan, 0.5% daily return"
+      },
+      {
+        "id": "inv-2",
+        "name": "Growth",
+        "minDeposit": 500,
+        "dailyReturn": 1,
+        "duration": 14,
+        "desc": "14-day plan, 1% daily return"
+      },
+      {
+        "id": "inv-3",
+        "name": "Premium",
+        "minDeposit": 2000,
+        "dailyReturn": 1.5,
+        "duration": 30,
+        "desc": "30-day plan, 1.5% daily return"
+      },
+      {
+        "id": "inv-4",
+        "name": "Elite",
+        "minDeposit": 10000,
+        "dailyReturn": 2.5,
+        "duration": 60,
+        "desc": "60-day plan, 2.5% daily return"
+      }
+    ]
   },
   "crypto_brokers": [
     {
       "id": "cbroker-1",
       "name": "Ares Algo Arbitrage",
-      "alias": "⚡ Ares Algo",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡ Ares Algo",
       "description": "High-frequency triangular arbitrage trading pool scanning 15+ decentralized exchanges. Safely captures swift micro-price discrepancies in BTC, ETH, and SOL pairs with mathematical precision.",
       "price_points": 150,
       "risk_level": "Low",
@@ -251,7 +542,7 @@
     {
       "id": "cbroker-2",
       "name": "Zephyr Liquidity Fund",
-      "alias": "🔮 Zephyr Yield",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â® Zephyr Yield",
       "description": "Automated layer-1 proof-of-stake node operator and concentrated liquidity pool manager. Strategically supplies deep capital to Uniswap V3 tight ranges for amplified fee shares.",
       "price_points": 250,
       "risk_level": "Medium",
@@ -286,7 +577,7 @@
     {
       "id": "cbroker-3",
       "name": "Titan Leverage System",
-      "alias": "🔱 Titan Leverage",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â± Titan Leverage",
       "description": "High-leverage altcoin momentum trading node. Scans coin velocities and breakouts, executing multi-leverage longs or shorts with custom automated stop-loss thresholds.",
       "price_points": 400,
       "risk_level": "High",
@@ -321,7 +612,7 @@
     {
       "id": "cbroker-4",
       "name": "Apollo DeFi Smart Crops",
-      "alias": "☀️ Apollo Farms",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¹Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¯ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â Apollo Farms",
       "description": "Decentralized automated compounder crawling high-yield swap routers and borrowing vaults. Employs advanced flash-loaning to lock yield ratios and minimize impermanent loss.",
       "price_points": 600,
       "risk_level": "Very High",
@@ -356,7 +647,7 @@
     {
       "id": "cbroker-5",
       "name": "Chronos Scalping Sentinel",
-      "alias": "☄️ Chronos Scalp AI",
+      "alias": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¹Ãƒâ€¦Ã¢â‚¬Å“ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¾ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¯ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â Chronos Scalp AI",
       "description": "AI-trained predictive model capturing microsecond trend differentials. Trades high frequency order flows and sentiment shifts on extreme volatility tokens.",
       "price_points": 900,
       "risk_level": "Extreme",
@@ -396,15 +687,216 @@
       "id": "tmpl-gold-signia",
       "name": "Signia Premium Gold Voucher",
       "category": "voucher",
-      "html_content": "\n          <div style=\"background: linear-gradient(135deg, #0d0e12 0%, #15161d 100%); color: #fff; padding: 25px; border-radius: 16px; border: 1px solid #D4AF37; font-family: monospace; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-shadow: 0 1px 1px #000;\">\n            <div style=\"text-align: center; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); padding-bottom: 12px; margin-bottom: 20px;\">\n              <h2 style=\"color: #D4AF37; margin: 0; font-size: 20px; font-weight: 900; letter-spacing: 2px;\">GOLD SIGNIA</h2>\n              <p style=\"font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; margin: 4px 0 0 0;\">Secure Premium Asset Voucher</p>\n            </div>\n            <div style=\"font-size: 11px; line-height: 2;\">\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">SENDER:</strong> <span>{{SENDER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">RECIPIENT:</strong> <span>{{RECEIVER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">DESTINATION:</strong> <span>{{RECEIVER_BANK}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">REFERENCE:</strong> <span style=\"font-style: italic;\">{{REFERENCE}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">STAMP REF:</strong> <span style=\"font-family: serif;\">{{TRANSACTION_ID}}</span></div>\n            </div>\n            <div style=\"margin-top: 25px; background: rgba(212, 175, 55, 0.1); border: 1px solid #D4AF37; padding: 12px; border-radius: 10px; text-align: center;\">\n              <span style=\"display: block; font-size: 9px; color: #D4AF37; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;\">LEDGER DEBIT CONFIRMED</span>\n              <span style=\"font-size: 22px; font-weight: 900; display: block; margin-top: 4px; color: #fff;\">₦{{AMOUNT}}</span>\n            </div>\n            <div style=\"text-align: center; margin-top: 20px; font-size: 8px; opacity: 0.4;\">\n              POWERED BY SIGNIA SECURITY PROTOCOLS • JADAI LABS\n            </div>\n          </div>\n        ",
+      "html_content": "\n          <div style=\"background: linear-gradient(135deg, #0d0e12 0%, #15161d 100%); color: #fff; padding: 25px; border-radius: 16px; border: 1px solid #D4AF37; font-family: monospace; max-width: 400px; box-shadow: 0 4px 20px rgba(0,0,0,0.5); text-shadow: 0 1px 1px #000;\">\n            <div style=\"text-align: center; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); padding-bottom: 12px; margin-bottom: 20px;\">\n              <h2 style=\"color: #D4AF37; margin: 0; font-size: 20px; font-weight: 900; letter-spacing: 2px;\">GOLD SIGNIA</h2>\n              <p style=\"font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px; opacity: 0.6; margin: 4px 0 0 0;\">Secure Premium Asset Voucher</p>\n            </div>\n            <div style=\"font-size: 11px; line-height: 2;\">\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">SENDER:</strong> <span>{{SENDER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">RECIPIENT:</strong> <span>{{RECEIVER_NAME}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">DESTINATION:</strong> <span>{{RECEIVER_BANK}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">REFERENCE:</strong> <span style=\"font-style: italic;\">{{REFERENCE}}</span></div>\n              <div style=\"display: flex; justify-content: space-between;\"><strong style=\"color: #D4AF37;\">STAMP REF:</strong> <span style=\"font-family: serif;\">{{TRANSACTION_ID}}</span></div>\n            </div>\n            <div style=\"margin-top: 25px; background: rgba(212, 175, 55, 0.1); border: 1px solid #D4AF37; padding: 12px; border-radius: 10px; text-align: center;\">\n              <span style=\"display: block; font-size: 9px; color: #D4AF37; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;\">LEDGER DEBIT CONFIRMED</span>\n              <span style=\"font-size: 22px; font-weight: 900; display: block; margin-top: 4px; color: #fff;\">ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦{{AMOUNT}}</span>\n            </div>\n            <div style=\"text-align: center; margin-top: 20px; font-size: 8px; opacity: 0.4;\">\n              POWERED BY SIGNIA SECURITY PROTOCOLS ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ JADAI LABS\n            </div>\n          </div>\n        ",
       "created_at": "2026-06-28T05:29:21.864Z"
     },
     {
       "id": "tmpl-emerald-receipt",
       "name": "Emerald Sovereign Cash Stamp",
       "category": "invoice",
-      "html_content": "\n          <div style=\"background: #ffffff; color: #1e293b; padding: 30px; border-radius: 20px; border: 3px solid #10B981; font-family: sans-serif; max-width: 400px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);\">\n            <div style=\"display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;\">\n              <div>\n                <h3 style=\"color: #10B981; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px;\">EMERALD SOVEREIGN</h3>\n                <span style=\"font-size: 9px; color: #64748b; font-weight: 600;\">INSTANT CREDIT ADVICE</span>\n              </div>\n              <div style=\"background: #10B981; color: #fff; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.5px;\">SETTLED</div>\n            </div>\n            <div style=\"text-align: center; margin: 25px 0;\">\n              <span style=\"font-size: 10px; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px;\">APPROVED VALUE</span>\n              <h1 style=\"font-size: 32px; font-weight: 900; color: #0f172a; margin: 5px 0 0 0; letter-spacing: -1px;\">₦{{AMOUNT}}</h1>\n            </div>\n            <div style=\"border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 12px; display: grid; gap: 10px;\">\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Payer:</span><strong style=\"color: #0f172a;\">{{SENDER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Beneficiary:</span><strong style=\"color: #0f172a;\">{{RECEIVER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Bank Target:</span><strong style=\"color: #0f172a;\">{{RECEIVER_BANK}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Ledger Memo:</span><strong style=\"color: #64748b; font-weight: normal; font-style: italic;\">{{REFERENCE}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Audit Pin:</span><strong style=\"color: #0f172a; font-family: monospace;\">{{TRANSACTION_ID}}</strong></div>\n            </div>\n            <div style=\"text-align: center; margin-top: 30px; font-size: 9px; color: #94a3b8; font-weight: 500; border-top: 1px dashed #e2e8f0; padding-top: 15px;\">\n              Thank you for secure escrow routing.\n            </div>\n          </div>\n        ",
+      "html_content": "\n          <div style=\"background: #ffffff; color: #1e293b; padding: 30px; border-radius: 20px; border: 3px solid #10B981; font-family: sans-serif; max-width: 400px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);\">\n            <div style=\"display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 20px;\">\n              <div>\n                <h3 style=\"color: #10B981; margin: 0; font-size: 18px; font-weight: 800; letter-spacing: -0.5px;\">EMERALD SOVEREIGN</h3>\n                <span style=\"font-size: 9px; color: #64748b; font-weight: 600;\">INSTANT CREDIT ADVICE</span>\n              </div>\n              <div style=\"background: #10B981; color: #fff; font-size: 9px; font-weight: 800; padding: 4px 10px; border-radius: 9999px; letter-spacing: 0.5px;\">SETTLED</div>\n            </div>\n            <div style=\"text-align: center; margin: 25px 0;\">\n              <span style=\"font-size: 10px; font-weight: bold; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px;\">APPROVED VALUE</span>\n              <h1 style=\"font-size: 32px; font-weight: 900; color: #0f172a; margin: 5px 0 0 0; letter-spacing: -1px;\">ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦{{AMOUNT}}</h1>\n            </div>\n            <div style=\"border-top: 1px solid #f1f5f9; padding-top: 15px; font-size: 12px; display: grid; gap: 10px;\">\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Payer:</span><strong style=\"color: #0f172a;\">{{SENDER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Beneficiary:</span><strong style=\"color: #0f172a;\">{{RECEIVER_NAME}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Bank Target:</span><strong style=\"color: #0f172a;\">{{RECEIVER_BANK}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Ledger Memo:</span><strong style=\"color: #64748b; font-weight: normal; font-style: italic;\">{{REFERENCE}}</strong></div>\n              <div style=\"display: flex; justify-content: space-between;\"><span style=\"color: #64748b; font-weight: 500;\">Audit Pin:</span><strong style=\"color: #0f172a; font-family: monospace;\">{{TRANSACTION_ID}}</strong></div>\n            </div>\n            <div style=\"text-align: center; margin-top: 30px; font-size: 9px; color: #94a3b8; font-weight: 500; border-top: 1px dashed #e2e8f0; padding-top: 15px;\">\n              Thank you for secure escrow routing.\n            </div>\n          </div>\n        ",
       "created_at": "2026-06-28T05:29:21.864Z"
+    }
+  ],
+  "vendors": [],
+  "products": [],
+  "chatRooms": [],
+  "testimonials": [],
+  "payments": [],
+  "investments": [],
+  "shop_products": [
+    {
+      "id": "sp-1",
+      "name": "StyleHub Premium Badge",
+      "desc": "Unlock a premium badge on your profile",
+      "price": 500,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¦",
+      "category": "profile"
+    },
+    {
+      "id": "sp-2",
+      "name": "Telegram Sticker Pack",
+      "desc": "Exclusive StyleHub sticker pack for Telegram",
+      "price": 200,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â½ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨",
+      "category": "digital"
+    },
+    {
+      "id": "sp-3",
+      "name": "Priority Chat Support (30d)",
+      "desc": "Skip the queue in chat support for 30 days",
+      "price": 1000,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¡",
+      "category": "service"
+    },
+    {
+      "id": "sp-4",
+      "name": "Custom Receipt Design",
+      "desc": "Customize your OPay receipt colors for 7 days",
+      "price": 300,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â½ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨",
+      "category": "premium"
+    },
+    {
+      "id": "sp-5",
+      "name": "500 Bonus Points Pack",
+      "desc": "Get 500 bonus points instantly",
+      "price": 500,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚ÂªÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢",
+      "category": "points"
+    },
+    {
+      "id": "sp-6",
+      "name": "Mystery Box",
+      "desc": "Random digital item worth 200ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã¢â‚¬Å“2000 pts",
+      "price": 350,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â½ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â",
+      "category": "mystery"
+    },
+    {
+      "id": "sp-7",
+      "name": "Vendor Listing Slot",
+      "desc": "List one product in the vendor marketplace",
+      "price": 800,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â°ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¸ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂºÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢",
+      "category": "vendor"
+    },
+    {
+      "id": "sp-8",
+      "name": "Username Color (Gold)",
+      "desc": "Gold-colored username on your profile",
+      "price": 250,
+      "image": "ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¨",
+      "category": "profile"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tx-1784240329599",
+      "userId": "usr-1784240244437",
+      "type": "opay_transfer",
+      "amount": -10,
+      "description": "OPay transfer to jehu luke - ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦30",
+      "status": "completed",
+      "createdAt": "2026-07-16T22:18:49.599Z"
+    },
+    {
+      "id": "tx-1784240385371",
+      "userId": "usr-1784240244437",
+      "type": "opay_transfer",
+      "amount": -10,
+      "description": "OPay transfer to 08127636057 - ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦100",
+      "status": "completed",
+      "createdAt": "2026-07-16T22:19:45.371Z"
+    },
+    {
+      "id": "tx-1784946536151",
+      "userId": "usr-1782657772673",
+      "type": "opay_transfer",
+      "amount": -10,
+      "description": "OPay transfer to jethro - ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¦10",
+      "status": "completed",
+      "createdAt": "2026-07-25T02:28:56.151Z"
+    },
+    {
+      "id": "tx-1784952647373",
+      "userId": "usr-1784952483756",
+      "type": "opay_transfer",
+      "amount": -30,
+      "description": "OPay transfer to jethro - ₦3000",
+      "status": "completed",
+      "createdAt": "2026-07-25T04:10:47.373Z"
+    },
+    {
+      "id": "tx-1784957185614",
+      "userId": "admin-123",
+      "type": "opay_fund",
+      "amount": -500,
+      "description": "Fund N500",
+      "status": "completed",
+      "createdAt": "2026-07-25T05:26:25.614Z"
+    },
+    {
+      "id": "tx-1785081526947",
+      "userId": "usr-1785081318677",
+      "type": "points_purchase",
+      "amount": 350000,
+      "description": "Bought 350000 points via Paystack",
+      "status": "completed",
+      "createdAt": "2026-07-26T15:58:46.947Z"
+    }
+  ],
+  "receipts": [
+    {
+      "id": "rec-1784240329599",
+      "userId": "usr-1784240244437",
+      "platform": "opay",
+      "data": {
+        "amount": 30,
+        "recipient": "jehu luke",
+        "reference": "OPAY-1784240329279-7031",
+        "cost": 10
+      },
+      "createdAt": "2026-07-16T22:18:49.599Z"
+    },
+    {
+      "id": "rec-1784240385371",
+      "userId": "usr-1784240244437",
+      "platform": "opay",
+      "data": {
+        "amount": 100,
+        "recipient": "08127636057",
+        "reference": "OPAY-1784240385362-9558",
+        "cost": 10
+      },
+      "createdAt": "2026-07-16T22:19:45.371Z"
+    },
+    {
+      "id": "rec-1784946536151",
+      "userId": "usr-1782657772673",
+      "platform": "opay",
+      "data": {
+        "amount": 10,
+        "recipient": "jethro",
+        "reference": "OPAY-1784946535829-7790",
+        "cost": 10
+      },
+      "createdAt": "2026-07-25T02:28:56.151Z"
+    },
+    {
+      "id": "rec-1784952647373",
+      "userId": "usr-1784952483756",
+      "platform": "opay",
+      "data": {
+        "amount": 3000,
+        "recipient": "jethro",
+        "reference": "OPAY-1784952647049-40680",
+        "cost": 30
+      },
+      "createdAt": "2026-07-25T04:10:47.373Z"
+    }
+  ],
+  "announcements": [
+    {
+      "id": "ann-seed-1",
+      "message": "Welcome to StyleHub v4.1! Experience our new OPay Transfer, Shop Marketplace, and AI Assistant.",
+      "type": "info",
+      "createdBy": "admin",
+      "createdAt": "2026-07-25T04:28:11.477Z"
+    },
+    {
+      "id": "ann-seed-2",
+      "message": "Complete your KYC verification to unlock withdrawals and premium features.",
+      "type": "warning",
+      "createdBy": "admin",
+      "createdAt": "2026-07-25T04:28:11.477Z"
+    },
+    {
+      "id": "ann-seed-3",
+      "message": "Refer friends and earn 100 bonus points per signup! Share your referral code.",
+      "type": "alert",
+      "createdBy": "admin",
+      "createdAt": "2026-07-25T04:28:11.477Z"
     }
   ]
 }

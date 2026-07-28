@@ -26,7 +26,7 @@ export default function PointsPurchase({ onClose, onFundSuccess }: { onClose: ()
     <div className="pp-page">
       <button className="pp-back" onClick={onClose}><ArrowLeft size={20} /> Back</button>
       <h2 className="pp-title">Buy Points</h2>
-      <p className="pp-sub">Choose a package — ₦10 per point</p>
+      <p className="pp-sub">₦10 per point — Top up via Paystack</p>
 
       {msg && (
         <div className={`pp-msg ${msg.includes('success') || msg.includes('Purchased') ? '' : 'err'}`}>
