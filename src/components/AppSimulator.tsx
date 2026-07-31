@@ -43,8 +43,10 @@ export default function AppSimulator({
   const palmpayBg = '#FFE8E8';
 
   // Screen routing
-  const [screen, setScreen] = useState<'splash' | 'home' | 'transfer' | 'amount' | 'confirm' | 'loading' | 'done' | 'history'>('splash');
+  const [screen, setScreen] = useState<'splash' | 'home' | 'transfer' | 'amount' | 'confirm' | 'loading' | 'done' | 'history' | 'bills' | 'profile'>('splash');
   const [balanceVisible, setBalanceVisible] = useState(false);
+  const [balance, setBalance] = useState(userPoints);
+  const [hasPin, setHasPin] = useState(false);
   const [showVoucher, setShowVoucher] = useState(true);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
 
@@ -61,6 +63,9 @@ export default function AppSimulator({
   const [activeTab, setActiveTab] = useState<'recents' | 'favourites'>('recents');
   const [historyFilter, setHistoryFilter] = useState<'all' | 'incoming' | 'outgoing'>('outgoing');
   const [editableSenderName, setEditableSenderName] = useState(senderName);
+  const [billsCat, setBillsCat] = useState('');
+  const [billsAcc, setBillsAcc] = useState('');
+  const [billsAmt, setBillsAmt] = useState('');
 
   const quickAmounts = [500, 1000, 2000, 5000, 10000, 20000];
   const freeTransfersLeft = 3;
@@ -125,6 +130,7 @@ export default function AppSimulator({
         status: 'successful',
       };
       setTransactions(prev => [tx, ...prev]);
+      setBalance(prev => prev - neededPoints);
       setScreen('done');
       onTransactionComplete(tx);
     }, 2500);
@@ -209,7 +215,7 @@ export default function AppSimulator({
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <span className="text-2xl font-black tracking-tight">{balanceVisible ? formatCurrency(userPoints) : '****'}</span>
+                <span className="text-2xl font-black tracking-tight">{balanceVisible ? formatCurrency(balance * 100) : '****'}</span>
                 <ChevronRight className="w-4 h-4 text-white/70" />
               </div>
               <button onClick={() => onBuyPoints()} className="bg-white text-xs font-bold px-4 py-1.5 rounded-full shadow-sm" style={{ color: opayTeal }}>
@@ -229,7 +235,7 @@ export default function AppSimulator({
                   { label: 'To OPay', action: () => { setSelectedBank(NIGERIAN_BANKS.find(b => b.slug === 'opay') || NIGERIAN_BANKS[0]); setScreen('transfer'); }, color: opayTeal, bg: '#E8FAF5' },
                   { label: 'To PalmPay', action: () => { setSelectedBank(NIGERIAN_BANKS.find(b => b.slug === 'palmpay') || NIGERIAN_BANKS.find(b => b.slug === 'opay')); setScreen('transfer'); }, color: palmpayTeal, bg: '#FFEBEE' },
                   { label: 'To Bank', action: () => { setSelectedBank(NIGERIAN_BANKS.find(b => b.slug === 'guaranty-trust-bank') || NIGERIAN_BANKS[0]); setScreen('transfer'); }, color: opayTeal, bg: '#E8FAF5' },
-                  { label: 'Withdraw', action: () => {} }
+                  { label: 'Withdraw', action: () => setScreen('bills') }
                 ].map((item, idx) => (
                   <button key={item.label} onClick={item.action} className="flex flex-col items-center gap-1.5 cursor-pointer">
                     <div className="w-11 h-11 rounded-full flex items-center justify-center" style={{ background: item.bg }}>
@@ -284,11 +290,11 @@ export default function AppSimulator({
 
         <div className="mt-auto bg-white border-t border-gray-200 flex justify-around py-2.5 text-[9px] font-bold text-gray-400">
           {[
-            { label: 'Home', icon: '\u{1F3E0}', active: true },
-            { label: 'History', icon: '\u{1F4CB}', active: false, action: () => setScreen('history') },
-            { label: 'Finance', icon: '\u{1F4CA}' },
-            { label: 'Cards', icon: '\u{1F4B3}' },
-            { label: 'Me', icon: '\u{1F464}' },
+            { label: 'Home', icon: '\u{1F3E0}', active: screen === 'home', action: () => setScreen('home') },
+            { label: 'History', icon: '\u{1F4CB}', active: screen === 'history', action: () => setScreen('history') },
+            { label: 'Finance', icon: '\u{1F4CA}', action: () => setScreen('bills') },
+            { label: 'Cards', icon: '\u{1F4B3}', action: () => setScreen('bills') },
+            { label: 'Me', icon: '\u{1F464}', action: () => setScreen('profile') },
           ].map((tab) => (
             <button key={tab.label} onClick={tab.action} className={`flex flex-col items-center gap-0.5 cursor-pointer ${tab.active ? '' : ''}`} style={tab.active ? { color: opayTeal } : {}}>
               <span className="text-base">{tab.icon}</span>
@@ -778,23 +784,151 @@ export default function AppSimulator({
           )}
         </div>
 
-        <div className="mt-auto bg-white border-t border-gray-200 flex justify-around py-2.5 text-[9px] font-bold text-gray-400">
-          {[
-            { label: 'Home', icon: '\u{1F3E0}', action: () => setScreen('home') },
-            { label: 'History', icon: '\u{1F4CB}', active: true },
-            { label: 'Finance', icon: '\u{1F4CA}' },
-            { label: 'Cards', icon: '\u{1F4B3}' },
-            { label: 'Me', icon: '\u{1F464}' },
-          ].map((tab) => (
-            <button key={tab.label} onClick={tab.action} className="flex flex-col items-center gap-0.5 cursor-pointer" style={tab.active ? { color: opayTeal } : {}}>
-              <span className="text-base">{tab.icon}</span>
-              <span>{tab.label}</span>
-            </button>
-          ))}
-        </div>
+<div className="mt-auto bg-white border-t border-gray-200 flex justify-around py-2.5 text-[9px] font-bold text-gray-400">
+           {[
+             { label: 'Home', icon: '\u{1F3E0}', action: () => setScreen('home') },
+             { label: 'History', icon: '\u{1F4CB}', action: () => setScreen('history'), active: true },
+             { label: 'Finance', icon: '\u{1F4CA}', action: () => setScreen('bills') },
+             { label: 'Cards', icon: '\u{1F4B3}', action: () => setScreen('bills') },
+             { label: 'Me', icon: '\u{1F464}', action: () => setScreen('profile') },
+           ].map((tab) => (
+             <button key={tab.label} onClick={tab.action} className="flex flex-col items-center gap-0.5 cursor-pointer" style={tab.active ? { color: opayTeal } : {}}>
+               <span className="text-base">{tab.icon}</span>
+               <span>{tab.label}</span>
+             </button>
+           ))}
+         </div>
       </div>
-    );
-  }
+);
+   }
 
-  return null;
-}
+   if (screen === 'bills') {
+     return (
+       <div style={{ background: opayBg, fontFamily: "'Segoe UI', Arial, sans-serif" }} className="h-full flex flex-col overflow-y-auto select-none">
+         <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-gray-100">
+           <div className="flex items-center gap-2">
+             <button onClick={() => setScreen('home')}><ChevronLeft className="w-5 h-5 text-gray-700" /></button>
+             <span className="text-sm font-bold text-gray-900">Pay Bills</span>
+           </div>
+         </div>
+         <div className="mx-4 mt-4 space-y-3">
+           {['Cable TV', 'Electricity', 'Betting', 'Water', 'Gas'].map(cat => (
+             <button key={cat} onClick={() => { setBillsCat(cat); setScreen('bills-form'); }} className="w-full flex items-center gap-3 p-3 rounded-xl bg-white border border-gray-100 shadow-sm">
+               <span className="text-2xl">{cat === 'Cable TV' ? '📺' : cat === 'Electricity' ? '⚡' : cat === 'Betting' ? '🎲' : cat === 'Water' ? '💧' : '🔥'}</span>
+               <span className="text-sm font-semibold text-gray-800">{cat}</span>
+               <ChevronRight className="w-4 h-4 text-gray-400 ml-auto" />
+             </button>
+           ))}
+         </div>
+         <div className="mt-auto bg-white border-t border-gray-200 flex justify-around py-2.5 text-[9px] font-bold text-gray-400">
+           {[
+             { label: 'Home', icon: '\u{1F3E0}', action: () => setScreen('home') },
+             { label: 'History', icon: '\u{1F4CB}', action: () => setScreen('history') },
+             { label: 'Finance', icon: '\u{1F4CA}', active: true },
+             { label: 'Cards', icon: '\u{1F4B3}', action: () => setScreen('bills') },
+             { label: 'Me', icon: '\u{1F464}', action: () => setScreen('profile') },
+           ].map((tab) => (
+             <button key={tab.label} onClick={tab.action} className="flex flex-col items-center gap-0.5 cursor-pointer" style={tab.active ? { color: opayTeal } : {}}>
+               <span className="text-base">{tab.icon}</span>
+               <span>{tab.label}</span>
+             </button>
+           ))}
+         </div>
+       </div>
+     );
+   }
+
+   if (screen === 'bills-form') {
+     return (
+       <div style={{ background: opayBg, fontFamily: "'Segoe UI', Arial, sans-serif" }} className="h-full flex flex-col overflow-y-auto select-none">
+         <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-gray-100">
+           <div className="flex items-center gap-2">
+             <button onClick={() => setScreen('bills')}><ChevronLeft className="w-5 h-5 text-gray-700" /></button>
+             <span className="text-sm font-bold text-gray-900">{billsCat}</span>
+           </div>
+         </div>
+         <div className="mx-4 mt-4 space-y-3">
+           <div className="bg-white rounded-xl p-4 border border-gray-100">
+             <label className="text-xs font-semibold text-gray-600 block mb-2">Account/Service Number</label>
+             <input value={billsAcc} onChange={e => setBillsAcc(e.target.value)} placeholder="Enter account number" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-opayTeal" />
+           </div>
+           <div className="bg-white rounded-xl p-4 border border-gray-100">
+             <label className="text-xs font-semibold text-gray-600 block mb-2">Amount (₦)</label>
+             <input type="number" value={billsAmt} onChange={e => setBillsAmt(e.target.value)} placeholder="0.00" className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-opayTeal" />
+           </div>
+           <button onClick={() => {
+             if (!billsAcc || !billsAmt) return;
+             const cost = Math.ceil(parseFloat(billsAmt) * 0.01);
+             const userData = JSON.parse(localStorage.getItem('sh_user') || '{}');
+             if ((userData.points || 0) < cost) return;
+             setScreen('loading');
+             const ref = `BILL-${Date.now()}`;
+             fetch('/api/opay/generate', {
+               method: 'POST',
+               headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${localStorage.getItem('sh_token') || ''}` },
+               body: JSON.stringify({ amount: parseFloat(billsAmt), recipient: billsAcc, bank: billsCat, senderName: 'User', reference: ref }),
+             }).then(res => res.json()).then(data => {
+               if (data.success) {
+                 setBalance(data.newBalance);
+                 setScreen('done');
+               }
+             }).catch(() => setScreen('home'));
+           }} className="w-full py-3 rounded-xl text-sm font-bold text-white" style={{ background: opayTeal }}>Pay ₦{parseFloat(billsAmt || '0').toLocaleString()}</button>
+         </div>
+         <div className="mt-auto bg-white border-t border-gray-200 flex justify-around py-2.5 text-[9px] font-bold text-gray-400">
+           {[
+{ label: 'Home', icon: '\u{1F3E0}', action: () => setScreen('home') },
+              { label: 'History', icon: '\u{1F4CB}', action: () => setScreen('history') },
+              { label: 'Finance', icon: '\u{1F4CA}', action: () => setScreen('bills'), active: true },
+              { label: 'Cards', icon: '\u{1F4B3}', action: () => setScreen('bills') },
+              { label: 'Me', icon: '\u{1F464}', action: () => setScreen('profile') },
+            ].map((tab) => (
+             <button key={tab.label} onClick={tab.action} className="flex flex-col items-center gap-0.5 cursor-pointer" style={tab.active ? { color: opayTeal } : {}}>
+               <span className="text-base">{tab.icon}</span>
+               <span>{tab.label}</span>
+             </button>
+           ))}
+         </div>
+       </div>
+     );
+   }
+
+   if (screen === 'profile') {
+     return (
+       <div style={{ background: opayBg, fontFamily: "'Segoe UI', Arial, sans-serif" }} className="h-full flex flex-col overflow-y-auto select-none">
+         <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-gray-100">
+           <div className="flex items-center gap-2">
+             <button onClick={() => setScreen('home')}><ChevronLeft className="w-5 h-5 text-gray-700" /></button>
+             <span className="text-sm font-bold text-gray-900">Profile</span>
+           </div>
+         </div>
+         <div className="mx-4 mt-4 flex flex-col items-center">
+<div className="w-16 h-16 rounded-full flex items-center justify-center text-white text-2xl font-bold" style={{ background: opayTeal }}>U</div>
+            <span className="text-lg font-bold text-gray-900 mt-3">User</span>
+            <span className="text-xs text-gray-400">Connected</span>
+           <div className="w-full mt-4 bg-white rounded-xl border border-gray-100 p-4 space-y-3">
+             <div className="flex justify-between text-sm"><span className="text-gray-500">Points</span><span className="font-semibold">{balance} pts</span></div>
+             <div className="flex justify-between text-sm"><span className="text-gray-500">Naira Value</span><span className="font-semibold">₦{(balance * 100).toLocaleString()}</span></div>
+             <div className="flex justify-between text-sm"><span className="text-gray-500">OPay PIN</span><span className="font-semibold">{hasPin ? 'Set ✓' : 'Not set'}</span></div>
+           </div>
+         </div>
+         <div className="mt-auto bg-white border-t border-gray-200 flex justify-around py-2.5 text-[9px] font-bold text-gray-400">
+           {[
+             { label: 'Home', icon: '\u{1F3E0}', action: () => setScreen('home') },
+             { label: 'History', icon: '\u{1F4CB}', action: () => setScreen('history') },
+             { label: 'Finance', icon: '\u{1F4CA}', action: () => setScreen('bills') },
+             { label: 'Cards', icon: '\u{1F4B3}', action: () => setScreen('bills') },
+             { label: 'Me', icon: '\u{1F464}', active: true },
+           ].map((tab) => (
+             <button key={tab.label} onClick={tab.action} className="flex flex-col items-center gap-0.5 cursor-pointer" style={tab.active ? { color: opayTeal } : {}}>
+               <span className="text-base">{tab.icon}</span>
+               <span>{tab.label}</span>
+             </button>
+           ))}
+         </div>
+       </div>
+     );
+   }
+
+   return null;
+ }

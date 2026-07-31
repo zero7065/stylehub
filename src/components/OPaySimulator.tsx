@@ -63,7 +63,7 @@ function genRef() {
 export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { user: any; onExit?: () => void; theme?: string; onThemeToggle?: () => void }) {
   const [balance, setBalance] = useState(user?.points || 0);
   const [showBalance, setShowBalance] = useState(true);
-  const [screen, setScreen] = useState<'home' | 'send' | 'airtime' | 'data' | 'success' | 'history'>('home');
+  const [screen, setScreen] = useState<'home' | 'send' | 'airtime' | 'data' | 'bills' | 'profile' | 'success' | 'history'>('home');
   const [transactions, setTransactions] = useState<OPayTx[]>(loadTxs);
   const [banks, setBanks] = useState<any[]>(BANKS_FALLBACK);
   const [searchTerm, setSearchTerm] = useState('');
@@ -79,6 +79,8 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
   const [airtimeAmount, setAirtimeAmount] = useState('');
   const [error, setError] = useState('');
   const [dataNetwork, setDataNetwork] = useState('');
+  const [billsCategory, setBillsCategory] = useState('');
+  const [billsAmount, setBillsAmount] = useState('');
   const [accountName, setAccountName] = useState('');
   const [lookupLoading, setLookupLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
@@ -175,7 +177,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
     if (!accountNumber || !selectedBank || !amount || !recipient) { setError('Please fill all fields'); return; }
     if (hasPin === null) { setError('Checking PIN status...'); await checkPin(); return; }
     if (hasPin === false) { requirePin(() => proceedSend()); return; }
-    if (hasPin === true) { setPinScreen('verify'); setPinAction(() => { setPinScreen('none'); proceedSend(); }); return; }
+    if (hasPin === true) { proceedSend(); return; }
   };
 
   const proceedSend = async () => {
@@ -201,6 +203,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
         };
         addTx(tx);
         setLastTx(tx);
+        setBalance(data.newBalance);
         localStorage.setItem('sh_user', JSON.stringify({ ...userData, points: data.newBalance }));
         setScreen('success');
       } else setError(data.error || 'Transfer failed');
@@ -213,7 +216,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
     if (!phoneNumber || !airtimeAmount) { setError('Enter phone number and amount'); return; }
     if (hasPin === null) { await checkPin(); return; }
     if (hasPin === false) { requirePin(() => proceedAirtime()); return; }
-    if (hasPin === true) { setPinScreen('verify'); setPinAction(() => { setPinScreen('none'); proceedAirtime(); }); return; }
+    if (hasPin === true) { proceedAirtime(); return; }
   };
 
   const proceedAirtime = async () => {
@@ -236,6 +239,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
           date: formatDateTime(now), reference: ref, status: 'success', senderName, type: 'Airtime', fee: 5,
         };
         addTx(tx); setLastTx(tx);
+        setBalance(data.newBalance);
         localStorage.setItem('sh_user', JSON.stringify({ ...userData, points: data.newBalance }));
         setScreen('success');
       } else setError(data.error || 'Airtime purchase failed');
@@ -350,6 +354,12 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
         .op-recent-h h3 { font-size: 15px; font-weight: 700; color: #0f172a; }
         .op-recent-h button { background: none; border: none; color: var(--green); font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; }
         .op-empty { padding: 24px 0; text-align: center; color: #94a3b8; font-size: 14px; }
+        .op-profile { padding: 24px 16px; text-align: center; }
+        .op-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--green); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; margin: 0 auto 12px; }
+        .op-profile-name { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 4px; }
+        .op-profile-email { font-size: 13px; color: #94a3b8; margin-bottom: 20px; }
+        .op-profile-field { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #f1f5f9; font-size: 14px; }
+        .op-profile-field span:last-child { font-weight: 600; color: #0f172a; }
         .op-ritem { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #f1f5f9; }
         .op-ritem:last-child { border-bottom: none; }
         .op-ricon { width: 40px; height: 40px; border-radius: 50%; background: #e8f5e9; display: flex; align-items: center; justify-content: center; color: var(--green); font-size: 16px; font-weight: 700; flex-shrink: 0; }
@@ -499,7 +509,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
           <div className="op-balance">
             <div className="op-bal-label">Total Balance</div>
             <div className="op-bal-row">
-              <h1>{showBalance ? `₦${balance.toLocaleString()}.00` : '****'}</h1>
+              <h1>{showBalance ? `₦${(balance * 100).toLocaleString()}.00` : '****'}</h1>
               <button onClick={() => setShowBalance(!showBalance)}>{showBalance ? <EyeOff size={20} /> : <Eye size={20} />}</button>
             </div>
             <div className="op-bal-btns">
@@ -523,7 +533,12 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
                   if (a.label === 'Send') setScreen('send');
                   else if (a.label === 'Airtime') setScreen('airtime');
                   else if (a.label === 'Data') setScreen('data');
-                  else alert(`${a.label} coming soon`);
+                  else if (a.label === 'Data') setScreen('data');
+                  else if (a.label === 'Cable TV') setScreen('bills');
+                  else if (a.label === 'Electricity') setScreen('bills');
+                  else if (a.label === 'Betting') setScreen('bills');
+                  else if (a.label === 'Bills') setScreen('bills');
+                  else if (a.label === 'More') setScreen('bills');
                 }}>
                   <div className="op-gicon" style={{background: s.bg, color: s.fg}}>{iconFor(a.icon)}</div>
                   <span>{a.label}</span>
@@ -555,7 +570,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
 
           <nav className="op-nav">
             {[{icon:'🏠',label:'Home',key:'home'},{icon:'💳',label:'Pay',key:'pay'},{icon:'📤',label:'Transfer',key:'send',transfer:true},{icon:'📋',label:'History',key:'history'},{icon:'👤',label:'Profile',key:'profile'}].map((item,i) => (
-              <button key={i} className={`op-nitem ${item.key === 'home' ? 'active' : ''} ${item.transfer ? 'transfer' : ''}`} onClick={() => { if (item.key === 'history') openHistory(); else if (item.key === 'send') setScreen('send'); else if (item.key === 'home') setScreen('home'); }}>
+              <button key={i} className={`op-nitem ${item.key === 'home' ? 'active' : ''} ${item.transfer ? 'transfer' : ''}`} onClick={() => { if (item.key === 'history') openHistory(); else if (item.key === 'send') setScreen('send'); else if (item.key === 'home') setScreen('home'); else if (item.key === 'pay') setScreen('bills'); else if (item.key === 'profile') setScreen('profile'); }}>
                 {item.transfer ? (
                   <div className="ni-icon">📤</div>
                 ) : (
@@ -628,11 +643,113 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
               </div>
             ))}
           </div>
-          <button className="op-submit" style={{marginTop:'16px'}} onClick={() => alert(`Data purchase for ${dataNetwork} coming soon`)}>Continue</button>
-        </div>
-      )}
+          <button className="op-submit" style={{marginTop:'16px'}} onClick={() => {
+            if (!dataNetwork) { setError('Select a network'); return; }
+            const dataAmounts = { 'MTN': 50, 'Glo': 50, 'Airtel': 50, '9mobile': 50 };
+            const cost = dataAmounts[dataNetwork as keyof typeof dataAmounts] || 50;
+            const token = localStorage.getItem('sh_token') || '';
+            const userData = JSON.parse(localStorage.getItem('sh_user') || '{}');
+            if ((userData.points || 0) < cost) { setError(`Insufficient points — need ${cost}, have ${userData.points}`); return; }
+            setIsLoading(true);
+            const ref = genRef();
+            fetch('/api/opay/generate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+              body: JSON.stringify({ amount: cost, recipient: dataNetwork, bank: 'Data', senderName, reference: ref }),
+            }).then(res => res.json()).then(data => {
+              if (data.success) {
+                const now = new Date();
+                const tx: OPayTx = {
+                  id: `TX-${Date.now()}`, recipient: dataNetwork, bank: 'OPay - Data', amount: cost,
+                  date: formatDateTime(now), reference: ref, status: 'success', senderName, type: 'Data', fee: cost,
+                };
+                addTx(tx); setLastTx(tx);
+                setBalance(data.newBalance);
+                localStorage.setItem('sh_user', JSON.stringify({ ...userData, points: data.newBalance }));
+                setScreen('success');
+              } else setError(data.error || 'Data purchase failed');
+              setIsLoading(false);
+            }).catch(() => { setError('Network error'); setIsLoading(false); });
+          }} disabled={isLoading || !dataNetwork}>{isLoading ? 'Processing...' : `Buy Data (${dataNetwork || 'Select network'})`}</button>
+</div>
+       )}
 
-      {/* PIN CREATE */}
+       {/* BILLS */}
+       {screen === 'bills' && (
+         <div className="op-form">
+           <button className="op-back" onClick={() => setScreen('home')}><ArrowLeft size={20} /> Back</button>
+           <h2>Pay Bills</h2>
+           {error && <div className="op-err">{error}</div>}
+           <div className="op-fg">
+             <label>Category</label>
+             <select className="op-sel" value={billsCategory} onChange={e => setBillsCategory(e.target.value)}>
+               <option value="">Select category</option>
+               <option value="Cable TV">Cable TV (GOtv/DStv)</option>
+               <option value="Electricity">Electricity (PHCN/IKEDC)</option>
+               <option value="Betting">Betting (Bet9ja)</option>
+               <option value="Water">Water Bill</option>
+               <option value="Gas">Gas Bill</option>
+             </select>
+           </div>
+           {billsCategory && (
+             <>
+               <div className="op-fg">
+                 <label>Account/Service Number</label>
+                 <input value={accountName} onChange={e => setAccountName(e.target.value)} placeholder="Enter account number" />
+               </div>
+               <div className="op-fg">
+                 <label>Amount (₦)</label>
+                 <input type="number" value={billsAmount} onChange={e => setBillsAmount(e.target.value)} placeholder="0.00" />
+               </div>
+               <button className="op-submit" onClick={() => {
+                 if (!accountName || !billsAmount) { setError('Fill all fields'); return; }
+                 const cost = Math.ceil(parseFloat(billsAmount) * 0.01);
+                 const token = localStorage.getItem('sh_token') || '';
+                 const userData = JSON.parse(localStorage.getItem('sh_user') || '{}');
+                 if ((userData.points || 0) < cost) { setError(`Insufficient points — need ${cost}, have ${userData.points}`); return; }
+                 setIsLoading(true);
+                 const ref = genRef();
+                 fetch('/api/opay/generate', {
+                   method: 'POST',
+                   headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+                   body: JSON.stringify({ amount: parseFloat(billsAmount), recipient: accountName, bank: billsCategory, senderName, reference: ref }),
+                 }).then(res => res.json()).then(data => {
+                   if (data.success) {
+                     const now = new Date();
+                     const tx: OPayTx = {
+                       id: `TX-${Date.now()}`, recipient: accountName, bank: `OPay - ${billsCategory}`, amount: parseFloat(billsAmount),
+                       date: formatDateTime(now), reference: ref, status: 'success', senderName, type: 'Bills', fee: cost,
+                     };
+                     addTx(tx); setLastTx(tx);
+                     setBalance(data.newBalance);
+                     localStorage.setItem('sh_user', JSON.stringify({ ...userData, points: data.newBalance }));
+                     setScreen('success');
+                   } else setError(data.error || 'Bill payment failed');
+                   setIsLoading(false);
+                 }).catch(() => { setError('Network error'); setIsLoading(false); });
+               }} disabled={isLoading}>{isLoading ? 'Processing...' : `Pay ₦${parseFloat(billsAmount || '0').toLocaleString()}`}</button>
+             </>
+           )}
+         </div>
+       )}
+
+       {/* PROFILE */}
+       {screen === 'profile' && (
+         <div className="op-form">
+           <button className="op-back" onClick={() => setScreen('home')}><ArrowLeft size={20} /> Back</button>
+           <h2>Profile</h2>
+           <div className="op-profile">
+             <div className="op-avatar">{user?.kyc_data?.name?.charAt(0) || user?.email?.charAt(0) || 'U'}</div>
+             <div className="op-profile-name">{user?.kyc_data?.name || user?.email || 'User'}</div>
+             <div className="op-profile-email">{user?.email || ''}</div>
+             <div className="op-profile-field"><span>Phone</span><span>{user?.phone || 'Not set'}</span></div>
+             <div className="op-profile-field"><span>Points Balance</span><span>{balance} pts (₦{(balance * 100).toLocaleString()})</span></div>
+             <div className="op-profile-field"><span>OPay PIN</span><span>{hasPin ? 'Set ✓' : 'Not set'}</span></div>
+           </div>
+         </div>
+       )}
+
+       {/* PIN CREATE */}
       {pinScreen === 'create' && (
         <div className="op-form">
           <h2>Set Transaction PIN</h2>
