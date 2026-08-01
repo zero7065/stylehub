@@ -3431,12 +3431,11 @@ async function runServer() {
     writeDB(initDB);
   }
   if (process.env.NODE_ENV !== "production") {
-    const { createServer: createViteServer } = await import("vite");
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa"
+    // Vite middleware is handled by the standalone dev server on port 5173
+    // with proxy configured in vite.config.ts
+    app.get("/", (req, res) => {
+      res.redirect("http://localhost:5173");
     });
-    app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));

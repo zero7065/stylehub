@@ -4,12 +4,13 @@ import path from 'path';
 import {defineConfig} from 'vite';
 import {VitePWA} from 'vite-plugin-pwa';
 
-export default defineConfig(() => {
+export default defineConfig(({ mode }) => {
+  const isProduction = mode === 'production';
   return {
     plugins: [
       react(),
       tailwindcss(),
-      VitePWA({
+      ...(isProduction ? [VitePWA({
         registerType: 'prompt',
         includeAssets: ['icons/*.svg'],
         manifest: {
@@ -51,7 +52,7 @@ export default defineConfig(() => {
             },
           ],
         },
-      }),
+      })] : []),
     ],
     resolve: {
       alias: {
