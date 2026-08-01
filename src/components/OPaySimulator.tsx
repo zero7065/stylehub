@@ -177,7 +177,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
     if (!accountNumber || !selectedBank || !amount || !recipient) { setError('Please fill all fields'); return; }
     if (hasPin === null) { setError('Checking PIN status...'); await checkPin(); return; }
     if (hasPin === false) { requirePin(() => proceedSend()); return; }
-    if (hasPin === true) { proceedSend(); return; }
+    if (hasPin === true) { requirePin(() => proceedSend()); return; }
   };
 
   const proceedSend = async () => {
@@ -216,7 +216,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
     if (!phoneNumber || !airtimeAmount) { setError('Enter phone number and amount'); return; }
     if (hasPin === null) { await checkPin(); return; }
     if (hasPin === false) { requirePin(() => proceedAirtime()); return; }
-    if (hasPin === true) { proceedAirtime(); return; }
+    if (hasPin === true) { requirePin(() => proceedAirtime()); return; }
   };
 
   const proceedAirtime = async () => {
