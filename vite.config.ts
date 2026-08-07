@@ -6,6 +6,7 @@ import {VitePWA} from 'vite-plugin-pwa';
 
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
+  const backendUrl = process.env.BACKEND_URL || 'http://localhost:3000';
   return {
     plugins: [
       react(),
@@ -43,7 +44,7 @@ export default defineConfig(({ mode }) => {
           globPatterns: ['**/*.{js,css,html,svg,png,ico,json}'],
           runtimeCaching: [
             {
-              urlPattern: /^https?:\/\/localhost:3000\/api\/.*/i,
+              urlPattern: new RegExp(`^${backendUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/api/.*`, 'i'),
               handler: 'NetworkFirst',
               options: {
                 cacheName: 'api-cache',
@@ -64,7 +65,7 @@ export default defineConfig(({ mode }) => {
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
       proxy: {
         '/api': {
-          target: 'http://localhost:3000',
+          target: backendUrl,
           changeOrigin: true,
           secure: false,
         },

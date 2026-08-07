@@ -2,12 +2,16 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import crypto from "crypto";
+import dotenv from "dotenv";
 import { GoogleGenAI } from "@google/genai";
+
+dotenv.config();
 
 const app = express();
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+const DEV_SERVER_URL = process.env.DEV_SERVER_URL || "http://localhost:5173";
 const DB_FILE = path.join(process.cwd(), "db.json");
 
 // System-wide default chemical elements list
@@ -3434,7 +3438,7 @@ async function runServer() {
     // Vite middleware is handled by the standalone dev server on port 5173
     // with proxy configured in vite.config.ts
     app.get("/", (req, res) => {
-      res.redirect("http://localhost:5173");
+      res.redirect(DEV_SERVER_URL);
     });
   } else {
     const distPath = path.join(process.cwd(), "dist");
