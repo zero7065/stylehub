@@ -10,6 +10,7 @@ interface OPayTx {
 }
 
 const STORAGE_KEY = 'sh_opay_txs';
+const LAST_TX_KEY = 'sh_opay_last_tx';
 
 function loadTxs(): OPayTx[] {
   try { const d = localStorage.getItem(STORAGE_KEY); return d ? JSON.parse(d) : []; }
@@ -17,6 +18,14 @@ function loadTxs(): OPayTx[] {
 }
 function saveTxs(txs: OPayTx[]) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(txs));
+}
+function loadLastTx(): OPayTx | null {
+  try { const d = localStorage.getItem(LAST_TX_KEY); return d ? JSON.parse(d) : null; }
+  catch { return null; }
+}
+function saveLastTx(tx: OPayTx | null) {
+  if (tx) localStorage.setItem(LAST_TX_KEY, JSON.stringify(tx));
+  else localStorage.removeItem(LAST_TX_KEY);
 }
 
 const BANKS_FALLBACK = [
@@ -74,7 +83,8 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
   const [note, setNote] = useState('');
   const [senderName, setSenderName] = useState(user?.kyc_data?.name || user?.email?.split('@')[0] || 'Customer');
   const [isLoading, setIsLoading] = useState(false);
-  const [lastTx, setLastTx] = useState<OPayTx | null>(null);
+  const [lastTx, setLastTx] = useState<OPayTx | null>(loadLastTx);
+  const [viewingTx, setViewingTx] = useState<OPayTx | null>(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [airtimeAmount, setAirtimeAmount] = useState('');
   const [error, setError] = useState('');
@@ -170,6 +180,8 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
     const updated = [tx, ...transactions];
     setTransactions(updated);
     saveTxs(updated);
+    setLastTx(tx);
+    saveLastTx(tx);
   };
 
   const handleSend = async () => {
@@ -262,7 +274,19 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
         const userData = JSON.parse(localStorage.getItem('sh_user') || '{}');
         userData.points = data.newBalance;
         localStorage.setItem('sh_user', JSON.stringify(userData));
+        setBalance(data.newBalance);
         return true;
+      }
+      // Handle minimum deduction error
+      if (data.error && data.error.includes('Min')) {
+        // Do local deduction for costs below server minimum
+        const userData = JSON.parse(localStorage.getItem('sh_user') || '{}');
+        if ((userData.points || 0) >= pts) {
+          userData.points -= pts;
+          localStorage.setItem('sh_user', JSON.stringify(userData));
+          setBalance(prev => prev - pts);
+          return true;
+        }
       }
       return false;
     } catch { return false; }
@@ -836,17 +860,18 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
             <div className="op-rec-row"><span className="op-rl">Date &amp; Time</span><span className="op-rv bold">{lastTx.date}</span></div>
             <div className="op-rec-row"><span className="op-rl">Status</span><span className="op-rv green">Successful</span></div>
             <div className="op-rec-row"><span className="op-rl">Fee</span><span className="op-rv">{lastTx.fee} pts</span></div>
+            {lastTx.note && <div className="op-rec-row"><span className="op-rl">Note</span><span className="op-rv">{lastTx.note}</span></div>}
             <div className="op-rec-ftr">Powered by OPay</div>
           </div>
 
           <div className="op-done-row">
-            <button className="op-done" onClick={() => onExit?.()}>Done</button>
+            <button className="op-done" onClick={() => setScreen('home')}>Back to Home</button>
+            <button className="op-copy" onClick={() => openHistory()}>View in History (10 pts)</button>
             <button className="op-copy" onClick={() => { navigator.clipboard.writeText(lastTx.reference); alert('Reference copied!'); }}>
               <Copy size={14} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Copy Reference
             </button>
             <button className="op-copy" onClick={() => {
-              const c = document.createElement('canvas');
-              c.width = 400; c.height = 600;
+              const c = document.createElement('canvas'); c.width = 400; c.height = 600;
               const ctx = c.getContext('2d')!;
               ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 400, 600);
               ctx.fillStyle = '#00b894'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
@@ -862,30 +887,26 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
                 ['Date & Time', lastTx.date],
                 ['Status', 'Successful'],
                 ['Fee', `${lastTx.fee} pts`],
+                ...(lastTx.note ? [['Note', lastTx.note]] : []),
               ];
               rows.forEach(([l, v], i) => {
                 const y = 80 + i * 32;
                 ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif';
                 ctx.fillText(l, 30, y);
-                ctx.fillStyle = '#0f172a'; ctx.font = 'bold 12px sans-serif';
-                ctx.textAlign = 'right';
-                ctx.fillText(v, 370, y);
-                ctx.textAlign = 'left';
+                ctx.fillStyle = '#0f172a'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'right';
+                ctx.fillText(v, 370, y); ctx.textAlign = 'left';
                 if (i < rows.length - 1) { ctx.strokeStyle = '#e2e8f0'; ctx.beginPath(); ctx.moveTo(30, y + 18); ctx.lineTo(370, y + 18); ctx.stroke(); }
               });
               ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
               ctx.fillText('Powered by OPay', 200, 560);
-              const a = document.createElement('a');
-              a.download = `receipt-${lastTx.reference}.png`;
-              a.href = c.toDataURL();
-              a.click();
+              const a = document.createElement('a'); a.download = `receipt-${lastTx.reference}.png`; a.href = c.toDataURL(); a.click();
             }}><Download size={14} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Download Receipt</button>
           </div>
         </div>
       )}
 
       {/* HISTORY */}
-      {screen === 'history' && (
+      {screen === 'history' && !viewingTx && (
         <div className="op-form">
           <button className="op-back" onClick={() => setScreen('home')}><ArrowLeft size={20} /> Back</button>
           <h2>Transaction History</h2>
@@ -893,7 +914,7 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
             <div className="op-his-empty">No transactions yet.</div>
           ) : (
             transactions.map((tx, i) => (
-              <div key={tx.id || i} className="op-hitem">
+              <div key={tx.id || i} className="op-hitem" onClick={() => setViewingTx(tx)} style={{cursor: 'pointer'}}>
                 <div className="op-hicon">{tx.type === 'Airtime' ? '📱' : '↑'}</div>
                 <div className="op-hinfo">
                   <div className="op-hname">{tx.type === 'Airtime' ? `Airtime - ${tx.recipient}` : tx.recipient}</div>
@@ -914,6 +935,64 @@ export default function OPaySimulator({ user, onExit, theme, onThemeToggle }: { 
               </button>
             ))}
           </nav>
+        </div>
+      )}
+
+      {/* HISTORY RECEIPT VIEW */}
+      {viewingTx && (
+        <div className="op-success">
+          <div className="op-scheck"><Check size={48} /></div>
+          <h2 style={{fontSize: 20, fontWeight: 800, marginBottom: 4}}>Transaction Receipt</h2>
+          <p className="op-ssub">Reference: {viewingTx.reference}</p>
+          <div className="op-receipt">
+            <div className="op-rec-hdr">Transaction Receipt</div>
+            <div className="op-rec-row"><span className="op-rl">Amount</span><span className="op-rv green">₦{viewingTx.amount.toLocaleString()}.00</span></div>
+            <div className="op-rec-div" />
+            <div className="op-rec-row"><span className="op-rl">Recipient</span><span className="op-rv">{viewingTx.recipient}</span></div>
+            {viewingTx.accountNumber && <div className="op-rec-row"><span className="op-rl">Account</span><span className="op-rv">{viewingTx.accountNumber}</span></div>}
+            <div className="op-rec-row"><span className="op-rl">Bank</span><span className="op-rv">{viewingTx.bank}</span></div>
+            <div className="op-rec-row"><span className="op-rl">Sender</span><span className="op-rv">{viewingTx.senderName}</span></div>
+            <div className="op-rec-div" />
+            <div className="op-rec-row"><span className="op-rl">Reference</span><span className="op-rv ref">{viewingTx.reference}</span></div>
+            <div className="op-rec-row"><span className="op-rl">Date &amp; Time</span><span className="op-rv bold">{viewingTx.date}</span></div>
+            <div className="op-rec-row"><span className="op-rl">Status</span><span className="op-rv green">{viewingTx.status.charAt(0).toUpperCase() + viewingTx.status.slice(1)}</span></div>
+            {viewingTx.fee !== undefined && <div className="op-rec-row"><span className="op-rl">Fee</span><span className="op-rv">{viewingTx.fee} pts</span></div>}
+            {viewingTx.note && <div className="op-rec-row"><span className="op-rl">Note</span><span className="op-rv">{viewingTx.note}</span></div>}
+            <div className="op-rec-ftr">Powered by OPay</div>
+          </div>
+          <div className="op-done-row">
+            <button className="op-done" onClick={() => setViewingTx(null)}>Back to History</button>
+            <button className="op-copy" onClick={() => { navigator.clipboard.writeText(viewingTx.reference); alert('Reference copied!'); }}><Copy size={14} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Copy Reference</button>
+            <button className="op-copy" onClick={() => {
+              const c = document.createElement('canvas'); c.width = 400; c.height = 600;
+              const ctx = c.getContext('2d')!;
+              ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 400, 600);
+              ctx.fillStyle = '#00b894'; ctx.font = 'bold 14px sans-serif'; ctx.textAlign = 'center';
+              ctx.fillText('TRANSACTION RECEIPT', 200, 40);
+              ctx.fillStyle = '#0f172a'; ctx.font = '12px sans-serif'; ctx.textAlign = 'left';
+              const rows = [
+                ['Amount', `₦${viewingTx.amount.toLocaleString()}.00`],
+                ['Recipient', viewingTx.recipient],
+                ...(viewingTx.accountNumber ? [['Account', viewingTx.accountNumber]] : []),
+                ['Bank', viewingTx.bank],
+                ['Sender', viewingTx.senderName],
+                ['Reference', viewingTx.reference],
+                ['Date & Time', viewingTx.date],
+                ['Status', viewingTx.status.charAt(0).toUpperCase() + viewingTx.status.slice(1)],
+                ...(viewingTx.fee !== undefined ? [['Fee', `${viewingTx.fee} pts`]] : []),
+              ];
+              rows.forEach(([l, v], i) => {
+                const y = 80 + i * 32;
+                ctx.fillStyle = '#94a3b8'; ctx.font = '11px sans-serif'; ctx.fillText(l, 30, y);
+                ctx.fillStyle = '#0f172a'; ctx.font = 'bold 12px sans-serif'; ctx.textAlign = 'right';
+                ctx.fillText(v, 370, y); ctx.textAlign = 'left';
+                if (i < rows.length - 1) { ctx.strokeStyle = '#e2e8f0'; ctx.beginPath(); ctx.moveTo(30, y + 18); ctx.lineTo(370, y + 18); ctx.stroke(); }
+              });
+              ctx.fillStyle = '#94a3b8'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+              ctx.fillText('Powered by OPay', 200, 560);
+              const a = document.createElement('a'); a.download = `receipt-${viewingTx.reference}.png`; a.href = c.toDataURL(); a.click();
+            }}><Download size={14} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Download Receipt</button>
+          </div>
         </div>
       )}
       {fundModalOpen && (
