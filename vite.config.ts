@@ -41,7 +41,7 @@ export default defineConfig(({ mode }) => {
           ],
         },
         workbox: {
-          globPatterns: ['**/*.{js,css,html,svg,png,ico,json}'],
+          globPatterns: ['**/*.{js,css,html,svg,png,ico}'],
           runtimeCaching: [
             {
               urlPattern: new RegExp(`^${backendUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}/api/.*`, 'i'),
@@ -61,15 +61,17 @@ export default defineConfig(({ mode }) => {
       },
     },
      server: {
-      hmr: process.env.DISABLE_HMR !== 'true',
-      watch: process.env.DISABLE_HMR === 'true' ? null : {},
-      proxy: {
-        '/api': {
-          target: backendUrl,
-          changeOrigin: true,
-          secure: false,
-        },
-      },
-    },
+       hmr: process.env.DISABLE_HMR !== 'true',
+       watch: process.env.DISABLE_HMR === 'true' ? null : {
+         ignored: ['**/db.json'],
+       },
+       proxy: {
+         '/api': {
+           target: backendUrl,
+           changeOrigin: true,
+           secure: false,
+         },
+       },
+     },
   };
 });
